@@ -545,7 +545,7 @@ class Base
 		 * @see admin/jsonadm/standard/template-post
 		 * @see admin/jsonadm/standard/template-get
 		 * @see admin/jsonadm/standard/template-options
-		*/
+		 */
 		$tplconf = 'admin/jsonadm/standard/template-put';
 		$default = 'put-default.php';
 
@@ -659,7 +659,7 @@ class Base
 		 * @see admin/jsonadm/standard/template-post
 		 * @see admin/jsonadm/standard/template-get
 		 * @see admin/jsonadm/standard/template-put
-		*/
+		 */
 		$tplconf = 'admin/jsonadm/standard/template-options';
 		$default = 'options-default.php';
 
@@ -785,7 +785,7 @@ class Base
 	/**
 	 * Returns the items associated via a lists table
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
+	 * @param array $listItems List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
 	protected function getRefItems( array $listItems )
