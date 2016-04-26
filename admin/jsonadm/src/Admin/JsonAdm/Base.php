@@ -59,32 +59,7 @@ class Base
 
 		try
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $context, $this->getPath() );
-
-			if( ( $id = $view->param( 'id' ) ) == null )
-			{
-				if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) || !is_array( $request->data ) ) {
-					throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
-				}
-
-				$ids = array();
-
-				foreach( $request->data as $entry )
-				{
-					if( isset( $entry->id ) ) {
-						$ids[] = $entry->id;
-					}
-				}
-
-				$manager->deleteItems( $ids );
-				$view->total = count( $ids );
-			}
-			else
-			{
-				$manager->deleteItem( $id );
-				$view->total = 1;
-			}
-
+			$view = $this->deleteItems( $view, $body );
 			$status = 200;
 		}
 		catch( \Aimeos\Admin\JsonAdm\Exception $e )
@@ -262,52 +237,7 @@ class Base
 
 		try
 		{
-			if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
-			}
-
-			$data = null;
-			$manager = \Aimeos\MShop\Factory::createManager( $context, $this->getPath() );
-
-			if( is_array( $request->data ) )
-			{
-				$data = array();
-
-				foreach( $request->data as $entry )
-				{
-					if( isset( $entry->attributes ) && isset( $entry->id ) )
-					{
-						$item = $manager->getItem( $entry->id );
-						$item->fromArray( (array) $entry->attributes );
-
-						$manager->saveItem( $item );
-						$data[] = $manager->getItem( $entry->id );
-					}
-				}
-
-				$view->data = $data;
-				$view->total = count( $data );
-				$header['Content-Type'] = 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"';
-			}
-			else
-			{
-				if( ( $id = $view->param( 'id' ) ) == null ) {
-					throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
-				}
-
-				if( isset( $request->data->attributes ) )
-				{
-					$item = $manager->getItem( $id );
-					$item->fromArray( (array) $request->data->attributes );
-
-					$manager->saveItem( $item );
-					$data = $manager->getItem( $id );
-				}
-
-				$view->data = $data;
-				$view->total = 1;
-			}
-
+			$view = $this->patchItems( $view, $body, $header );
 			$status = 200;
 		}
 		catch( \Aimeos\Admin\JsonAdm\Exception $e )
@@ -390,52 +320,7 @@ class Base
 
 		try
 		{
-			if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
-			}
-
-			if( isset( $request->data->id ) || $view->param( 'id' ) != null ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Client generated IDs are not supported' ), 403 );
-			}
-
-			$data = null;
-			$manager = \Aimeos\MShop\Factory::createManager( $context, $this->getPath() );
-
-			if( is_array( $request->data ) )
-			{
-				$data = array();
-
-				foreach( $request->data as $entry )
-				{
-					if( isset( $entry->attributes ) )
-					{
-						$item = $manager->createItem();
-						$item->fromArray( (array) $entry->attributes );
-
-						$manager->saveItem( $item );
-						$data[] = $manager->getItem( $item->getId() );
-					}
-				}
-
-				$view->data = $data;
-				$view->total = count( $data );
-				$header['Content-Type'] = 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"';
-			}
-			else
-			{
-				if( isset( $request->data->attributes ) )
-				{
-					$item = $manager->createItem();
-					$item->fromArray( (array) $request->data->attributes );
-
-					$manager->saveItem( $item );
-					$data = $manager->getItem( $item->getId() );
-				}
-
-				$view->data = $data;
-				$view->total = 1;
-			}
-
+			$view = $this->postItems( $view, $body, $header );
 			$status = 201;
 		}
 		catch( \Aimeos\Admin\JsonAdm\Exception $e )
@@ -668,6 +553,46 @@ class Base
 
 
 	/**
+	 * Deletes one or more items
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance with "param" view helper
+	 * @param string $body Request body
+	 * @return \Aimeos\MW\View\Iface $view View object that will contain the "total" property afterwards
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the request body is invalid
+	 */
+	protected function deleteItems( \Aimeos\MW\View\Iface $view, $body )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
+
+		if( ( $id = $view->param( 'id' ) ) == null )
+		{
+			if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) || !is_array( $request->data ) ) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+			}
+
+			$ids = array();
+
+			foreach( $request->data as $entry )
+			{
+				if( isset( $entry->id ) ) {
+					$ids[] = $entry->id;
+				}
+			}
+
+			$manager->deleteItems( $ids );
+			$view->total = count( $ids );
+		}
+		else
+		{
+			$manager->deleteItem( $id );
+			$view->total = 1;
+		}
+
+		return $view;
+	}
+
+
+	/**
 	 * Returns the view object
 	 *
 	 * @return \Aimeos\MW\View\Iface View object
@@ -840,5 +765,135 @@ class Base
 	protected function getPath()
 	{
 		return $this->path;
+	}
+
+
+	/**
+	 * Saves new attributes for one or more items
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View that will contain the "data" and "total" properties afterwards
+	 * @param string $body Request body
+	 * @param array &$header Associative list of HTTP headers as value/result parameter
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If "id" parameter isn't available or the body is invalid
+	 * @return \Aimeos\MW\View\Iface Updated view instance
+	 */
+	protected function patchItems( \Aimeos\MW\View\Iface $view, $body, array &$header )
+	{
+		if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+		}
+
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
+
+		if( is_array( $request->data ) )
+		{
+			$data = $this->saveData( $manager, $request );
+
+			$view->data = $data;
+			$view->total = count( $data );
+			$header['Content-Type'] = 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"';
+		}
+		else
+		{
+			if( ( $id = $view->param( 'id' ) ) == null ) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
+			}
+
+			$request->data->id = $id;
+			$data = $this->saveEntry( $manager, $request->data );
+
+			$view->data = $data;
+			$view->total = 1;
+		}
+
+		return $view;
+	}
+
+
+	/**
+	 * Creates one or more new items
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View that will contain the "data" and "total" properties afterwards
+	 * @param string $body Request body
+	 * @param array &$header Associative list of HTTP headers as value/result parameter
+	 * @return \Aimeos\MW\View\Iface Updated view instance
+	 */
+	protected function postItems( \Aimeos\MW\View\Iface $view, $body, array &$header )
+	{
+		if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+		}
+
+		if( isset( $request->data->id ) || $view->param( 'id' ) != null ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Client generated IDs are not supported' ), 403 );
+		}
+
+
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
+
+		if( is_array( $request->data ) )
+		{
+			$data = $this->saveData( $manager, $request );
+
+			$view->data = $data;
+			$view->total = count( $data );
+			$header['Content-Type'] = 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"';
+		}
+		else
+		{
+			$request->data->id = null;
+			$data = $this->saveEntry( $manager, $request->data );
+
+			$view->data = $data;
+			$view->total = 1;
+		}
+
+		return $view;
+	}
+
+
+	/**
+	 * Creates of updates several items at once
+	 *
+	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
+	 * @param \stdClass $request Object with request body data
+	 * @return array List of items
+	 */
+	protected function saveData( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $request )
+	{
+		$data = array();
+
+		if( isset( $request->data ) )
+		{
+			foreach( (array) $request->data as $entry ) {
+				$data[] = $this->saveEntry( $manager, $entry );
+			}
+		}
+
+		return $data;
+	}
+
+
+	/**
+	 * Saves and returns the new or updated item
+	 *
+	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
+	 * @param \stdClass $entry Object including "id" and "attributes" elements
+	 * @return \Aimeos\MShop\Common\Item\Iface New or updated item
+	 */
+	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
+	{
+		$attr = ( isset( $entry->attributes ) ? (array) $entry->attributes : array() );
+
+		if( isset( $entry->id ) && $entry->id !== null ) {
+			$item = $manager->getItem( $entry->id );
+		} else {
+			$item = $manager->createItem();
+		}
+
+		$item->fromArray( $attr );
+		$manager->saveItem( $item );
+
+		return $manager->getItem( $item->getId() );
 	}
 }
