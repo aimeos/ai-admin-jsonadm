@@ -97,6 +97,10 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 class TestAbstract
 	extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 {
+	/**
+	 * @param string $classprefix
+	 * @param string $path
+	 */
 	public static function addDecoratorsPublic( \Aimeos\Admin\JsonAdm\Iface $client, array $decorators, $classprefix,
 		\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, $templatePaths, $path )
 	{
