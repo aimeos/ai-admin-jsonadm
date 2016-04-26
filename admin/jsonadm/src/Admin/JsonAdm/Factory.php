@@ -62,6 +62,7 @@ class Factory
 	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
+	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
 	static public function createClient( \Aimeos\MShop\Context\Item\Iface $context,
@@ -138,6 +139,7 @@ class Factory
 	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 * @param string|null $name Name of the JsonAdm client (default: "Standard")
+	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the client couldn't be created
 	 */
 	protected static function createClientRoot( \Aimeos\MShop\Context\Item\Iface $context,
