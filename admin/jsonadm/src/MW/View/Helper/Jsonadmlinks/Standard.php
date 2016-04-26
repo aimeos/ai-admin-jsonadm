@@ -56,6 +56,7 @@ class Standard
 	{
 		$ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
 		$params = array_intersect_key( $params, array_flip( $ref ) );
+		$list = array();
 
 		// set explicitly as workaround for the Laravel router bugs
 		if( !isset( $params['id'] ) ) {
