@@ -110,7 +110,7 @@ class TestAbstract
 	public static function addClientDecoratorsPublic( \Aimeos\Admin\JsonAdm\Iface $client,
 		\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, $templatePaths, $path )
 	{
-		self::addClientDecorators( $client, $view, $context, $templatePaths, $path );
+		self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
 	}
 }
 
