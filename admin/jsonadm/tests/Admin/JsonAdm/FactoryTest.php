@@ -41,13 +41,23 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testCreateClientInvalidName()
+	public function testCreateClientInvalidPath()
 	{
 		$context = \TestHelperJadm::getContext();
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 
 		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, '%^' );
+	}
+
+
+	public function testCreateClientInvalidName()
+	{
+		$context = \TestHelperJadm::getContext();
+		$templatePaths = \TestHelperJadm::getJsonadmPaths();
+
+		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		\Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, '', '%^' );
 	}
 
 

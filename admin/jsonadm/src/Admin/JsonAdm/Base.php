@@ -264,7 +264,7 @@ class Base
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
-		catch( \Aimeos\MW\Exception $e )
+		catch( \Exception $e )
 		{
 			$status = 500;
 			$view->errors = array( array(

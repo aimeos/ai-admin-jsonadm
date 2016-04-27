@@ -26,20 +26,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	protected function tearDown()
+	{
+		\Aimeos\MShop\Factory::clear();
+	}
+
+
 	public function testDelete()
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
-
-		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
-			->setMethods( array( 'deleteItem' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
-
-		$productManagerStub->expects( $this->once() )->method( 'deleteItem' );
-
+		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' );
 
 		$params = array( 'id' => $this->getProductItem()->getId() );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -61,18 +56,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testDeleteBulk()
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
-
-		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
-			->setMethods( array( 'deleteItems' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
-
-		$productManagerStub->expects( $this->once() )->method( 'deleteItems' );
-
+		$this->getProductMock( array( 'deleteItems' ) )->expects( $this->once() )->method( 'deleteItems' );
 
 		$body = '{"data":[{"type": "product", "id": "-1"},{"type": "product", "id": "-2"}]}';
 		$header = array();
@@ -103,6 +87,63 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey( 'errors', $result );
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'data', $result );
+	}
+
+
+	public function testDeleteException()
+	{
+		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
+			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+
+		$params = array( 'id' => $this->getProductItem()->getId() );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->delete( '', $header, $status ), true );
+
+		$this->assertEquals( 500, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testDeleteMAdminException()
+	{
+		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
+			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
+
+		$params = array( 'id' => $this->getProductItem()->getId() );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->delete( '', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testDeleteMShopException()
+	{
+		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
+
+		$params = array( 'id' => $this->getProductItem()->getId() );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->delete( '', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 
@@ -163,6 +204,63 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey( 'detail', $result['errors'][0] );
 		$this->assertArrayNotHasKey( 'data', $result );
 		$this->assertArrayNotHasKey( 'indluded', $result );
+	}
+
+
+	public function testGetException()
+	{
+		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+
+		$params = array( 'id' => -1 );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->get( '', $header, $status ), true );
+
+		$this->assertEquals( 500, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testGetMAdminException()
+	{
+		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
+
+		$params = array( 'id' => -1 );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->get( '', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testGetMShopException()
+	{
+		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
+
+		$params = array( 'id' => -1 );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->get( '', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 
@@ -302,15 +400,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testPatch()
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
-
-		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
-			->setMethods( array( 'getItem', 'saveItem' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
+		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
 
 		$item = $productManagerStub->createItem();
 		$item->setLabel( 'test' );
@@ -345,15 +435,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testPatchBulk()
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
-
-		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
-			->setMethods( array( 'getItem', 'saveItem' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
+		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
 
 		$item = $productManagerStub->createItem();
 		$item->setLabel( 'test' );
@@ -400,17 +482,69 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testPatchInvalidId()
+	{
+		$body = '{"data":{"id":-1}}';
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->patch( $body, $header, $status ), true );
+
+		$this->assertEquals( 400, $status );
+		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 0, $result['meta']['total'] );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchException()
+	{
+		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->patch( '{"data":[{"id":-1}]}', $header, $status ), true );
+
+		$this->assertEquals( 500, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchMAdminException()
+	{
+		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->patch( '{"data":[{"id":-1}]}', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchMShopException()
+	{
+		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->patch( '{"data":[{"id":-1}]}', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testPost()
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
-
-		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
-			->setMethods( array( 'getItem', 'saveItem' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
+		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
 
 		$item = $productManagerStub->createItem();
 		$item->setLabel( 'test' );
@@ -441,15 +575,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testPostBulk()
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
-
-		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
-			->setMethods( array( 'getItem', 'saveItem' ) )
-			->setConstructorArgs( array( $this->context ) )
-			->getMock();
-
-		\Aimeos\MShop\Order\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
+		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
 
 		$item = $productManagerStub->createItem();
 		$item->setLabel( 'test' );
@@ -496,6 +622,66 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testPostInvalidId()
+	{
+		$body = '{"data":{"id":-1}}';
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+
+		$this->assertEquals( 403, $status );
+		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 0, $result['meta']['total'] );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPostException()
+	{
+		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->post( '{"data":{}}', $header, $status ), true );
+
+		$this->assertEquals( 500, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPostMAdminException()
+	{
+		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->post( '{"data":{}}', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPostMShopException()
+	{
+		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->post( '{"data":{}}', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testPut()
 	{
 		$body = '';
@@ -522,6 +708,67 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 59, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testOptionsException()
+	{
+		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
+			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->options( '', $header, $status ), true );
+
+		$this->assertEquals( 500, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testOptionsMAdminException()
+	{
+		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
+			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->options( '', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testOptionsMShopException()
+	{
+		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
+			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->options( '', $header, $status ), true );
+
+		$this->assertEquals( 404, $status );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	protected function getProductMock( array $methods )
+	{
+		$name = 'ClientJsonAdmStandard';
+		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
+
+		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
+			->setConstructorArgs( array( $this->context ) )
+			->setMethods( $methods )
+			->getMock();
+
+		\Aimeos\MShop\Product\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
+
+		return $productManagerStub;
 	}
 
 
