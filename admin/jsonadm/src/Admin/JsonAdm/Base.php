@@ -137,39 +137,18 @@ class Base
 	public function get( $body, array &$header, &$status )
 	{
 		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
-		$context = $this->getContext();
 		$view = $this->getView();
-		$total = 1;
 
 		try
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $context, $this->getPath() );
-			$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
-
-			if( ( $id = $view->param( 'id' ) ) == null )
-			{
-				$search = $this->initCriteria( $manager->createSearch(), $view->param() );
-				$view->data = $manager->searchItems( $search, array(), $total );
-				$view->childItems = $this->getChildItems( $view->data, $include );
-				$view->listItems = $this->getListItems( $view->data, $include );
-			}
-			else
-			{
-				$view->data = $manager->getItem( $id, array() );
-				$view->childItems = $this->getChildItems( array( $id => $view->data ), $include );
-				$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
-			}
-
-			$view->refItems = $this->getRefItems( $view->listItems );
-
-			$view->total = $total;
+			$view = $this->getItem( $view );
 			$status = 200;
 		}
 		catch( \Aimeos\MAdmin\Exception $e )
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -177,7 +156,7 @@ class Base
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -455,32 +434,7 @@ class Base
 		{
 			$resources = $attributes = array();
 
-			if( ( $domains = $view->param( 'resource' ) ) == '' )
-			{
-				/** admin/jsonadm/domains
-				 * A list of domain names whose clients are available for the JSON API
-				 *
-				 * The HTTP OPTIONS method returns a list of resources known by the
-				 * JSON API including their URLs. The list of available resources
-				 * can be exteded dynamically be implementing a new Jsonadm client
-				 * class handling request for this new domain.
-				 *
-				 * To add the new domain client to the list of resources returned
-				 * by the HTTP OPTIONS method, you have to add its name in lower case
-				 * to the existing configuration.
-				 *
-				 * @param array List of domain names
-				 * @since 2016.01
-				 * @category Developer
-				 */
-				$default = array(
-					'attribute', 'catalog', 'coupon', 'customer', 'locale', 'media',
-					'order', 'plugin', 'price', 'product', 'service', 'supplier', 'tag', 'text'
-				);
-				$domains = $context->getConfig()->get( 'admin/jsonadm/domains', $default );
-			}
-
-			foreach( (array) $domains as $domain )
+			foreach( $this->getDomains( $view ) as $domain )
 			{
 				$manager = \Aimeos\MShop\Factory::createManager( $context, $domain );
 				$resources = array_merge( $resources, $manager->getResourceType( true ) );
@@ -593,6 +547,39 @@ class Base
 
 
 	/**
+	 * Retrieves the item or items and adds the data to the view
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
+	 */
+	protected function getItem( \Aimeos\MW\View\Iface $view )
+	{
+		$total = 1;
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
+
+		if( ( $id = $view->param( 'id' ) ) == null )
+		{
+			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$view->data = $manager->searchItems( $search, array(), $total );
+			$view->childItems = $this->getChildItems( $view->data, $include );
+			$view->listItems = $this->getListItems( $view->data, $include );
+		}
+		else
+		{
+			$view->data = $manager->getItem( $id, array() );
+			$view->childItems = $this->getChildItems( array( $id => $view->data ), $include );
+			$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
+		}
+
+		$view->refItems = $this->getRefItems( $view->listItems );
+
+		$view->total = $total;
+
+		return $view;
+	}
+
+	/**
 	 * Returns the view object
 	 *
 	 * @return \Aimeos\MW\View\Iface View object
@@ -678,6 +665,43 @@ class Base
 		}
 
 		$criteria->setSortations( $sortation );
+	}
+
+
+	/**
+	 * Returns the list of domains that are available as resources
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View object with "resource" parameter
+	 * @return array List of domain names
+	 */
+	protected function getDomains( \Aimeos\MW\View\Iface $view )
+	{
+		if( ( $domains = $view->param( 'resource' ) ) == '' )
+		{
+			/** admin/jsonadm/domains
+			 * A list of domain names whose clients are available for the JSON API
+			 *
+			 * The HTTP OPTIONS method returns a list of resources known by the
+			 * JSON API including their URLs. The list of available resources
+			 * can be exteded dynamically be implementing a new Jsonadm client
+			 * class handling request for this new domain.
+			 *
+			 * To add the new domain client to the list of resources returned
+			 * by the HTTP OPTIONS method, you have to add its name in lower case
+			 * to the existing configuration.
+			 *
+			 * @param array List of domain names
+			 * @since 2016.01
+			 * @category Developer
+			 */
+			$default = array(
+				'attribute', 'catalog', 'coupon', 'customer', 'locale', 'media',
+				'order', 'plugin', 'price', 'product', 'service', 'supplier', 'tag', 'text'
+			);
+			$domains = $this->getContext()->getConfig()->get( 'admin/jsonadm/domains', $default );
+		}
+
+		return (array) $domains;
 	}
 
 
