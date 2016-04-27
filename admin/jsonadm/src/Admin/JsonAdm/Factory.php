@@ -76,40 +76,8 @@ class Factory
 
 		$id = (string) $context;
 
-		if( self::$cache === false || !isset( self::$clients[$id][$path] ) )
-		{
-			$parts = explode( '/', $path );
-
-			foreach( $parts as $key => $part )
-			{
-				if( ctype_alnum( $part ) === false )
-				{
-					$msg = sprintf( 'Invalid client "%1$s" in "%2$s"', $part, $path );
-					throw new \Aimeos\Admin\JsonAdm\Exception( $msg, 400 );
-				}
-
-				$parts[$key] = ucwords( $part );
-			}
-
-
-			$view = $context->getView();
-			$factory = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\Factory';
-
-			if( class_exists( $factory ) === true )
-			{
-				$args = array( $context, $view, $templatePaths, $path, $name );
-
-				if( ( $client = @call_user_func_array( array( $factory, 'createClient' ), $args ) ) === false ) {
-					throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid factory "%1$s"', $factory ), 400 );
-				}
-			}
-			else
-			{
-				$client = self::createClientRoot( $context, $view, $templatePaths, $path, $name );
-			}
-
-
-			self::$clients[$id][$path] = $client;
+		if( self::$cache === false || !isset( self::$clients[$id][$path] ) ) {
+			self::$clients[$id][$path] = self::createClientNew( $context, $templatePaths, $path, $name );
 		}
 
 		return self::$clients[$id][$path];
@@ -128,6 +96,53 @@ class Factory
 		self::$cache = (boolean) $value;
 
 		return $old;
+	}
+
+
+	/**
+	 * Creates a new client specified by the given path of client names.
+	 *
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
+	 * @param array $templatePaths List of file system paths where the templates are stored
+	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string|null $name Name of the client implementation ("Standard" if null)
+	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
+	 */
+	protected static function createClientNew( \Aimeos\MShop\Context\Item\Iface $context,
+		array $templatePaths, $path, $name )
+	{
+		$parts = explode( '/', $path );
+
+		foreach( $parts as $key => $part )
+		{
+			if( ctype_alnum( $part ) === false )
+			{
+				$msg = sprintf( 'Invalid client "%1$s" in "%2$s"', $part, $path );
+				throw new \Aimeos\Admin\JsonAdm\Exception( $msg, 400 );
+			}
+
+			$parts[$key] = ucwords( $part );
+		}
+
+
+		$view = $context->getView();
+		$factory = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\Factory';
+
+		if( class_exists( $factory ) === true )
+		{
+			$args = array( $context, $view, $templatePaths, $path, $name );
+
+			if( ( $client = @call_user_func_array( array( $factory, 'createClient' ), $args ) ) === false ) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid factory "%1$s"', $factory ), 400 );
+			}
+		}
+		else
+		{
+			$client = self::createClientRoot( $context, $view, $templatePaths, $path, $name );
+		}
+
+		return $client;
 	}
 
 

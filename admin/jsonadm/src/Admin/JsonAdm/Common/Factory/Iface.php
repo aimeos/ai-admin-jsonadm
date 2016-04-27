@@ -26,7 +26,7 @@ interface Iface
 	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
-	 * @return Aimeos\Admin\JsonAdm\Iface Client Interface
+	 * @return \Aimeos\Admin\JsonAdm\Iface Client Interface
 	 */
 	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, array $templatePaths, $path, $name = null );
 }
