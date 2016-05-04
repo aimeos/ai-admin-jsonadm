@@ -523,15 +523,7 @@ class Base
 				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$ids = array();
-
-			foreach( $request->data as $entry )
-			{
-				if( isset( $entry->id ) ) {
-					$ids[] = $entry->id;
-				}
-			}
-
+			$ids = $this->getIds( $request );
 			$manager->deleteItems( $ids );
 			$view->total = count( $ids );
 		}
@@ -755,6 +747,30 @@ class Base
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * Returns the IDs sent in the request body
+	 *
+	 * @param \stdClass $request Decoded request body
+	 * @return array List of item IDs
+	 */
+	protected function getIds( $request )
+	{
+		$ids = array();
+
+		if( isset( $request->data ) )
+		{
+			foreach( $request->data as $entry )
+			{
+				if( isset( $entry->id ) ) {
+					$ids[] = $entry->id;
+				}
+			}
+		}
+
+		return $ids;
 	}
 
 
