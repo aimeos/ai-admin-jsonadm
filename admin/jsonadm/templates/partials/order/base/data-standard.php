@@ -5,11 +5,17 @@ if( defined( 'JSON_PRETTY_PRINT' ) ) {
 	$options = JSON_PRETTY_PRINT;
 }
 
-$build = function( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $childItems )
+$build = function( \Aimeos\MW\View\Iface $view, \Aimeos\MShop\Order\Item\Base\Iface $item, array $fields, array $childItems )
 {
 	$id = $item->getId();
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
+	$params = array( 'resource' => $item->getResourceType(), 'id' => $id );
+
+	$target = $view->config( 'admin/jsonadm/url/target' );
+	$cntl = $view->config( 'admin/jsonadm/url/controller', 'jsonadm' );
+	$action = $view->config( 'admin/jsonadm/url/action', 'get' );
+	$config = $view->config( 'admin/jsonadm/url/config', array() );
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -19,15 +25,24 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $
 		'id' => $id,
 		'type' => $type,
 		'attributes' => $attributes,
+		'links' => array(
+			'self' => $view->url( $target, $cntl, $action, $params, array(), $config )
+		),
 		'relationships' => array()
 	);
 
-	foreach( $childItems as $childItem )
+	foreach( $childItems as $childId => $childItem )
 	{
 		if( $childItem->getBaseId() == $id )
 		{
 			$type = $childItem->getResourceType();
-			$result['relationships'][$type][] = array( 'data' => array( 'id' => $childItem->getId(), 'type' => $type ) );
+			$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childId );
+
+			$result['relationships'][$type][] = array( 'data' => array(
+				'id' => $childId, 'type' => $type, 'links' => array(
+					'self' => $view->url( $target, $cntl, $action, $params, array(), $config )
+				)
+			) );
 		}
 	}
 
@@ -50,12 +65,12 @@ if( is_array( $data ) )
 	$response = array();
 
 	foreach( $data as $item ) {
-		$response[] = $build( $item, $fields, $childItems );
+		$response[] = $build( $this, $item, $fields, $childItems );
 	}
 }
 elseif( $data !== null )
 {
-	$response = $build( $data, $fields, $childItems );
+	$response = $build( $this, $data, $fields, $childItems );
 }
 else
 {

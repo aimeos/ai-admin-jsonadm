@@ -48,8 +48,8 @@ $build = function( \Aimeos\MW\View\Iface $view, \Aimeos\MShop\Common\Item\Iface 
 			$type = $listItem->getDomain();
 			$params = array( 'resource' => $listItem->getResourceType(), 'id' => $listId );
 
-			$result['relationships'][$type][] = array(
-				'data' => array( 'id' => $listItem->getRefId(), 'type' => $type,
+			$result['relationships'][$type][] = array( 'data' => array(
+				'id' => $listItem->getRefId(), 'type' => $type,
 				'attributes' => $listItem->toArray(), 'links' => array(
 					'self' => $view->url( $target, $cntl, $action, $params, array(), $config )
 				)
