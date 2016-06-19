@@ -53,7 +53,6 @@ class Base
 	public function delete( $body, array &$header, &$status )
 	{
 		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
-		$context = $this->getContext();
 		$view = $this->getView();
 
 		try
@@ -65,7 +64,7 @@ class Base
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -73,7 +72,7 @@ class Base
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -194,7 +193,6 @@ class Base
 	public function patch( $body, array &$header, &$status )
 	{
 		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
-		$context = $this->getContext();
 		$view = $this->getView();
 
 		try
@@ -206,7 +204,7 @@ class Base
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -214,7 +212,7 @@ class Base
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -269,7 +267,6 @@ class Base
 	public function post( $body, array &$header, &$status )
 	{
 		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
-		$context = $this->getContext();
 		$view = $this->getView();
 
 		try
@@ -281,7 +278,7 @@ class Base
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -289,7 +286,7 @@ class Base
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -343,14 +340,12 @@ class Base
 	 */
 	public function put( $body, array &$header, &$status )
 	{
-		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$status = 501;
-
-		$context = $this->getContext();
+		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$view = $this->getView();
 
 		$view->errors = array( array(
-			'title' => $context->getI18n()->dt( 'admin/jsonadm', 'Not implemented, use PATCH instead' ),
+			'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', 'Not implemented, use PATCH instead' ),
 		) );
 
 		/** admin/jsonadm/standard/template-put
@@ -524,7 +519,6 @@ class Base
 		}
 
 		$view->refItems = $this->getRefItems( $view->listItems );
-
 		$view->total = $total;
 
 		return $view;
@@ -566,7 +560,7 @@ class Base
 	 */
 	private function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
-		if( isset( $params['filter'] ) && is_array( $params['filter'] ) )
+		if( isset( $params['filter'] ) )
 		{
 			$existing = $criteria->getConditions();
 			$criteria->setConditions( $criteria->toConditions( (array) $params['filter'] ) );
@@ -585,8 +579,8 @@ class Base
 	 */
 	private function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
-		$start = ( isset( $params['page']['offset'] ) ? $params['page']['offset'] : 0 );
-		$size = ( isset( $params['page']['limit'] ) ? $params['page']['limit'] : 25 );
+		$start = ( isset( $params['page']['offset'] ) ? (int) $params['page']['offset'] : 0 );
+		$size = ( isset( $params['page']['limit'] ) ? (int) $params['page']['limit'] : 25 );
 
 		$criteria->setSlice( $start, $size );
 	}
@@ -611,7 +605,7 @@ class Base
 			if( $sort[0] === '-' ) {
 				$sortation[] = $criteria->sort( '-', substr( $sort, 1 ) );
 			} else {
-				$sortation[] = $criteria->sort( '+', $sort ); break;
+				$sortation[] = $criteria->sort( '+', $sort );
 			}
 		}
 
@@ -691,6 +685,7 @@ class Base
 	protected function getRefItems( array $listItems )
 	{
 		$list = $map = array();
+		$context = $this->getContext();
 
 		foreach( $listItems as $listItem ) {
 			$map[$listItem->getDomain()][] = $listItem->getRefId();
@@ -698,7 +693,7 @@ class Base
 
 		foreach( $map as $domain => $ids )
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $domain );
+			$manager = \Aimeos\MShop\Factory::createManager( $context, $domain );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', $domain . '.id', $ids ) );
@@ -722,7 +717,7 @@ class Base
 
 		if( isset( $request->data ) )
 		{
-			foreach( $request->data as $entry )
+			foreach( (array) $request->data as $entry )
 			{
 				if( isset( $entry->id ) ) {
 					$ids[] = $entry->id;
@@ -759,7 +754,7 @@ class Base
 	/**
 	 * Returns the path to the client
 	 *
-	 * @return string Client path, e.g. "product/stock"
+	 * @return string Client path, e.g. "product/property"
 	 */
 	protected function getPath()
 	{
@@ -792,17 +787,17 @@ class Base
 			$view->total = count( $data );
 			$header['Content-Type'] = 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"';
 		}
-		else
+		elseif( ( $id = $view->param( 'id' ) ) != null )
 		{
-			if( ( $id = $view->param( 'id' ) ) == null ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
-			}
-
 			$request->data->id = $id;
 			$data = $this->saveEntry( $manager, $request->data );
 
 			$view->data = $data;
 			$view->total = 1;
+		}
+		else
+		{
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
 		}
 
 		return $view;
@@ -882,7 +877,7 @@ class Base
 	 */
 	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
 	{
-		if( isset( $entry->id ) && $entry->id !== null ) {
+		if( isset( $entry->id ) ) {
 			$item = $manager->getItem( $entry->id );
 		} else {
 			$item = $manager->createItem();
