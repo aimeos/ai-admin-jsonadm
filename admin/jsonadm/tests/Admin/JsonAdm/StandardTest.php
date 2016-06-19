@@ -544,18 +544,19 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testPost()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'createItem', 'getItem', 'saveItem' ) );
 
-		$item = $productManagerStub->createItem();
-		$item->setLabel( 'test' );
+		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->once() )->method( 'saveItem' );
-		$productManagerStub->expects( $this->once() )->method( 'getItem' )
+		$productManagerStub->expects( $this->once() )->method( 'createItem' )
 			->will( $this->returnValue( $item ) );
+		$productManagerStub->expects( $this->any() )->method( 'getItem' )
+			->will( $this->returnValue( $item ) );
+		$productManagerStub->expects( $this->once() )->method( 'saveItem' );
 
 
-		$body = '{"data": {"type": "product", "attributes": {"product.label": "test"}}}';
+		$body = '{"data": {"type": "product", "attributes": {"product.type": "default", "product.label": "test"}}}';
 		$header = array();
 		$status = 500;
 
@@ -567,6 +568,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( '-1', $result['data']['id'] );
 		$this->assertEquals( 'product', $result['data']['type'] );
+		$this->assertGreaterThan( 0, $result['data']['attributes']['product.typeid'] );
 		$this->assertEquals( 'test', $result['data']['attributes']['product.label'] );
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -607,14 +609,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testPostRelationships()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'getItem', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'createItem', 'getItem', 'saveItem' ) );
 		$productManagerListsStub = $this->getProductListsMock( array( 'saveItem' ) );
 
-		$item = $productManagerStub->createItem();
-		$item->setLabel( 'test' );
+		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->once() )->method( 'getItem' )
+		$productManagerStub->expects( $this->once() )->method( 'createItem' )
+			->will( $this->returnValue( $item ) );
+		$productManagerStub->expects( $this->any() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )
 			->will( $this->returnValue( $productManagerListsStub ) );
@@ -625,7 +628,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data": {"type": "product",
 			"attributes": {"product.label": "test"},
 			"relationships": {"text": {"data": [
-				{"type": "text", "id": "-2", "attributes": {"product.lists.typeid": "10"}}
+				{"type": "text", "id": "-2", "attributes": {"product.lists.type": "default"}}
 			]}}
 		}}';
 		$header = array();

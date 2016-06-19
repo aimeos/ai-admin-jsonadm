@@ -922,15 +922,13 @@ class Base
 	 */
 	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
 	{
-		$attr = ( isset( $entry->attributes ) ? (array) $entry->attributes : array() );
-
 		if( isset( $entry->id ) && $entry->id !== null ) {
 			$item = $manager->getItem( $entry->id );
 		} else {
 			$item = $manager->createItem();
 		}
 
-		$item->fromArray( $attr );
+		$item = $this->addItemData( $manager, $item, $entry );
 		$manager->saveItem( $item );
 
 		if( isset( $entry->relationships ) ) {
@@ -960,11 +958,7 @@ class Base
 			{
 				foreach( (array) $list->data as $data )
 				{
-					$listItem = $listManager->createItem();
-
-					if( isset( $data->attributes ) ) {
-						$listItem->fromArray( (array) $data->attributes );
-					}
+					$listItem = $this->addItemData( $listManager, $listManager->createItem(), $data, $domain );
 
 					if( isset( $data->id ) ) {
 						$listItem->setRefId( $data->id );
@@ -977,5 +971,39 @@ class Base
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * Adds the data from the given object to the item
+	 *
+	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager object
+	 * @param \Aimeos\MShop\Common\Item\Iface $item Item object to add the data to
+	 * @param \stdClass $data Object with "attributes" property
+	 * @param string|null $domain Domain of the type item (null if it should be guessed from the data)
+	 * @return \Aimeos\MShop\Common\Item\Iface Item including the data
+	 */
+	protected function addItemData(\Aimeos\MShop\Common\Manager\Iface $manager,
+		\Aimeos\MShop\Common\Item\Iface $item, \stdClass $data, $domain = null )
+	{
+		if( isset( $data->attributes ) )
+		{
+			$attr = (array) $data->attributes;
+			$key = str_replace( '/', '.', $item->getResourceType() );
+
+			if( isset( $attr[$key.'.type'] ) )
+			{
+				if( $domain === null ) {
+					$domain = ( isset( $attr[$key.'.domain'] ) ? $attr[$key.'.domain'] : $key );
+				}
+
+				$typeItem = $manager->getSubManager( 'type' )->findItem( $attr[$key.'.type'], array(), $domain );
+				$attr[$key.'.typeid'] = $typeItem->getId();
+			}
+
+			$item->fromArray( $attr );
+		}
+
+		return $item;
 	}
 }
