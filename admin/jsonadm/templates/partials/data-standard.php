@@ -6,11 +6,17 @@ if( defined( 'JSON_PRETTY_PRINT' ) ) {
 }
 
 
-$build = function( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $childItems, array $listItems )
+$build = function( \Aimeos\MW\View\Iface $view, \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $childItems, array $listItems )
 {
 	$id = $item->getId();
 	$attributes = $item->toArray();
 	$type = $item->getResourceType();
+	$params = array( 'resource' => $item->getResourceType(), 'id' => $id );
+
+	$target = $view->config( 'admin/jsonadm/url/target' );
+	$cntl = $view->config( 'admin/jsonadm/url/controller', 'jsonadm' );
+	$action = $view->config( 'admin/jsonadm/url/action', 'get' );
+	$config = $view->config( 'admin/jsonadm/url/config', array() );
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -20,6 +26,9 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $
 		'id' => $id,
 		'type' => $type,
 		'attributes' => $attributes,
+		'links' => array(
+			'self' => $view->url( $target, $cntl, $action, $params, array(), $config )
+		),
 		'relationships' => array()
 	);
 
@@ -32,12 +41,19 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, array $fields, array $
 		}
 	}
 
-	foreach( $listItems as $listItem )
+	foreach( $listItems as $listId => $listItem )
 	{
 		if( $listItem->getParentId() == $id )
 		{
 			$type = $listItem->getDomain();
-			$result['relationships'][$type][] = array( 'data' => array( 'id' => $listItem->getRefId(), 'type' => $type, 'attributes' => $listItem->toArray() ) );
+			$params = array( 'resource' => $listItem->getResourceType(), 'id' => $listId );
+
+			$result['relationships'][$type][] = array(
+				'data' => array( 'id' => $listItem->getRefId(), 'type' => $type,
+				'attributes' => $listItem->toArray(), 'links' => array(
+					'self' => $view->url( $target, $cntl, $action, $params, array(), $config )
+				)
+			) );
 		}
 	}
 
@@ -61,12 +77,12 @@ if( is_array( $data ) )
 	$response = array();
 
 	foreach( $data as $item ) {
-		$response[] = $build( $item, $fields, $childItems, $listItems );
+		$response[] = $build( $this, $item, $fields, $childItems, $listItems );
 	}
 }
 elseif( $data !== null )
 {
-	$response = $build( $data, $fields, $childItems, $listItems );
+	$response = $build( $this, $data, $fields, $childItems, $listItems );
 }
 else
 {
