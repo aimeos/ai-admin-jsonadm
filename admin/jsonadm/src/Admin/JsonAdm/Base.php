@@ -933,6 +933,49 @@ class Base
 		$item->fromArray( $attr );
 		$manager->saveItem( $item );
 
+		if( isset( $entry->relationships ) ) {
+			$this->saveRelationships( $manager, $item, $entry->relationships );
+		}
+
 		return $manager->getItem( $item->getId() );
+	}
+
+
+	/**
+	 * Saves the item references associated via the list
+	 *
+	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
+	 * @param \Aimeos\MShop\Common\Item\Iface $item Domain item with an unique ID set
+	 * @param \stdClass $relationships Object including the <domain>/data/attributes structure
+	 */
+	protected function saveRelationships( \Aimeos\MShop\Common\Manager\Iface $manager,
+		\Aimeos\MShop\Common\Item\Iface $item, \stdClass $relationships )
+	{
+		$id = $item->getId();
+		$listManager = $manager->getSubManager( 'lists' );
+
+		foreach( (array) $relationships as $domain => $list )
+		{
+			if( isset( $list->data ) )
+			{
+				foreach( (array) $list->data as $data )
+				{
+					$listItem = $listManager->createItem();
+
+					if( isset( $data->attributes ) ) {
+						$listItem->fromArray( (array) $data->attributes );
+					}
+
+					if( isset( $data->id ) ) {
+						$listItem->setRefId( $data->id );
+					}
+
+					$listItem->setParentId( $id );
+					$listItem->setDomain( $domain );
+
+					$listManager->saveItem( $listItem, false );
+				}
+			}
+		}
 	}
 }

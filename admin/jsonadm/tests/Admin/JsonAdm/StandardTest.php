@@ -605,6 +605,46 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testPostRelationships()
+	{
+		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'getItem', 'saveItem' ) );
+		$productManagerListsStub = $this->getProductListsMock( array( 'saveItem' ) );
+
+		$item = $productManagerStub->createItem();
+		$item->setLabel( 'test' );
+		$item->setId( '-1' );
+
+		$productManagerStub->expects( $this->once() )->method( 'getItem' )
+			->will( $this->returnValue( $item ) );
+		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )
+			->will( $this->returnValue( $productManagerListsStub ) );
+		$productManagerStub->expects( $this->once() )->method( 'saveItem' );
+
+		$productManagerListsStub->expects( $this->once() )->method( 'saveItem' );
+
+		$body = '{"data": {"type": "product",
+			"attributes": {"product.label": "test"},
+			"relationships": {"text": {"data": [
+				{"type": "text", "id": "-2", "attributes": {"product.lists.typeid": "10"}}
+			]}}
+		}}';
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+
+		$this->assertEquals( 201, $status );
+		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertArrayHasKey( 'data', $result );
+		$this->assertEquals( '-1', $result['data']['id'] );
+		$this->assertEquals( 'product', $result['data']['type'] );
+		$this->assertEquals( 'test', $result['data']['attributes']['product.label'] );
+		$this->assertArrayNotHasKey( 'included', $result );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testPostInvalid()
 	{
 		$body = '{"data":null}';
@@ -761,14 +801,30 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$name = 'ClientJsonAdmStandard';
 		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
 
-		$productManagerStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
+		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( $methods )
 			->getMock();
 
-		\Aimeos\MShop\Product\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $productManagerStub );
+		\Aimeos\MShop\Product\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $stub );
 
-		return $productManagerStub;
+		return $stub;
+	}
+
+
+	protected function getProductListsMock( array $methods )
+	{
+		$name = 'ClientJsonAdmStandard';
+		$this->context->getConfig()->set( 'mshop/product/manager/lists/name', $name );
+
+		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\Standard' )
+			->setConstructorArgs( array( $this->context ) )
+			->setMethods( $methods )
+			->getMock();
+
+		\Aimeos\MShop\Product\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\' . $name, $stub );
+
+		return $stub;
 	}
 
 
