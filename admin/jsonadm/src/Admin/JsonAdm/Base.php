@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015
+ * @copyright Aimeos (aimeos.org), 2015-2016
  * @package Admin
  * @subpackage JsonAdm
  */
@@ -66,14 +66,6 @@ class Base
 			$status = $e->getCode();
 			$view->errors = array( array(
 				'title' => $context->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
-				'detail' => $e->getTraceAsString(),
-			) );
-		}
-		catch( \Aimeos\MAdmin\Exception $e )
-		{
-			$status = 404;
-			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -142,14 +134,6 @@ class Base
 		{
 			$view = $this->getItem( $view );
 			$status = 200;
-		}
-		catch( \Aimeos\MAdmin\Exception $e )
-		{
-			$status = 404;
-			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
-				'detail' => $e->getTraceAsString(),
-			) );
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
@@ -226,14 +210,6 @@ class Base
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
-		catch( \Aimeos\MAdmin\Exception $e )
-		{
-			$status = 404;
-			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
-				'detail' => $e->getTraceAsString(),
-			) );
-		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
 			$status = 404;
@@ -306,14 +282,6 @@ class Base
 			$status = $e->getCode();
 			$view->errors = array( array(
 				'title' => $context->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
-				'detail' => $e->getTraceAsString(),
-			) );
-		}
-		catch( \Aimeos\MAdmin\Exception $e )
-		{
-			$status = 404;
-			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -448,14 +416,6 @@ class Base
 				'Allow' => 'DELETE,GET,POST,OPTIONS'
 			);
 			$status = 200;
-		}
-		catch( \Aimeos\MAdmin\Exception $e )
-		{
-			$status = 404;
-			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
-				'detail' => $e->getTraceAsString(),
-			) );
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
@@ -928,7 +888,7 @@ class Base
 			$item = $manager->createItem();
 		}
 
-		$item = $this->addItemData( $manager, $item, $entry );
+		$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
 		$manager->saveItem( $item );
 
 		if( isset( $entry->relationships ) ) {
@@ -980,11 +940,11 @@ class Base
 	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager object
 	 * @param \Aimeos\MShop\Common\Item\Iface $item Item object to add the data to
 	 * @param \stdClass $data Object with "attributes" property
-	 * @param string|null $domain Domain of the type item (null if it should be guessed from the data)
+	 * @param string $domain Domain of the type item
 	 * @return \Aimeos\MShop\Common\Item\Iface Item including the data
 	 */
 	protected function addItemData(\Aimeos\MShop\Common\Manager\Iface $manager,
-		\Aimeos\MShop\Common\Item\Iface $item, \stdClass $data, $domain = null )
+		\Aimeos\MShop\Common\Item\Iface $item, \stdClass $data, $domain )
 	{
 		if( isset( $data->attributes ) )
 		{
@@ -993,10 +953,6 @@ class Base
 
 			if( isset( $attr[$key.'.type'] ) )
 			{
-				if( $domain === null ) {
-					$domain = ( isset( $attr[$key.'.domain'] ) ? $attr[$key.'.domain'] : $key );
-				}
-
 				$typeItem = $manager->getSubManager( 'type' )->findItem( $attr[$key.'.type'], array(), $domain );
 				$attr[$key.'.typeid'] = $typeItem->getId();
 			}

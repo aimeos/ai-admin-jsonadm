@@ -109,25 +109,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testDeleteMAdminException()
-	{
-		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
-			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
-
-		$params = array( 'id' => $this->getProductItem()->getId() );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
-		$header = array();
-		$status = 500;
-
-		$result = json_decode( $this->object->delete( '', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
 	public function testDeleteMShopException()
 	{
 		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
@@ -222,25 +203,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
 		$this->assertEquals( 500, $status );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
-	public function testGetMAdminException()
-	{
-		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
-			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
-
-		$params = array( 'id' => -1 );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
-		$header = array();
-		$status = 500;
-
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -512,21 +474,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testPatchMAdminException()
-	{
-		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
-			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
-
-		$header = array();
-		$status = 500;
-
-		$result = json_decode( $this->object->patch( '{"data":[{"id":-1}]}', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
 	public function testPatchMShopException()
 	{
 		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
@@ -695,21 +642,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testPostMAdminException()
-	{
-		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
-			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
-
-		$header = array();
-		$status = 500;
-
-		$result = json_decode( $this->object->post( '{"data":{}}', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
 	public function testPostMShopException()
 	{
 		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
@@ -765,21 +697,6 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$result = json_decode( $this->object->options( '', $header, $status ), true );
 
 		$this->assertEquals( 500, $status );
-		$this->assertArrayHasKey( 'errors', $result );
-	}
-
-
-	public function testOptionsMAdminException()
-	{
-		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
-			->will( $this->throwException( new \Aimeos\MAdmin\Exception( 'test exception' ) ) );
-
-		$header = array();
-		$status = 500;
-
-		$result = json_decode( $this->object->options( '', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
