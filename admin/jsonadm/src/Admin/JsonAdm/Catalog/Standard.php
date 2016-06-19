@@ -18,7 +18,7 @@ namespace Aimeos\Admin\JsonAdm\Catalog;
  * @subpackage JsonAdm
  */
 class Standard
-	extends \Aimeos\Admin\JsonAdm\Base
+	extends \Aimeos\Admin\JsonAdm\Standard
 	implements \Aimeos\Admin\JsonAdm\Common\Iface
 {
 	/** admin/jsonadm/catalog/decorators/excludes
