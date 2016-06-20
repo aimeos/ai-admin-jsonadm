@@ -110,7 +110,7 @@ class Standard
 
 		try
 		{
-			$view = $this->getItem( $view );
+			$view = $this->getItems( $view );
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -477,7 +477,7 @@ class Standard
 	 * @param \Aimeos\MW\View\Iface $view View instance
 	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
 	 */
-	protected function getItem( \Aimeos\MW\View\Iface $view )
+	protected function getItems( \Aimeos\MW\View\Iface $view )
 	{
 		$total = 1;
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
@@ -503,6 +503,18 @@ class Standard
 		return $view;
 	}
 
+
+	/**
+	 * Retrieves the item or items and adds the data to the view
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
+	 * @deprecated 2016.06 Use getItems() instead
+	 */
+	protected function getItem( \Aimeos\MW\View\Iface $view )
+	{
+		return $this->getItems( $view );
+	}
 
 	/**
 	 * Saves new attributes for one or more items
