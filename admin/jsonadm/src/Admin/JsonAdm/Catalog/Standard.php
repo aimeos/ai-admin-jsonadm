@@ -101,6 +101,92 @@ class Standard
 
 
 	/**
+	 * Returns the requested resource or the resource list
+	 *
+	 * @param string $body Request body
+	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
+	 * @param integer &$status Variable which contains the HTTP status afterwards
+	 * @return string Content for response body
+	 */
+	public function get( $body, array &$header, &$status )
+	{
+		/** admin/jsonadm/partials/catalog/template-data
+		 * Relative path to the data partial template file for the catalog client
+		 *
+		 * Partials are templates which are reused in other templates and generate
+		 * reoccuring blocks filled with data from the assigned values. The data
+		 * partial creates the "data" part for the JSON API response.
+		 *
+		 * The partial template files are usually stored in the templates/partials/ folder
+		 * of the core or the extensions. The configured path to the partial file must
+		 * be relative to the templates/ folder, e.g. "partials/data-standard.php".
+		 *
+		 * @param string Relative path to the template file
+		 * @since 2016.07
+		 * @category Developer
+		 */
+		$this->getView()->assign( array( 'partial-data' => 'admin/jsonadm/partials/catalog/template-data' ) );
+
+		return parent::get( $body, $header, $status );
+	}
+
+
+	/**
+	 * Returns the items with parent/child relationships
+	 *
+	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param array $include List of resource types that should be fetched
+	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 */
+	protected function getChildItems( array $items, array $include )
+	{
+		$list = array();
+
+		if( in_array( 'catalog', $include ) )
+		{
+			foreach( $items as $item ) {
+				$list = array_merge( $list, $item->getChildren() );
+			}
+		}
+
+		return $list;
+	}
+
+
+	/**
+	 * Retrieves the item or items and adds the data to the view
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
+	 */
+	protected function getItems( \Aimeos\MW\View\Iface $view )
+	{
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog' );
+		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+		$total = 1;
+
+		if( ( $id = $view->param( 'id' ) ) == null )
+		{
+			$view->data = $manager->searchItems( $search, array(), $total );
+			$view->listItems = $this->getListItems( $view->data, $include );
+			$view->childItems = $this->getChildItems( $view->data, $include );
+		}
+		else
+		{
+			$view->data = $manager->getTree( $id, array(), \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST, $search );
+			$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
+			$view->childItems = $this->getChildItems( array( $view->data ), $include );
+		}
+
+		$view->refItems = $this->getRefItems( $view->listItems );
+		$view->total = $total;
+
+		return $view;
+	}
+
+
+	/**
 	 * Returns the list items for association relationships
 	 *
 	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
@@ -119,5 +205,42 @@ class Standard
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
 		return $manager->searchItems( $search );
+	}
+
+
+	/**
+	 * Saves and returns the new or updated item
+	 *
+	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
+	 * @param \stdClass $entry Object including "id" and "attributes" elements
+	 * @return \Aimeos\MShop\Common\Item\Iface New or updated item
+	 */
+	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
+	{
+		$targetId = ( isset( $entry->targetid ) ? $entry->targetid : null );
+		$refId = ( isset( $entry->refid ) ? $entry->refid : null );
+
+		if( isset( $entry->id ) )
+		{
+			$item = $manager->getItem( $entry->id );
+			$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
+			$manager->saveItem( $item );
+
+			if( isset( $entry->parentid ) && $targetId !== null ) {
+				$manager->moveItem( $item->getId(), $entry->parentid, $targetId, $refId );
+			}
+		}
+		else
+		{
+			$item = $manager->createItem();
+			$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
+			$manager->insertItem( $item, $targetId, $refId );
+		}
+
+		if( isset( $entry->relationships ) ) {
+			$this->saveRelationships( $manager, $item, $entry->relationships );
+		}
+
+		return $manager->getItem( $item->getId() );
 	}
 }
