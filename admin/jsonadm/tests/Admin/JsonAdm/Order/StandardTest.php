@@ -26,6 +26,32 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
+	public function testGetAggregate()
+	{
+		$params = array(
+			'filter' => array(
+				'==' => array( 'order.editor' => 'core:unittest' )
+			),
+			'aggregate' => 'order.cdate',
+		);
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$header = array();
+		$status = 500;
+
+		$result = json_decode( $this->object->get( '', $header, $status ), true );
+
+		$this->assertEquals( 200, $status );
+		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 1, count( $result['data'] ) );
+		$this->assertEquals( 'aggregate', $result['data'][0]['type'] );
+		$this->assertGreaterThan( 0, count( $result['data'][0]['attributes'] ) );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testGetIncluded()
 	{
 		$params = array(

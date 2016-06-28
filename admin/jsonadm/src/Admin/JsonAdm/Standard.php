@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015
+ * @copyright Aimeos (aimeos.org), 2015-2016
  * @package Admin
  * @subpackage JsonAdm
  */
@@ -82,6 +82,7 @@ class Standard
 		 * @param string Relative path to the template creating the body for the DELETE method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
+		 * @see admin/jsonadm/standard/template-aggregate
 		 * @see admin/jsonadm/standard/template-get
 		 * @see admin/jsonadm/standard/template-patch
 		 * @see admin/jsonadm/standard/template-post
@@ -106,11 +107,18 @@ class Standard
 	public function get( $body, array &$header, &$status )
 	{
 		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
+
 		$view = $this->getView();
+		$aggregate = $view->param( 'aggregate' );
 
 		try
 		{
-			$view = $this->getItems( $view );
+			if( $aggregate !== null ) {
+				$view = $this->getAggregate( $view );
+			} else {
+				$view = $this->getItems( $view );
+			}
+
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -130,32 +138,66 @@ class Standard
 			) );
 		}
 
-		/** admin/jsonadm/standard/template-get
-		 * Relative path to the JSON API template for GET requests
-		 *
-		 * The template file contains the code and processing instructions
-		 * to generate the result shown in the JSON API body. The
-		 * configuration string is the path to the template file relative
-		 * to the templates directory (usually in admin/jsonadm/templates).
-		 *
-		 * You can overwrite the template file configuration in extensions and
-		 * provide alternative templates. These alternative templates should be
-		 * named like the default one but with the string "standard" replaced by
-		 * an unique name. You may use the name of your project for this. If
-		 * you've implemented an alternative client class as well, "standard"
-		 * should be replaced by the name of the new class.
-		 *
-		 * @param string Relative path to the template creating the body for the GET method of the JSON API
-		 * @since 2015.12
-		 * @category Developer
-		 * @see admin/jsonadm/standard/template-delete
-		 * @see admin/jsonadm/standard/template-patch
-		 * @see admin/jsonadm/standard/template-post
-		 * @see admin/jsonadm/standard/template-put
-		 * @see admin/jsonadm/standard/template-options
-		 */
-		$tplconf = 'admin/jsonadm/standard/template-get';
-		$default = 'get-default.php';
+		if( $aggregate !== null )
+		{
+			/** admin/jsonadm/standard/template-aggregate
+			 * Relative path to the JSON API template for GET aggregate requests
+			 *
+			 * The template file contains the code and processing instructions
+			 * to generate the result shown in the JSON API body. The
+			 * configuration string is the path to the template file relative
+			 * to the templates directory (usually in admin/jsonadm/templates).
+			 *
+			 * You can overwrite the template file configuration in extensions and
+			 * provide alternative templates. These alternative templates should be
+			 * named like the default one but with the string "standard" replaced by
+			 * an unique name. You may use the name of your project for this. If
+			 * you've implemented an alternative client class as well, "standard"
+			 * should be replaced by the name of the new class.
+			 *
+			 * @param string Relative path to the template creating the body for the GET aggregate request of the JSON API
+			 * @since 2016.07
+			 * @category Developer
+			 * @see admin/jsonadm/standard/template-delete
+			 * @see admin/jsonadm/standard/template-get
+			 * @see admin/jsonadm/standard/template-patch
+			 * @see admin/jsonadm/standard/template-post
+			 * @see admin/jsonadm/standard/template-put
+			 * @see admin/jsonadm/standard/template-options
+			 */
+			$tplconf = 'admin/jsonadm/standard/template-aggregate';
+			$default = 'aggregate-default.php';
+		}
+		else
+		{
+			/** admin/jsonadm/standard/template-get
+			 * Relative path to the JSON API template for GET requests
+			 *
+			 * The template file contains the code and processing instructions
+			 * to generate the result shown in the JSON API body. The
+			 * configuration string is the path to the template file relative
+			 * to the templates directory (usually in admin/jsonadm/templates).
+			 *
+			 * You can overwrite the template file configuration in extensions and
+			 * provide alternative templates. These alternative templates should be
+			 * named like the default one but with the string "standard" replaced by
+			 * an unique name. You may use the name of your project for this. If
+			 * you've implemented an alternative client class as well, "standard"
+			 * should be replaced by the name of the new class.
+			 *
+			 * @param string Relative path to the template creating the body for the GET method of the JSON API
+			 * @since 2015.12
+			 * @category Developer
+			 * @see admin/jsonadm/standard/template-aggregate
+			 * @see admin/jsonadm/standard/template-delete
+			 * @see admin/jsonadm/standard/template-patch
+			 * @see admin/jsonadm/standard/template-post
+			 * @see admin/jsonadm/standard/template-put
+			 * @see admin/jsonadm/standard/template-options
+			 */
+			$tplconf = 'admin/jsonadm/standard/template-get';
+			$default = 'get-default.php';
+		}
 
 		return $view->render( $view->config( $tplconf, $default ) );
 	}
@@ -222,6 +264,7 @@ class Standard
 		 * @param string Relative path to the template creating the body for the PATCH method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
+		 * @see admin/jsonadm/standard/template-aggregate
 		 * @see admin/jsonadm/standard/template-get
 		 * @see admin/jsonadm/standard/template-post
 		 * @see admin/jsonadm/standard/template-delete
@@ -296,6 +339,7 @@ class Standard
 		 * @param string Relative path to the template creating the body for the POST method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
+		 * @see admin/jsonadm/standard/template-aggregate
 		 * @see admin/jsonadm/standard/template-get
 		 * @see admin/jsonadm/standard/template-patch
 		 * @see admin/jsonadm/standard/template-delete
@@ -345,6 +389,7 @@ class Standard
 		 * @param string Relative path to the template creating the body for the PUT method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
+		 * @see admin/jsonadm/standard/template-aggregate
 		 * @see admin/jsonadm/standard/template-delete
 		 * @see admin/jsonadm/standard/template-patch
 		 * @see admin/jsonadm/standard/template-post
@@ -426,6 +471,7 @@ class Standard
 		 * @param string Relative path to the template creating the body for the OPTIONS method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
+		 * @see admin/jsonadm/standard/template-aggregate
 		 * @see admin/jsonadm/standard/template-delete
 		 * @see admin/jsonadm/standard/template-patch
 		 * @see admin/jsonadm/standard/template-post
@@ -466,6 +512,25 @@ class Standard
 			$manager->deleteItem( $id );
 			$view->total = 1;
 		}
+
+		return $view;
+	}
+
+
+	/**
+	 * Retrieves the aggregation and adds the data to the view
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
+	 */
+	protected function getAggregate( \Aimeos\MW\View\Iface $view )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
+
+		$key = $view->param( 'aggregate' );
+
+		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+		$view->data = $manager->aggregate( $search, $key );
 
 		return $view;
 	}
