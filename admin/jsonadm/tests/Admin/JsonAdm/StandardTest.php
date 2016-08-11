@@ -369,7 +369,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->once() )->method( 'saveItem' );
-		$productManagerStub->expects( $this->exactly( 3 ) )->method( 'getItem' ) // 3x due to decorator
+		$productManagerStub->expects( $this->atLeastOnce() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 
 
@@ -404,7 +404,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
-		$productManagerStub->expects( $this->exactly( 6 ) )->method( 'getItem' ) // 6x due to decorator
+		$productManagerStub->expects( $this->atLeastOnce() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 
 
