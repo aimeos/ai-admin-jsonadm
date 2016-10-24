@@ -57,6 +57,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testGetFieldsIncluded()
 	{
 		$params = array(
+			'filter' => array(
+				'=~' => array( 'customer.code' => 'UTC' )
+			),
 			'fields' => array(
 				'customer' => 'customer.id,customer.label'
 			),
