@@ -93,7 +93,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testDeleteException()
 	{
 		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
-			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$params = array( 'id' => $this->getProductItem()->getId() );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -191,7 +191,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testGetException()
 	{
 		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
-			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$params = array( 'id' => -1 );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -462,7 +462,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPatchException()
 	{
 		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
-			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$header = array();
 		$status = 500;
@@ -630,7 +630,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPostException()
 	{
 		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
-			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$header = array();
 		$status = 500;
@@ -689,7 +689,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testOptionsException()
 	{
 		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
-			->will( $this->throwException( new \Exception( 'test exception' ) ) );
+			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$header = array();
 		$status = 500;
@@ -756,7 +756,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$items = $manager->searchItems( $search );
 
 		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( sprintf( 'No product item with code "%1$s" found', $code ) );
+			throw new \RuntimeException( sprintf( 'No product item with code "%1$s" found', $code ) );
 		}
 
 		return $item;

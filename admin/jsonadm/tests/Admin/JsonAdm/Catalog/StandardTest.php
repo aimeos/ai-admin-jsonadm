@@ -143,7 +143,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$items = $manager->searchItems( $search );
 
 		if( ( $item = reset( $items ) ) === false ) {
-			throw new \Exception( sprintf( 'No catalog item with code "%1$s" found', $code ) );
+			throw new \RuntimeException( sprintf( 'No catalog item with code "%1$s" found', $code ) );
 		}
 
 		return $item;
