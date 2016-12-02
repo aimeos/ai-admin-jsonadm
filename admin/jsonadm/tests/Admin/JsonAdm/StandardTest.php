@@ -148,13 +148,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	}
 
 
-	public function testGetWarehouse()
+	public function testGetType()
 	{
 		$header = array();
 		$status = 500;
 
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
-		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'product/stock/warehouse' );
+		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'product/stock/type' );
 
 		$result = json_decode( $object->get( '', $header, $status ), true );
 
@@ -162,7 +162,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, count( $header ) );
 		$this->assertEquals( 6, $result['meta']['total'] );
 		$this->assertEquals( 6, count( $result['data'] ) );
-		$this->assertEquals( 'product/stock/warehouse', $result['data'][0]['type'] );
+		$this->assertEquals( 'product/stock/type', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
