@@ -44,7 +44,7 @@ class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param \Aimeos\MW\View\Iface $view View object
 	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 * @return \Aimeos\Admin\JsonAdm\Common\Iface Client object
 	 */
 	protected static function addClientDecorators( \Aimeos\Admin\JsonAdm\Iface $client,

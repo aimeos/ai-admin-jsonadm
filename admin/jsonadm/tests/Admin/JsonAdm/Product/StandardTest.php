@@ -32,7 +32,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 			'filter' => array(
 				'==' => array( 'product.code' => 'CNE' )
 			),
-			'include' => 'text,product,product/property,product/stock'
+			'include' => 'text,product,product/property'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -52,8 +52,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product'] ) );
 		$this->assertArrayHaskey( 'self', $result['data'][0]['relationships']['product'][0]['data']['links'] );
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property'] ) );
-		$this->assertEquals( 1, count( $result['data'][0]['relationships']['product/stock'] ) );
-		$this->assertEquals( 15, count( $result['included'] ) );
+		$this->assertEquals( 14, count( $result['included'] ) );
 		$this->assertEquals( 'product/property', $result['included'][0]['type'] );
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
 		$this->assertArrayHaskey( 'related', $result['included'][0]['links'] );
@@ -68,7 +67,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 				'product' => 'product.id,product.label'
 			),
 			'sort' => 'product.id',
-			'include' => 'product,product/stock'
+			'include' => 'product,product/property'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -85,7 +84,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product'] ) );
-		$this->assertEquals( 27, count( $result['included'] ) );
+		$this->assertEquals( 21, count( $result['included'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 }

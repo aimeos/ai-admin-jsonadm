@@ -31,7 +31,7 @@ class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
 	 * @param \Aimeos\MW\View\Iface $view View object
 	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 */
 	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, array $templatePaths, $path )
 	{

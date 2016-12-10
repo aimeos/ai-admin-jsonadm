@@ -111,7 +111,7 @@ class Standard
 	{
 		$list = array();
 		$prodIds = array_keys( $items );
-		$include = array_intersect( $include, array( 'product/property', 'product/stock' ) );
+		$include = array_intersect( $include, array( 'product/property' ) );
 
 		foreach( $include as $type )
 		{

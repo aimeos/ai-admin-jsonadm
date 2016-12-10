@@ -154,15 +154,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$status = 500;
 
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
-		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'product/stock/type' );
+		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'product/property/type' );
 
 		$result = json_decode( $object->get( '', $header, $status ), true );
 
 		$this->assertEquals( 200, $status );
 		$this->assertEquals( 1, count( $header ) );
-		$this->assertEquals( 6, $result['meta']['total'] );
-		$this->assertEquals( 6, count( $result['data'] ) );
-		$this->assertEquals( 'product/stock/type', $result['data'][0]['type'] );
+		$this->assertEquals( 4, $result['meta']['total'] );
+		$this->assertEquals( 4, count( $result['data'] ) );
+		$this->assertEquals( 'product/property/type', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -680,7 +680,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertEquals( 200, $status );
 		$this->assertEquals( 2, count( $header ) );
-		$this->assertEquals( 59, count( $result['meta']['resources'] ) );
+		$this->assertEquals( 57, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
