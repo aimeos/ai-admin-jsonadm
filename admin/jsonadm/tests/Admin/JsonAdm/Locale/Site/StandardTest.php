@@ -36,17 +36,18 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'locale/site', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -63,16 +64,17 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'locale/site', $result['data']['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -93,16 +95,19 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"parentid": "1", "targetid": 2, "type": "locale/site", "attributes": {"locale.site.label": "test"}}}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->patch( $body, $header, $status ), true );
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( 'locale/site', $result['data']['type'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -119,16 +124,19 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 
 		$body = '{"data": {"type": "locale/site", "attributes": {"locale.site.code": "unittest", "locale.site.label": "Unit test"}}}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+		$response = $this->object->post( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 201, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 201, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( 'locale/site', $result['data']['type'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

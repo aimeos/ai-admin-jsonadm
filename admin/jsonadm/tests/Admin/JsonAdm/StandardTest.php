@@ -40,14 +40,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->delete( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'data', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -59,13 +60,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->getProductMock( array( 'deleteItems' ) )->expects( $this->once() )->method( 'deleteItems' );
 
 		$body = '{"data":[{"type": "product", "id": "-1"},{"type": "product", "id": "-2"}]}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->delete( $body, $header, $status ), true );
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'data', $result );
@@ -76,13 +79,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testDeleteInvalid()
 	{
 		$body = '{"data":null}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->delete( $body, $header, $status ), true );
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 400, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 400, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 0, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'errors', $result );
 		$this->assertArrayNotHasKey( 'included', $result );
@@ -99,12 +104,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->delete( '', $header, $status ), true );
-
-		$this->assertEquals( 500, $status );
+		$this->assertEquals( 500, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -118,25 +121,23 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->delete( '', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
+		$this->assertEquals( 404, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 
 	public function testGet()
 	{
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
@@ -150,36 +151,37 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetType()
 	{
-		$header = array();
-		$status = 500;
-
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'product/property/type' );
 
-		$result = json_decode( $object->get( '', $header, $status ), true );
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 4, $result['meta']['total'] );
 		$this->assertEquals( 4, count( $result['data'] ) );
 		$this->assertEquals( 'product/property/type', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
 
 	public function testGetInvalid()
 	{
-		$header = array();
-		$status = 500;
-
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'invalid' );
 
-		$result = json_decode( $object->get( '', $header, $status ), true );
+		$response = $object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 404, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, count( $result['errors'] ) );
 		$this->assertArrayHasKey( 'title', $result['errors'][0] );
 		$this->assertArrayHasKey( 'detail', $result['errors'][0] );
@@ -197,12 +199,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
-
-		$this->assertEquals( 500, $status );
+		$this->assertEquals( 500, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -216,12 +216,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
+		$this->assertEquals( 404, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -236,17 +234,18 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 3, $result['meta']['total'] );
 		$this->assertEquals( 3, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -264,17 +263,18 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertEquals( 2, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -290,13 +290,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 3, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
@@ -304,6 +304,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey( 'first', $result['links'] );
 		$this->assertArrayHasKey( 'prev', $result['links'] );
 		$this->assertArrayHasKey( 'self', $result['links'] );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -316,19 +317,20 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 'QRST', $result['data'][0]['attributes']['product.code'] );
 		$this->assertEquals( '16 discs', $result['data'][0]['attributes']['product.label'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -345,17 +347,18 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -378,18 +381,21 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"type": "product", "attributes": {"product.label": "test"}}}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->patch( $body, $header, $status ), true );
+		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( '-1', $result['data']['id'] );
 		$this->assertEquals( 'product', $result['data']['type'] );
 		$this->assertEquals( 'test', $result['data']['attributes']['product.label'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -409,19 +415,22 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 
 		$body = '{"data": [{"id": "-1", "type": "product", "attributes": {"product.label": "test"}}, {"id": "-1", "type": "product", "attributes": {"product.label": "test"}}]}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->patch( $body, $header, $status ), true );
+		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( 2, count( $result['data'] ) );
 		$this->assertEquals( '-1', $result['data'][0]['id'] );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 'test', $result['data'][0]['attributes']['product.label'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -430,13 +439,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPatchInvalid()
 	{
 		$body = '{"data":null}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->patch( $body, $header, $status ), true );
+		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 400, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 400, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 0, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'errors', $result );
 		$this->assertArrayNotHasKey( 'included', $result );
@@ -447,13 +458,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPatchInvalidId()
 	{
 		$body = '{"data":{"id":-1}}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->patch( $body, $header, $status ), true );
+		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 400, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 400, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 0, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
@@ -464,12 +477,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
-		$header = array();
-		$status = 500;
+		$body = '{"data":[{"id":-1}]}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->patch( '{"data":[{"id":-1}]}', $header, $status ), true );
+		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 500, $status );
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -479,12 +495,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
-		$header = array();
-		$status = 500;
+		$body = '{"data":[{"id":-1}]}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->patch( '{"data":[{"id":-1}]}', $header, $status ), true );
+		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 404, $status );
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -504,19 +523,22 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 
 		$body = '{"data": {"type": "product", "attributes": {"product.type": "default", "product.label": "test"}}}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 201, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 201, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( '-1', $result['data']['id'] );
 		$this->assertEquals( 'product', $result['data']['type'] );
 		$this->assertGreaterThan( 0, $result['data']['attributes']['product.typeid'] );
 		$this->assertEquals( 'test', $result['data']['attributes']['product.label'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -536,19 +558,22 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 
 
 		$body = '{"data": [{"type": "product", "attributes": {"product.label": "test"}}, {"type": "product", "attributes": {"product.label": "test"}}]}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 201, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 201, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( 2, count( $result['data'] ) );
 		$this->assertEquals( '-1', $result['data'][0]['id'] );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 'test', $result['data'][0]['attributes']['product.label'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -578,18 +603,21 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 				{"type": "text", "id": "-2", "attributes": {"product.lists.type": "default"}}
 			]}}
 		}}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 201, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 201, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( '-1', $result['data']['id'] );
 		$this->assertEquals( 'product', $result['data']['type'] );
 		$this->assertEquals( 'test', $result['data']['attributes']['product.label'] );
+
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -598,13 +626,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPostInvalid()
 	{
 		$body = '{"data":null}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 400, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 400, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 0, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'errors', $result );
 		$this->assertArrayNotHasKey( 'included', $result );
@@ -615,13 +645,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 	public function testPostInvalidId()
 	{
 		$body = '{"data":{"id":-1}}';
-		$header = array();
-		$status = 500;
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( $body, $header, $status ), true );
+		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 403, $status );
-		$this->assertEquals( 1, count( $header ) );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 0, $result['meta']['total'] );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
@@ -632,12 +664,15 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
-		$header = array();
-		$status = 500;
+		$body = '{"data":{}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( '{"data":{}}', $header, $status ), true );
+		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 500, $status );
+
+		$this->assertEquals( 500, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -647,41 +682,43 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
-		$header = array();
-		$status = 500;
+		$body = '{"data":{}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$result = json_decode( $this->object->post( '{"data":{}}', $header, $status ), true );
+		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 404, $status );
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 
 	public function testPut()
 	{
-		$body = '';
-		$header = array();
-		$status = 500;
+		$response = $this->object->put( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->put( $body, $header, $status ), true );
-
-		$this->assertEquals( 501, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 501, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 
 	public function testOptions()
 	{
-		$header = array();
-		$status = 500;
+		$response = $this->object->options( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->options( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 2, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 57, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -691,12 +728,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->options( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->options( '', $header, $status ), true );
-
-		$this->assertEquals( 500, $status );
+		$this->assertEquals( 500, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 
@@ -706,12 +741,10 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->options( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->options( '', $header, $status ), true );
-
-		$this->assertEquals( 404, $status );
+		$this->assertEquals( 404, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 	}
 

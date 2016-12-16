@@ -10,6 +10,9 @@
 
 namespace Aimeos\Admin\JsonAdm;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
 
 /**
  * JSON API client interface
@@ -22,65 +25,59 @@ interface Iface
 	/**
 	 * Deletes the resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( $body, array &$header, &$status );
+	public function delete( ServerRequestInterface $request, ResponseInterface $response );
 
 
 	/**
 	 * Returns the requested resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( $body, array &$header, &$status );
+	public function get( ServerRequestInterface $request, ResponseInterface $response );
 
 
 	/**
 	 * Updates the resource or the resource list partitially
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( $body, array &$header, &$status );
+	public function patch( ServerRequestInterface $request, ResponseInterface $response );
 
 
 	/**
 	 * Creates or updates the resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( $body, array &$header, &$status );
+	public function post( ServerRequestInterface $request, ResponseInterface $response );
 
 
 	/**
 	 * Creates or updates the resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function put( $body, array &$header, &$status );
+	public function put( ServerRequestInterface $request, ResponseInterface $response );
 
 
 	/**
 	 * Returns the available REST verbs
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( $body, array &$header, &$status );
+	public function options( ServerRequestInterface $request, ResponseInterface $response );
 }

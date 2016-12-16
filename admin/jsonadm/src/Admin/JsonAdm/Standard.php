@@ -10,6 +10,9 @@
 
 namespace Aimeos\Admin\JsonAdm;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
 
 /**
  * JSON API standard client
@@ -24,19 +27,17 @@ class Standard
 	/**
 	 * Deletes the resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( $body, array &$header, &$status )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$view = $this->getView();
 
 		try
 		{
-			$view = $this->deleteItems( $view, $body );
+			$response = $this->deleteItems( $view, $request, $response );
 			$status = 200;
 		}
 		catch( \Aimeos\Admin\JsonAdm\Exception $e )
@@ -92,33 +93,28 @@ class Standard
 		$tplconf = 'admin/jsonadm/standard/template-delete';
 		$default = 'delete-default.php';
 
-		return $view->render( $view->config( $tplconf, $default ) );
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Content-Type', 'application/vnd.api+json; supported-ext="bulk"' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( $status );
 	}
 
 
 	/**
 	 * Returns the requested resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( $body, array &$header, &$status )
+	public function get( ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
-
 		$view = $this->getView();
-		$aggregate = $view->param( 'aggregate' );
 
 		try
 		{
-			if( $aggregate !== null ) {
-				$view = $this->getAggregate( $view );
-			} else {
-				$view = $this->getItems( $view );
-			}
-
+			$response = $this->getItems( $view, $request, $response );
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -138,7 +134,7 @@ class Standard
 			) );
 		}
 
-		if( $aggregate !== null )
+		if( $view->param( 'aggregate' ) !== null )
 		{
 			/** admin/jsonadm/standard/template-aggregate
 			 * Relative path to the JSON API template for GET aggregate requests
@@ -199,26 +195,29 @@ class Standard
 			$default = 'get-default.php';
 		}
 
-		return $view->render( $view->config( $tplconf, $default ) );
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Content-Type', 'application/vnd.api+json; supported-ext="bulk"' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( $status );
 	}
 
 
 	/**
 	 * Updates the resource or the resource list partitially
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( $body, array &$header, &$status )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$view = $this->getView();
 
 		try
 		{
-			$view = $this->patchItems( $view, $body, $header );
+			$response = $this->patchItems( $view, $request, $response );
 			$status = 200;
 		}
 		catch( \Aimeos\Admin\JsonAdm\Exception $e )
@@ -274,26 +273,29 @@ class Standard
 		$tplconf = 'admin/jsonadm/standard/template-patch';
 		$default = 'patch-default.php';
 
-		return $view->render( $view->config( $tplconf, $default ) );
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Content-Type', 'application/vnd.api+json; supported-ext="bulk"' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( $status );
 	}
 
 
 	/**
 	 * Creates or updates the resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( $body, array &$header, &$status )
+	public function post( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$view = $this->getView();
 
 		try
 		{
-			$view = $this->postItems( $view, $body, $header );
+			$response = $this->postItems( $view, $request, $response );
 			$status = 201;
 		}
 		catch( \Aimeos\Admin\JsonAdm\Exception $e )
@@ -349,22 +351,24 @@ class Standard
 		$tplconf = 'admin/jsonadm/standard/template-post';
 		$default = 'post-default.php';
 
-		return $view->render( $view->config( $tplconf, $default ) );
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Content-Type', 'application/vnd.api+json; supported-ext="bulk"' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( $status );
 	}
 
 
 	/**
 	 * Creates or updates the resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function put( $body, array &$header, &$status )
+	public function put( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$status = 501;
-		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$view = $this->getView();
 
 		$view->errors = array( array(
@@ -399,19 +403,22 @@ class Standard
 		$tplconf = 'admin/jsonadm/standard/template-put';
 		$default = 'put-default.php';
 
-		return $view->render( $view->config( $tplconf, $default ) );
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Content-Type', 'application/vnd.api+json; supported-ext="bulk"' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( $status );
 	}
 
 
 	/**
 	 * Returns the available REST verbs and the available resources
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( $body, array &$header, &$status )
+	public function options( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$context = $this->getContext();
 		$view = $this->getView();
@@ -430,10 +437,6 @@ class Standard
 			$view->resources = $resources;
 			$view->attributes = $attributes;
 
-			$header = array(
-				'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"',
-				'Allow' => 'DELETE,GET,PATCH,POST,OPTIONS'
-			);
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
@@ -481,7 +484,12 @@ class Standard
 		$tplconf = 'admin/jsonadm/standard/template-options';
 		$default = 'options-default.php';
 
-		return $view->render( $view->config( $tplconf, $default ) );
+		$body = $view->render( $view->config( $tplconf, $default ) );
+
+		return $response->withHeader( 'Allow', 'DELETE,GET,PATCH,POST,OPTIONS' )
+			->withHeader( 'Content-Type', 'application/vnd.api+json; supported-ext="bulk"' )
+			->withBody( $view->response()->createStreamFromString( $body ) )
+			->withStatus( $status );
 	}
 
 
@@ -489,21 +497,24 @@ class Standard
 	 * Deletes one or more items
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance with "param" view helper
-	 * @param string $body Request body
-	 * @return \Aimeos\MW\View\Iface $view View object that will contain the "total" property afterwards
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the request body is invalid
 	 */
-	protected function deleteItems( \Aimeos\MW\View\Iface $view, $body )
+	protected function deleteItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
-			if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) || !is_array( $request->data ) ) {
+			$body = (string) $request->getBody();
+
+			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) || !is_array( $payload->data ) ) {
 				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$ids = $this->getIds( $request );
+			$ids = $this->getIds( $payload );
 			$manager->deleteItems( $ids );
 			$view->total = count( $ids );
 		}
@@ -513,26 +524,7 @@ class Standard
 			$view->total = 1;
 		}
 
-		return $view;
-	}
-
-
-	/**
-	 * Retrieves the aggregation and adds the data to the view
-	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
-	 */
-	protected function getAggregate( \Aimeos\MW\View\Iface $view )
-	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
-
-		$key = $view->param( 'aggregate' );
-
-		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
-		$view->data = $manager->aggregate( $search, $key );
-
-		return $view;
+		return $response;
 	}
 
 
@@ -540,12 +532,22 @@ class Standard
 	 * Retrieves the item or items and adds the data to the view
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItems( \Aimeos\MW\View\Iface $view )
+	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$total = 1;
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
+
+		if( ( $key = $view->param( 'aggregate' ) ) !== null )
+		{
+			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$view->data = $manager->aggregate( $search, $key );
+			return $response;
+		}
+
+		$total = 1;
 		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
 
 		if( ( $id = $view->param( 'id' ) ) == null )
@@ -565,51 +567,41 @@ class Standard
 		$view->refItems = $this->getRefItems( $view->listItems );
 		$view->total = $total;
 
-		return $view;
+		return $response;
 	}
 
-
-	/**
-	 * Retrieves the item or items and adds the data to the view
-	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
-	 * @deprecated 2016.06 Use getItems() instead
-	 */
-	protected function getItem( \Aimeos\MW\View\Iface $view )
-	{
-		return $this->getItems( $view );
-	}
 
 	/**
 	 * Saves new attributes for one or more items
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View that will contain the "data" and "total" properties afterwards
-	 * @param string $body Request body
-	 * @param array &$header Associative list of HTTP headers as value/result parameter
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If "id" parameter isn't available or the body is invalid
-	 * @return \Aimeos\MW\View\Iface Updated view instance
 	 */
-	protected function patchItems( \Aimeos\MW\View\Iface $view, $body, array &$header )
+	protected function patchItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) ) {
+		$body = (string) $request->getBody();
+
+		if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 		}
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
 
-		if( is_array( $request->data ) )
+		if( is_array( $payload->data ) )
 		{
-			$data = $this->saveData( $manager, $request );
+			$data = $this->saveData( $manager, $payload );
 
 			$view->data = $data;
 			$view->total = count( $data );
-			$header['Content-Type'] = 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"';
+			$response = $response->withHeader( 'Content-Type', 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"' );
 		}
 		elseif( ( $id = $view->param( 'id' ) ) != null )
 		{
-			$request->data->id = $id;
-			$data = $this->saveEntry( $manager, $request->data );
+			$payload->data->id = $id;
+			$data = $this->saveEntry( $manager, $payload->data );
 
 			$view->data = $data;
 			$view->total = 1;
@@ -619,7 +611,7 @@ class Standard
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
 		}
 
-		return $view;
+		return $response;
 	}
 
 
@@ -627,40 +619,42 @@ class Standard
 	 * Creates one or more new items
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View that will contain the "data" and "total" properties afterwards
-	 * @param string $body Request body
-	 * @param array &$header Associative list of HTTP headers as value/result parameter
-	 * @return \Aimeos\MW\View\Iface Updated view instance
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function postItems( \Aimeos\MW\View\Iface $view, $body, array &$header )
+	protected function postItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		if( ( $request = json_decode( $body ) ) === null || !isset( $request->data ) ) {
+		$body = (string) $request->getBody();
+
+		if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 		}
 
-		if( isset( $request->data->id ) || $view->param( 'id' ) != null ) {
+		if( isset( $payload->data->id ) || $view->param( 'id' ) != null ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Client generated IDs are not supported' ), 403 );
 		}
 
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $this->getPath() );
 
-		if( is_array( $request->data ) )
+		if( is_array( $payload->data ) )
 		{
-			$data = $this->saveData( $manager, $request );
+			$data = $this->saveData( $manager, $payload );
 
 			$view->data = $data;
 			$view->total = count( $data );
-			$header['Content-Type'] = 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"';
+			$response = $response->withHeader( 'Content-Type', 'application/vnd.api+json; ext="bulk"; supported-ext="bulk"' );
 		}
 		else
 		{
-			$request->data->id = null;
-			$data = $this->saveEntry( $manager, $request->data );
+			$payload->data->id = null;
+			$data = $this->saveEntry( $manager, $payload->data );
 
 			$view->data = $data;
 			$view->total = 1;
 		}
 
-		return $view;
+		return $response;
 	}
 }

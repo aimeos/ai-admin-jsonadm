@@ -10,6 +10,9 @@
 
 namespace Aimeos\Admin\JsonAdm\Catalog;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
 
 /**
  * JSON API catalog client
@@ -103,12 +106,11 @@ class Standard
 	/**
 	 * Returns the requested resource or the resource list
 	 *
-	 * @param string $body Request body
-	 * @param array &$header Variable which contains the HTTP headers and the new ones afterwards
-	 * @param integer &$status Variable which contains the HTTP status afterwards
-	 * @return string Content for response body
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( $body, array &$header, &$status )
+	public function get( ServerRequestInterface $request, ResponseInterface $response )
 	{
 		/** admin/jsonadm/partials/catalog/template-data
 		 * Relative path to the data partial template file for the catalog client
@@ -127,7 +129,7 @@ class Standard
 		 */
 		$this->getView()->assign( array( 'partial-data' => 'admin/jsonadm/partials/catalog/template-data' ) );
 
-		return parent::get( $body, $header, $status );
+		return parent::get( $request, $response );
 	}
 
 
@@ -156,13 +158,22 @@ class Standard
 	/**
 	 * Retrieves the item or items and adds the data to the view
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
-	 * @return \Aimeos\MW\View\Iface View instance with additional data assigned
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItems( \Aimeos\MW\View\Iface $view )
+	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'catalog' );
+
+		if( ( $key = $view->param( 'aggregate' ) ) !== null )
+		{
+			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$view->data = $manager->aggregate( $search, $key );
+			return $response;
+		}
+
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
 		$total = 1;
 
@@ -182,7 +193,7 @@ class Standard
 		$view->refItems = $this->getRefItems( $view->listItems );
 		$view->total = $total;
 
-		return $view;
+		return $response;
 	}
 
 

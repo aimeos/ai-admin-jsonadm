@@ -37,17 +37,18 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'aggregate', $result['data'][0]['type'] );
 		$this->assertGreaterThan( 0, count( $result['data'][0]['attributes'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -63,19 +64,20 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'order', $result['data'][0]['type'] );
 		$this->assertEquals( 3, count( $result['data'][0]['relationships']['order/status'] ) );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/base'] ) );
 		$this->assertEquals( 4, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -92,19 +94,20 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertGreaterThanOrEqual( 4, $result['meta']['total'] );
 		$this->assertGreaterThanOrEqual( 4, count( $result['data'] ) );
 		$this->assertEquals( 'order', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
 		$this->assertGreaterThanOrEqual( 3, count( $result['data'][0]['relationships']['order/status'] ) );
 		$this->assertGreaterThanOrEqual( 11, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 }

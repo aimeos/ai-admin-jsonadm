@@ -37,13 +37,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
@@ -56,6 +56,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 'product/property', $result['included'][0]['type'] );
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
 		$this->assertArrayHaskey( 'related', $result['included'][0]['links'] );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 
@@ -72,19 +73,20 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
-		$header = array();
-		$status = 500;
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
 
-		$result = json_decode( $this->object->get( '', $header, $status ), true );
 
-		$this->assertEquals( 200, $status );
-		$this->assertEquals( 1, count( $header ) );
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
 		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product'] ) );
 		$this->assertEquals( 21, count( $result['included'] ) );
+
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 }

@@ -11,20 +11,21 @@ namespace Aimeos\Admin\JsonAdm\Common\Decorator;
 
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
-	private $stub;
 	private $object;
+	private $stub;
+	private $view;
 
 
 	protected function setUp()
 	{
 		$context = \TestHelperJadm::getContext();
-		$view = $context->getView();
+		$this->view = $context->getView();
 
 		$this->stub = $this->getMockBuilder( '\\Aimeos\\Admin\\JsonAdm\\Standard' )
-			->setConstructorArgs( array( $context, $view, array(), 'attribute' ) )
+			->setConstructorArgs( array( $context, $this->view, array(), 'attribute' ) )
 			->getMock();
 
-		$this->object = new TestBase( $this->stub, $context, $view, array(), 'attribute' );
+		$this->object = new TestBase( $this->stub, $context, $this->view, array(), 'attribute' );
 	}
 
 
@@ -36,79 +37,55 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 
 	public function testDelete()
 	{
-		$status = 0;
-		$header = array();
+		$this->stub->expects( $this->once() )->method( 'delete' )->will( $this->returnArgument( 1 ) );
+		$response = $this->view->response();
 
-		$this->stub->expects( $this->once() )
-			->method( 'delete' )
-			->will( $this->returnValue( 'test' ) );
-
-		$this->assertEquals( 'test', $this->object->delete( '', $header, $status ) );
+		$this->assertSame( $response, $this->object->delete( $this->view->request(), $response ) );
 	}
 
 
 	public function testGet()
 	{
-		$status = 0;
-		$header = array();
+		$this->stub->expects( $this->once() )->method( 'get' )->will( $this->returnArgument( 1 ) );
+		$response = $this->view->response();
 
-		$this->stub->expects( $this->once() )
-			->method( 'get' )
-			->will( $this->returnValue( 'test' ) );
-
-		$this->assertEquals( 'test', $this->object->get( '', $header, $status ) );
+		$this->assertSame( $response, $this->object->get( $this->view->request(), $response ) );
 	}
 
 
 	public function testPatch()
 	{
-		$status = 0;
-		$header = array();
+		$this->stub->expects( $this->once() )->method( 'patch' )->will( $this->returnArgument( 1 ) );
+		$response = $this->view->response();
 
-		$this->stub->expects( $this->once() )
-			->method( 'patch' )
-			->will( $this->returnValue( 'test' ) );
-
-		$this->assertEquals( 'test', $this->object->patch( '', $header, $status ) );
+		$this->assertSame( $response, $this->object->patch( $this->view->request(), $response ) );
 	}
 
 
 	public function testPost()
 	{
-		$status = 0;
-		$header = array();
+		$this->stub->expects( $this->once() )->method( 'post' )->will( $this->returnArgument( 1 ) );
+		$response = $this->view->response();
 
-		$this->stub->expects( $this->once() )
-			->method( 'post' )
-			->will( $this->returnValue( 'test' ) );
-
-		$this->assertEquals( 'test', $this->object->post( '', $header, $status ) );
+		$this->assertSame( $response, $this->object->post( $this->view->request(), $response ) );
 	}
 
 
 	public function testPut()
 	{
-		$status = 0;
-		$header = array();
+		$this->stub->expects( $this->once() )->method( 'put' )->will( $this->returnArgument( 1 ) );
+		$response = $this->view->response();
 
-		$this->stub->expects( $this->once() )
-			->method( 'put' )
-			->will( $this->returnValue( 'test' ) );
-
-		$this->assertEquals( 'test', $this->object->put( '', $header, $status ) );
+		$this->assertSame( $response, $this->object->put( $this->view->request(), $response ) );
 	}
 
 
 	public function testOptions()
 	{
-		$status = 0;
-		$header = array();
+		$this->stub->expects( $this->once() )->method( 'options' )->will( $this->returnArgument( 1 ) );
+		$response = $this->view->response();
 
-		$this->stub->expects( $this->once() )
-			->method( 'options' )
-			->will( $this->returnValue( 'test' ) );
-
-		$this->assertEquals( 'test', $this->object->options( '', $header, $status ) );
+		$this->assertSame( $response, $this->object->options( $this->view->request(), $response ) );
 	}
 
 
