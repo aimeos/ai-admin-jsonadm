@@ -212,7 +212,6 @@ class Standard
 	 */
 	public function patch( ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$view = $this->getView();
 
 		try
@@ -290,7 +289,6 @@ class Standard
 	 */
 	public function post( ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$header = array( 'Content-Type' => 'application/vnd.api+json; supported-ext="bulk"' );
 		$view = $this->getView();
 
 		try

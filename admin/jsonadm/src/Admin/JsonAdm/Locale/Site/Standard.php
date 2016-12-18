@@ -106,7 +106,6 @@ class Standard
 	/**
 	 * Returns the requested resource or the resource list
 	 *
-	 * @param string $body Request body
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object

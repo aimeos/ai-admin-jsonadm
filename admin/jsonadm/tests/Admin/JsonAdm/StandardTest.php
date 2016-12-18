@@ -62,7 +62,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":[{"type": "product", "id": "-1"},{"type": "product", "id": "-2"}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object->delete( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -81,7 +81,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":null}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$response = $this->object->delete( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -383,7 +383,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data": {"type": "product", "attributes": {"product.label": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -417,7 +417,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data": [{"id": "-1", "type": "product", "attributes": {"product.label": "test"}}, {"id": "-1", "type": "product", "attributes": {"product.label": "test"}}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -441,7 +441,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":null}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -460,7 +460,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":{"id":-1}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -480,7 +480,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":[{"id":-1}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -498,7 +498,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":[{"id":-1}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->patch( $this->view->request(), $this->view->response() );
+		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -525,7 +525,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data": {"type": "product", "attributes": {"product.type": "default", "product.label": "test"}}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -560,7 +560,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data": [{"type": "product", "attributes": {"product.label": "test"}}, {"type": "product", "attributes": {"product.label": "test"}}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -605,7 +605,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -628,7 +628,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":null}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -647,7 +647,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":{"id":-1}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -667,7 +667,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":{}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
@@ -685,7 +685,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$body = '{"data":{}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
-		$response = $this->object->post( $this->view->request(), $this->view->response() );
+		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 
