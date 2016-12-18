@@ -414,9 +414,10 @@ class Standard
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response )
+	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
 		$context = $this->getContext();
 		$view = $this->getView();
@@ -432,6 +433,7 @@ class Standard
 				$attributes = array_merge( $attributes, $manager->getSearchAttributes( true ) );
 			}
 
+			$view->prefix = $prefix;
 			$view->resources = $resources;
 			$view->attributes = $attributes;
 

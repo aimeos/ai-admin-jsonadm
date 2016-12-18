@@ -19,6 +19,7 @@ foreach( $this->get( 'attributes', array() ) as $attr ) {
 ?>
 {
 	"meta": {
+		"prefix": <?php echo json_encode( $this->get( 'prefix' ) ); ?>,
 		"resources": <?php echo json_encode( $resources ); ?>,
 		"attributes": <?php echo json_encode( $attributes ); ?>
 	}

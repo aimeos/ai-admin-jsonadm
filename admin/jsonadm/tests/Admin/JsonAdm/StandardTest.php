@@ -716,6 +716,25 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
+		$this->assertNull( $result['meta']['prefix'] );
+		$this->assertEquals( 57, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testOptionsWithPrefix()
+	{
+		$response = $this->object->options( $this->view->request(), $this->view->response(), 'prefix' );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Allow' ) ) );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 'prefix', $result['meta']['prefix'] );
 		$this->assertEquals( 57, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 

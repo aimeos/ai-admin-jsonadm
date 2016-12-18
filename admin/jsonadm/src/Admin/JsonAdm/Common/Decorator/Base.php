@@ -137,10 +137,11 @@ abstract class Base
 	 *
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @param string|null Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response )
+	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
 	{
-		return $this->client->options( $request, $response );
+		return $this->client->options( $request, $response, $prefix );
 	}
 }
