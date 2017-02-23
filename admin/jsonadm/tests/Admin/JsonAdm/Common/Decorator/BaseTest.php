@@ -105,13 +105,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals( 'attribute', $this->object->getPathPublic() );
 	}
-
-
-	public function testCall()
-	{
-		$this->markTestIncomplete( 'PHP warning is triggered instead of exception' );
-	}
-
 }
 
 

@@ -43,6 +43,19 @@ class Base
 
 
 	/**
+	 * Catch unknown methods
+	 *
+	 * @param string $name Name of the method
+	 * @param array $param List of method parameter
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If method call failed
+	 */
+	public function __call( $name, array $param )
+	{
+		throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Unable to call method "%1$s"', $name ) );
+	}
+
+
+	/**
 	 * Returns the items with parent/child relationships
 	 *
 	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
