@@ -167,13 +167,6 @@ class Standard
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale/site' );
 
-		if( ( $key = $view->param( 'aggregate' ) ) !== null )
-		{
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
-			$view->data = $manager->aggregate( $search, $key );
-			return $response;
-		}
-
 		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
 		$total = 1;

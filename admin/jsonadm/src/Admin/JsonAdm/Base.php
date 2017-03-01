@@ -17,7 +17,7 @@ namespace Aimeos\Admin\JsonAdm;
  * @package Admin
  * @subpackage JsonAdm
  */
-class Base
+abstract class Base
 {
 	private $view;
 	private $context;

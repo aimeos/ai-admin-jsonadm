@@ -76,9 +76,6 @@ class Base
 		 */
 		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', array() );
 
-		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-		$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
-
 		if( $path !== null && is_string( $path ) )
 		{
 			$dpath = trim( $path, '/' );
@@ -104,6 +101,11 @@ class Base
 				$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/local', array() );
 				$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
 			}
+		}
+		else
+		{
+			$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
+			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
 		}
 
 		return $client;

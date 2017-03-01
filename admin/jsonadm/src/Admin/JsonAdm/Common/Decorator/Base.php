@@ -140,4 +140,15 @@ abstract class Base
 	{
 		return $this->client->options( $request, $response, $prefix );
 	}
+
+
+	/**
+	 * Returns the underlying admin client object;
+	 *
+	 * @return \Aimeos\Admin\JsonAdm\Iface Admin client object
+	 */
+	protected function getClient()
+	{
+		return $this->client;
+	}
 }
