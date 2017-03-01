@@ -22,7 +22,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Admin\JsonAdm\Media\Standard( $this->context, $this->view, $templatePaths, 'price' );
+		$this->object = new \Aimeos\Admin\JsonAdm\Price\Standard( $this->context, $this->view, $templatePaths, 'price' );
 	}
 
 

@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 
@@ -12,109 +12,123 @@ namespace Aimeos\Admin\JsonAdm\Common\Factory;
 class BaseTest extends \PHPUnit_Framework_TestCase
 {
 	private $context;
+	private $object;
+	private $view;
 
 
 	protected function setUp()
 	{
 		$this->context = \TestHelperJadm::getContext();
+		$this->view = $this->context->getView();
+
+		$this->client = new \Aimeos\Admin\JsonAdm\Product\Standard( $this->context, $this->view, [], '' );
+
+		$this->object = $this->getMockBuilder( '\Aimeos\Admin\JsonAdm\Common\Factory\Base' )
+			->getMockForAbstractClass();
+	}
+
+
+	public function testinjectClient()
+	{
+		$this->object::injectClient( 'test', $this->client );
+	}
+
+
+	public function testAddClientDecorators()
+	{
 		$config = $this->context->getConfig();
+		$config->set( 'client/jsonapi/common/decorators/default', ['Test'] );
+		$config->set( 'client/jsonapi/product/decorators/excludes', ['Test'] );
 
-		$config->set( 'admin/jsonadm/common/decorators/default', array() );
-		$config->set( 'admin/jsonadm/decorators/global', array() );
-		$config->set( 'admin/jsonadm/decorators/local', array() );
+		$params = [$this->client, $this->context, $this->view, [], 'product'];
+		$result = $this->access( 'addClientDecorators' )->invokeArgs( $this->object, $params );
 
+		$this->assertInstanceOf( '\Aimeos\\Admin\\JsonAdm\\Iface', $result );
 	}
 
 
-	public function testInjectClient()
+	public function testAddDecorators()
 	{
-		$cntl = \Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
-		\Aimeos\Admin\JsonAdm\Factory::injectClient( '\\Aimeos\\Admin\\JsonAdm\\Standard', $cntl );
+		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
+		$params = [$this->client, ['Example'], $prefix, $this->context, $this->view, [], ''];
 
-		$iCntl = \Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
+		$result = $this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 
-		$this->assertSame( $cntl, $iCntl );
-	}
-
-
-	public function testInjectClientReset()
-	{
-		$cntl = \Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
-		\Aimeos\Admin\JsonAdm\Factory::injectClient( '\\Aimeos\\Admin\\JsonAdm\\Standard', $cntl );
-		\Aimeos\Admin\JsonAdm\Factory::injectClient( '\\Aimeos\\Admin\\JsonAdm\\Standard', null );
-
-		$new = \Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
-
-		$this->assertNotSame( $cntl, $new );
-	}
-
-
-	public function testAddDecoratorsInvalidName()
-	{
-		$decorators = array( '$' );
-		$view = $this->context->getView();
-		$cntl = \Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
-
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
-		\Aimeos\Admin\JsonAdm\Common\Factory\TestAbstract::addDecoratorsPublic( $cntl, $decorators, 'Test', $this->context, $view, array(), 'attribute' );
+		$this->assertInstanceOf( '\Aimeos\\Admin\\JsonAdm\\Iface', $result );
 	}
 
 
 	public function testAddDecoratorsInvalidClass()
 	{
-		$decorators = array( 'Test' );
-		$view = $this->context->getView();
-		$cntl = \Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
+		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
+		$params = [$this->client, ['Test'], $prefix, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
-		\Aimeos\Admin\JsonAdm\Common\Factory\TestAbstract::addDecoratorsPublic( $cntl, $decorators, 'TestDecorator', $this->context, $view, array(), 'attribute' );
+		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 	}
 
 
-	public function testAddDecoratorsInvalidInterface()
+	public function testAddDecoratorsInvalidName()
 	{
-		$decorators = array( 'Test' );
-		$view = $this->context->getView();
-		$cntl = \Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
+		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
+		$params = [$this->client, [''], $prefix, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
-		\Aimeos\Admin\JsonAdm\Common\Factory\TestAbstract::addDecoratorsPublic( $cntl, $decorators,
-			'\\Aimeos\\Admin\\Jsonadm\\Common\\Decorator\\', $this->context, $view, array(), 'attribute' );
+		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 	}
 
 
-	public function testAddClientDecoratorsExcludes()
+	public function testCreateClientBase()
 	{
-		$this->context->getConfig()->set( 'admin/jsonadm/decorators/excludes', array( 'TestDecorator' ) );
-		$this->context->getConfig()->set( 'admin/jsonadm/common/decorators/default', array( 'TestDecorator' ) );
+		$iface = '\Aimeos\\Admin\\JsonAdm\\Iface';
+		$class = '\Aimeos\\Admin\\JsonAdm\\Product\\Standard';
+		$params = [$class, $iface, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
-		\Aimeos\Admin\JsonAdm\Factory::createClient( $this->context, array(), 'attribute', 'Standard' );
+		$result = $this->access( 'createClientBase' )->invokeArgs( $this->object, $params );
+
+		$this->assertInstanceOf( '\Aimeos\\Admin\\JsonAdm\\Iface', $result );
 	}
-}
 
 
-class TestAbstract
-	extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
-{
-	/**
-	 * @param string $classprefix
-	 * @param string $path
-	 */
-	public static function addDecoratorsPublic( \Aimeos\Admin\JsonAdm\Iface $client, array $decorators, $classprefix,
-		\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, $templatePaths, $path )
+	public function testCreateClientBaseCache()
 	{
-		self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
+		$iface = '\Aimeos\\Admin\\JsonAdm\\Iface';
+		$params = ['test', $iface, $this->context, $this->view, [], ''];
+
+		$this->object->injectClient( 'test', $this->client );
+		$result = $this->access( 'createClientBase' )->invokeArgs( $this->object, $params );
+
+		$this->assertSame( $this->client, $result );
 	}
 
-	public static function addClientDecoratorsPublic( \Aimeos\Admin\JsonAdm\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, \Aimeos\MW\View\Iface $view, $templatePaths, $path )
+
+	public function testCreateClientBaseInvalidClass()
 	{
-		self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
+		$iface = '\Aimeos\\Admin\\JsonAdm\\Iface';
+		$params = ['invalid', $iface, $this->context, $this->view, [], ''];
+
+		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->access( 'createClientBase' )->invokeArgs( $this->object, $params );
 	}
-}
 
 
-class TestDecorator
-{
+	public function testCreateClientBaseInvalidIface()
+	{
+		$iface = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\Iface';
+		$class = '\Aimeos\\Admin\\JsonAdm\\Product\\Standard';
+		$params = [$class, $iface, $this->context, $this->view, [], ''];
+
+		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->access( 'createClientBase' )->invokeArgs( $this->object, $params );
+	}
+
+
+	protected function access( $name )
+	{
+		$class = new \ReflectionClass( '\Aimeos\Admin\JsonAdm\Common\Factory\Base' );
+		$method = $class->getMethod( $name );
+		$method->setAccessible( true );
+
+		return $method;
+	}
 }
