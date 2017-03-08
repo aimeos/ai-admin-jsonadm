@@ -106,8 +106,8 @@ abstract class Base
 			 * @category Developer
 			 */
 			$default = array(
-				'attribute', 'catalog', 'coupon', 'customer', 'locale', 'media',
-				'order', 'plugin', 'price', 'product', 'service', 'supplier', 'tag', 'text'
+				'attribute', 'catalog', 'coupon', 'customer', 'locale', 'media', 'order',
+				'plugin', 'price', 'product', 'service', 'supplier', 'stock', 'tag', 'text'
 			);
 			$domains = $this->getContext()->getConfig()->get( 'admin/jsonadm/domains', $default );
 		}
