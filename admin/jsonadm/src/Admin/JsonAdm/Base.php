@@ -64,7 +64,7 @@ abstract class Base
 	 */
 	protected function getChildItems( array $items, array $include )
 	{
-		return array();
+		return [];
 	}
 
 
@@ -124,7 +124,7 @@ abstract class Base
 	 */
 	protected function getIds( $request )
 	{
-		$ids = array();
+		$ids = [];
 
 		if( isset( $request->data ) )
 		{
@@ -149,7 +149,7 @@ abstract class Base
 	 */
 	protected function getListItems( array $items, array $include )
 	{
-		return array();
+		return [];
 	}
 
 
@@ -172,7 +172,7 @@ abstract class Base
 	 */
 	protected function getRefItems( array $listItems )
 	{
-		$list = $map = array();
+		$list = $map = [];
 		$context = $this->getContext();
 
 		foreach( $listItems as $listItem ) {
@@ -279,7 +279,7 @@ abstract class Base
 			return;
 		}
 
-		$sortation = array();
+		$sortation = [];
 
 		foreach( explode( ',', $params['sort'] ) as $sort )
 		{
@@ -303,7 +303,7 @@ abstract class Base
 	 */
 	protected function saveData( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $request )
 	{
-		$data = array();
+		$data = [];
 
 		if( isset( $request->data ) )
 		{
@@ -396,7 +396,7 @@ abstract class Base
 
 			if( isset( $attr[$key.'.type'] ) )
 			{
-				$typeItem = $manager->getSubManager( 'type' )->findItem( $attr[$key.'.type'], array(), $domain );
+				$typeItem = $manager->getSubManager( 'type' )->findItem( $attr[$key.'.type'], [], $domain );
 				$attr[$key.'.typeid'] = $typeItem->getId();
 			}
 

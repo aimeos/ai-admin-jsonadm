@@ -6,4 +6,4 @@ if( defined( 'JSON_PRETTY_PRINT' ) ) {
 }
 
 
-echo json_encode( $this->get( 'errors', array() ), $options );
+echo json_encode( $this->get( 'errors', [] ), $options );

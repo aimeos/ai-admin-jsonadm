@@ -142,7 +142,7 @@ class Standard
 	 */
 	protected function getChildItems( array $items, array $include )
 	{
-		$list = array();
+		$list = [];
 		$ids = array_keys( $items );
 		$keys = array( 'order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service' );
 		$include = array_intersect( $include, $keys );

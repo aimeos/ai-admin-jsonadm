@@ -424,7 +424,7 @@ class Standard
 
 		try
 		{
-			$resources = $attributes = array();
+			$resources = $attributes = [];
 
 			foreach( $this->getDomains( $view ) as $domain )
 			{
@@ -548,18 +548,18 @@ class Standard
 		}
 
 		$total = 1;
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
 			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
-			$view->data = $manager->searchItems( $search, array(), $total );
+			$view->data = $manager->searchItems( $search, [], $total );
 			$view->childItems = $this->getChildItems( $view->data, $include );
 			$view->listItems = $this->getListItems( $view->data, $include );
 		}
 		else
 		{
-			$view->data = $manager->getItem( $id, array() );
+			$view->data = $manager->getItem( $id, [] );
 			$view->childItems = $this->getChildItems( array( $id => $view->data ), $include );
 			$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
 		}

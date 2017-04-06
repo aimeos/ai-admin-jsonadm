@@ -15,7 +15,7 @@ $build = function( \Aimeos\MW\View\Iface $view, \Aimeos\MShop\Order\Item\Base\If
 	$target = $view->config( 'admin/jsonadm/url/target' );
 	$cntl = $view->config( 'admin/jsonadm/url/controller', 'jsonadm' );
 	$action = $view->config( 'admin/jsonadm/url/action', 'get' );
-	$config = $view->config( 'admin/jsonadm/url/config', array() );
+	$config = $view->config( 'admin/jsonadm/url/config', [] );
 
 	if( isset( $fields[$type] ) ) {
 		$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -26,9 +26,9 @@ $build = function( \Aimeos\MW\View\Iface $view, \Aimeos\MShop\Order\Item\Base\If
 		'type' => $type,
 		'attributes' => $attributes,
 		'links' => array(
-			'self' => $view->url( $target, $cntl, $action, $params, array(), $config )
+			'self' => $view->url( $target, $cntl, $action, $params, [], $config )
 		),
-		'relationships' => array()
+		'relationships' => []
 	);
 
 	foreach( $childItems as $childId => $childItem )
@@ -40,7 +40,7 @@ $build = function( \Aimeos\MW\View\Iface $view, \Aimeos\MShop\Order\Item\Base\If
 
 			$result['relationships'][$type][] = array( 'data' => array(
 				'id' => $childId, 'type' => $type, 'links' => array(
-					'self' => $view->url( $target, $cntl, $action, $params, array(), $config )
+					'self' => $view->url( $target, $cntl, $action, $params, [], $config )
 				)
 			) );
 		}
@@ -50,19 +50,19 @@ $build = function( \Aimeos\MW\View\Iface $view, \Aimeos\MShop\Order\Item\Base\If
 };
 
 
-$fields = $this->param( 'fields', array() );
+$fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
 	$fields[$resource] = array_flip( explode( ',', $list ) );
 }
 
 
-$data = $this->get( 'data', array() );
-$childItems = $this->get( 'childItems', array() );
+$data = $this->get( 'data', [] );
+$childItems = $this->get( 'childItems', [] );
 
 if( is_array( $data ) )
 {
-	$response = array();
+	$response = [];
 
 	foreach( $data as $item ) {
 		$response[] = $build( $this, $item, $fields, $childItems );

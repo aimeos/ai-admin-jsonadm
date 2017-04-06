@@ -109,7 +109,7 @@ class Standard
 	 */
 	protected function getChildItems( array $items, array $include )
 	{
-		$list = array();
+		$list = [];
 		$ids = array_keys( $items );
 		$include = array_intersect( $include, array( 'coupon/code' ) );
 

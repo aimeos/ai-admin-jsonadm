@@ -22,7 +22,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
 		$this->view = $context->getView();
 
 		$this->stub = $this->getMockBuilder( '\\Aimeos\\Admin\\JsonAdm\\Standard' )
-			->setConstructorArgs( array( $context, $this->view, array(), 'attribute' ) )
+			->setConstructorArgs( array( $context, $this->view, [], 'attribute' ) )
 			->getMock();
 
 		$this->object = $this->getMockBuilder( '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\Base' )

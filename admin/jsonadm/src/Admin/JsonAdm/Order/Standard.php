@@ -142,11 +142,11 @@ class Standard
 	 */
 	protected function getChildItems( array $items, array $include )
 	{
-		$list = array();
+		$list = [];
 
 		if( in_array( 'order/base', $include ) )
 		{
-			$ids = array();
+			$ids = [];
 
 			foreach( $items as $item ) {
 				$ids[] = $item->getBaseId();

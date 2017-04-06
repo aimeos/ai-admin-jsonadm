@@ -142,7 +142,7 @@ class Standard
 	 */
 	protected function getChildItems( array $items, array $include )
 	{
-		$list = array();
+		$list = [];
 
 		if( in_array( 'locale/site', $include ) )
 		{
@@ -167,23 +167,23 @@ class Standard
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale/site' );
 
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
 		$total = 1;
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
-			$view->data = $manager->searchItems( $search, array(), $total );
+			$view->data = $manager->searchItems( $search, [], $total );
 			$view->childItems = $this->getChildItems( $view->data, $include );
 		}
 		else
 		{
-			$view->data = $manager->getTree( $id, array(), \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST, $search );
+			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST, $search );
 			$view->childItems = $this->getChildItems( array( $view->data ), $include );
 		}
 
-		$view->listItems = array();
-		$view->refItems = array();
+		$view->listItems = [];
+		$view->refItems = [];
 		$view->total = $total;
 
 		return $response;

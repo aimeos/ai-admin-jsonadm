@@ -142,7 +142,7 @@ class Standard
 	 */
 	protected function getChildItems( array $items, array $include )
 	{
-		$list = array();
+		$list = [];
 
 		if( in_array( 'catalog', $include ) )
 		{
@@ -173,19 +173,19 @@ class Standard
 			return $response;
 		}
 
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : array() );
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
 		$total = 1;
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
-			$view->data = $manager->searchItems( $search, array(), $total );
+			$view->data = $manager->searchItems( $search, [], $total );
 			$view->listItems = $this->getListItems( $view->data, $include );
 			$view->childItems = $this->getChildItems( $view->data, $include );
 		}
 		else
 		{
-			$view->data = $manager->getTree( $id, array(), \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST, $search );
+			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST, $search );
 			$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
 			$view->childItems = $this->getChildItems( array( $view->data ), $include );
 		}

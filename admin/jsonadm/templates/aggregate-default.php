@@ -1,7 +1,7 @@
 <?php
 
-$data = $this->get( 'data', array() );
-$entries = array();
+$data = $this->get( 'data', [] );
+$entries = [];
 
 foreach( $data as $key => $value ) {
 	$entries[] = array( 'id' => $key, 'type' => 'aggregate', 'attributes' => $value );

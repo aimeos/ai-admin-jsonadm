@@ -3,16 +3,16 @@
 $target = $this->config( 'admin/jsonadm/url/target' );
 $cntl = $this->config( 'admin/jsonadm/url/controller', 'jsonadm' );
 $action = $this->config( 'admin/jsonadm/url/action', 'get' );
-$config = $this->config( 'admin/jsonadm/url/config', array() );
+$config = $this->config( 'admin/jsonadm/url/config', [] );
 
-$resources = $attributes = array();
+$resources = $attributes = [];
 $site = $this->param( 'site', 'default' );
 
-foreach( $this->get( 'resources', array() ) as $resource ) {
-	$resources[$resource] = $this->url( $target, $cntl, $action, array( 'site' => $site, 'resource' => $resource, 'id' => '' ), array(), $config );
+foreach( $this->get( 'resources', [] ) as $resource ) {
+	$resources[$resource] = $this->url( $target, $cntl, $action, array( 'site' => $site, 'resource' => $resource, 'id' => '' ), [], $config );
 }
 
-foreach( $this->get( 'attributes', array() ) as $attr ) {
+foreach( $this->get( 'attributes', [] ) as $attr ) {
 	$attributes[$attr->getCode()] = $attr->toArray();
 }
 

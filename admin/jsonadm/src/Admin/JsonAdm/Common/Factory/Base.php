@@ -19,7 +19,7 @@ namespace Aimeos\Admin\JsonAdm\Common\Factory;
  */
 class Base
 {
-	private static $objects = array();
+	private static $objects = [];
 
 
 	/**
@@ -74,14 +74,14 @@ class Base
 		 * @since 2015.12
 		 * @category Developer
 		 */
-		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', array() );
+		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', [] );
 
 		if( $path !== null && is_string( $path ) )
 		{
 			$dpath = trim( $path, '/' );
 			$dpath = ( $dpath !== '' ? $dpath . '/' : $dpath );
 
-			$excludes = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/excludes', array() );
+			$excludes = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/excludes', [] );
 			$localClass = str_replace( ' ', '\\', ucwords( str_replace( '/', ' ', $path ) ) );
 
 			foreach( $decorators as $key => $name )
@@ -92,13 +92,13 @@ class Base
 			}
 
 			$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-			$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/global', array() );
+			$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/global', [] );
 			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
 
 			if( !empty( $path ) )
 			{
 				$classprefix = '\\Aimeos\\Admin\\JsonAdm\\' . ucfirst( $localClass ) . '\\Decorator\\';
-				$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/local', array() );
+				$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/local', [] );
 				$client = self::addDecorators( $client, $decorators, $classprefix, $context, $view, $templatePaths, $path );
 			}
 		}
