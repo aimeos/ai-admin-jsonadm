@@ -1,25 +1,40 @@
 <?php
 
+/**
+ * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
+ * @copyright Aimeos (aimeos.org), 2016-2017
+ * @package Admin
+ * @subpackage Jsonadm
+ */
+
+
 $options = 0;
 if( defined( 'JSON_PRETTY_PRINT' ) ) {
 	$options = JSON_PRETTY_PRINT;
 }
 
 
-$build = function( \Aimeos\MW\View\Iface $view, array $items, array $fields )
+$fields = $this->param( 'fields', [] );
+
+foreach( (array) $fields as $resource => $list ) {
+	$fields[$resource] = array_flip( explode( ',', $list ) );
+}
+
+
+$build = function( array $items ) use ( $fields )
 {
 	$list = [];
 
-	$target = $view->config( 'admin/jsonadm/url/target' );
-	$cntl = $view->config( 'admin/jsonadm/url/controller', 'jsonadm' );
-	$action = $view->config( 'admin/jsonadm/url/action', 'get' );
-	$config = $view->config( 'admin/jsonadm/url/config', [] );
+	$target = $this->config( 'admin/jsonadm/url/target' );
+	$cntl = $this->config( 'admin/jsonadm/url/controller', 'jsonadm' );
+	$action = $this->config( 'admin/jsonadm/url/action', 'get' );
+	$config = $this->config( 'admin/jsonadm/url/config', [] );
 
 	foreach( (array) $items as $item )
 	{
 		$id = $item->getId();
-		$attributes = $item->toArray();
 		$type = $item->getResourceType();
+		$attributes = $item->toArray( true );
 
 		if( isset( $fields[$type] ) ) {
 			$attributes = array_intersect_key( $attributes, $fields[$type] );
@@ -30,9 +45,9 @@ $build = function( \Aimeos\MW\View\Iface $view, array $items, array $fields )
 			'type' => $type,
 			'attributes' => $attributes,
 			'links' => array(
-				'self' => $view->url( $target, $cntl, $action, array( 'resource' => $type, 'id' => $id ), [], $config ),
+				'self' => $this->url( $target, $cntl, $action, array( 'resource' => $type, 'id' => $id ), [], $config ),
 				'related' => array(
-					'href' => $view->url( $target, $cntl, $action, array( 'resource' => $type, 'id' => null ), [], $config )
+					'href' => $this->url( $target, $cntl, $action, array( 'resource' => $type, 'id' => null ), [], $config )
 				)
 			)
 		);
@@ -43,14 +58,8 @@ $build = function( \Aimeos\MW\View\Iface $view, array $items, array $fields )
 
 
 $response = [];
-$fields = $this->param( 'fields', [] );
-
-foreach( (array) $fields as $resource => $list ) {
-	$fields[$resource] = array_flip( explode( ',', $list ) );
-}
-
-$response = $build( $this, $this->get( 'childItems', [] ), $fields );
-$response = array_merge( $response, $build( $this, $this->get( 'refItems', [] ), $fields ) );
+$response = $build( $this->get( 'childItems', [] ) );
+$response = array_merge( $response, $build( $this->get( 'refItems', [] ) ) );
 
 
 echo json_encode( $response, $options );
