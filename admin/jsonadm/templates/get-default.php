@@ -139,7 +139,7 @@ $last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit
 
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
-$params = array_intersect_key( $this->param(), array_flip( $ref ) );
+$params = array_intersect_key( $this->param(), array_flip( $ref ) ) + ['id' => ''];
 $fields = $this->param( 'fields', [] );
 
 foreach( (array) $fields as $resource => $list ) {
