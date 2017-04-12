@@ -23,7 +23,7 @@ foreach( (array) $fields as $resource => $list ) {
 
 $build = function( \Aimeos\MShop\Common\Item\Iface $item, array $childItems, array $listItems ) use ( $fields )
 {
-	$id = $item->getId();
+	$id = strtoupper( $item->getId() );
 	$type = $item->getResourceType();
 	$params = array( 'resource' => $type, 'id' => $id );
 	$attributes = $item->toArray( true );
