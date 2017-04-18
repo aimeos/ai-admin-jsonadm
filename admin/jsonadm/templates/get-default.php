@@ -150,7 +150,7 @@ foreach( (array) $fields as $resource => $list ) {
 ?>
 {
 	"meta": {
-		"total": <?php echo $total; ?>
+		"total": <?= $total; ?>
 
 	},
 
@@ -185,13 +185,13 @@ foreach( (array) $fields as $resource => $list ) {
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		"errors": <?php echo $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard.php' ), array( 'errors' => $this->errors ) ); ?>
+		"errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard.php' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php elseif( isset( $this->data ) ) : ?>
 
-		"data": <?php echo $this->partial( $this->config( $this->get( 'partial-data', 'admin/jsonadm/partials/template-data' ), 'partials/data-standard.php' ), array( 'data' => $this->get( 'data' ), 'childItems' => $this->get( 'childItems', [] ), 'listItems' => $this->get( 'listItems', [] ) ) ); ?>,
+		"data": <?= $this->partial( $this->config( $this->get( 'partial-data', 'admin/jsonadm/partials/template-data' ), 'partials/data-standard.php' ), array( 'data' => $this->get( 'data' ), 'childItems' => $this->get( 'childItems', [] ), 'listItems' => $this->get( 'listItems', [] ) ) ); ?>,
 
-		"included": <?php echo $this->partial( $this->config( $this->get( 'partial-included', 'admin/jsonadm/partials/template-included' ), 'partials/included-standard.php' ), array( 'childItems' => $this->get( 'childItems', [] ), 'refItems' => $this->get( 'refItems', [] ) ) ); ?>
+		"included": <?= $this->partial( $this->config( $this->get( 'partial-included', 'admin/jsonadm/partials/template-included' ), 'partials/included-standard.php' ), array( 'childItems' => $this->get( 'childItems', [] ), 'refItems' => $this->get( 'refItems', [] ) ) ); ?>
 
 	<?php endif; ?>
 

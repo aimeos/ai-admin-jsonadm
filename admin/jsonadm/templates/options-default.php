@@ -29,14 +29,14 @@ foreach( $this->get( 'attributes', [] ) as $attr ) {
 ?>
 {
 	"meta": {
-		"prefix": <?php echo json_encode( $this->get( 'prefix' ) ); ?>,
-		"resources": <?php echo json_encode( $resources ); ?>,
-		"attributes": <?php echo json_encode( $attributes ); ?>
+		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
+		"resources": <?= json_encode( $resources ); ?>,
+		"attributes": <?= json_encode( $attributes ); ?>
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		,"errors": <?php echo $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors-standard.php' ), array( 'errors' => $this->errors ) ); ?>
+		,"errors": <?= $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors-standard.php' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php endif; ?>
 
