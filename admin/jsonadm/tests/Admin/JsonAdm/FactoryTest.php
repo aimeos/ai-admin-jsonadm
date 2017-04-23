@@ -9,7 +9,7 @@
 namespace Aimeos\Admin\JsonAdm;
 
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
 	public function testCreateClient()
 	{
@@ -46,7 +46,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 		$context = \TestHelperJadm::getContext();
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 
-		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, '%^' );
 	}
 
@@ -56,7 +56,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 		$context = \TestHelperJadm::getContext();
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 
-		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, '', '%^' );
 	}
 
