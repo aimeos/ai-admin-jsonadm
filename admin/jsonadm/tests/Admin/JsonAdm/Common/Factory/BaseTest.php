@@ -63,7 +63,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
 		$params = [$this->client, ['Test'], $prefix, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->expectException( '\Aimeos\Admin\JsonAdm\Exception' );
 		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 	}
 
@@ -73,7 +73,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
 		$params = [$this->client, [''], $prefix, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->expectException( '\Aimeos\Admin\JsonAdm\Exception' );
 		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 	}
 
@@ -107,7 +107,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$iface = '\Aimeos\\Admin\\JsonAdm\\Iface';
 		$params = ['invalid', $iface, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->expectException( '\Aimeos\Admin\JsonAdm\Exception' );
 		$this->access( 'createClientBase' )->invokeArgs( $this->object, $params );
 	}
 
@@ -118,7 +118,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$class = '\Aimeos\\Admin\\JsonAdm\\Product\\Standard';
 		$params = [$class, $iface, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->expectException( '\Aimeos\Admin\JsonAdm\Exception' );
 		$this->access( 'createClientBase' )->invokeArgs( $this->object, $params );
 	}
 

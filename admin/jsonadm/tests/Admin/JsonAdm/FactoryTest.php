@@ -46,7 +46,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJadm::getContext();
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, '%^' );
 	}
 
@@ -56,7 +56,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJadm::getContext();
 		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, '', '%^' );
 	}
 
