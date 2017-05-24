@@ -130,16 +130,16 @@ class Factory
 			$pname = $context->getConfig()->get( 'admin/jsonadm/' . $path . '/name', 'Standard' );
 		}
 
+
+		$view = $context->getView();
+		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
+		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $pname;
+
 		if( ctype_alnum( $pname ) === false )
 		{
 			$classname = is_string( $pname ) ? $classname : '<not a string>';
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
 		}
-
-
-		$view = $context->getView();
-		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
-		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $pname;
 
 		if( class_exists( $classname ) === false ) {
 			return self::createClientRoot( $context, $templatePaths, $path, $name );
@@ -154,7 +154,6 @@ class Factory
 	 * Creates the top level client
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param \Aimeos\MW\View\Iface $view View object
 	 * @param array $templatePaths List of file system paths where the templates are stored
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 * @param string|null $name Name of the JsonAdm client (default: "Standard")
