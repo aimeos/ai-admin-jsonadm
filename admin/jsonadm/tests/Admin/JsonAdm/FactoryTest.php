@@ -33,6 +33,17 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testCreateStandard()
+	{
+		$context = \TestHelperJadm::getContext();
+		$templatePaths = \TestHelperJadm::getJsonadmPaths();
+
+		$client = \Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, 'stock/type' );
+		$this->assertInstanceOf( '\\Aimeos\\Admin\\JsonAdm\\Common\\Iface', $client );
+		$this->assertInstanceOf( '\\Aimeos\\Admin\\JsonAdm\\Standard', $client );
+	}
+
+
 	public function testCreateClientEmpty()
 	{
 		$context = \TestHelperJadm::getContext();
@@ -40,6 +51,7 @@ class FactoryTest extends \PHPUnit\Framework\TestCase
 
 		$client = \Aimeos\Admin\JsonAdm\Factory::createClient( $context, $templatePaths, '' );
 		$this->assertInstanceOf( '\\Aimeos\\Admin\\JsonAdm\\Common\\Iface', $client );
+		$this->assertInstanceOf( '\\Aimeos\\Admin\\JsonAdm\\Standard', $client );
 	}
 
 

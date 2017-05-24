@@ -172,6 +172,10 @@ class Factory
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
 		}
 
+		if( class_exists( $classname ) === false ) {
+			$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
+		}
+
 		$view = $context->getView();
 		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
 
