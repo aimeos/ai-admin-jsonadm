@@ -107,77 +107,109 @@ class Factory
 	protected static function createClientNew( \Aimeos\MShop\Context\Item\Iface $context,
 		array $templatePaths, $path, $name )
 	{
-		if( !empty( $path ) )
+		if( empty( $path ) ) {
+			return self::createClientRoot( $context, $templatePaths, $path, $name );
+		}
+
+
+		$pname = $name;
+		$parts = explode( '/', $path );
+
+		foreach( $parts as $key => $part )
 		{
-			$parts = explode( '/', $path );
-
-			foreach( $parts as $key => $part )
+			if( ctype_alnum( $part ) === false )
 			{
-				if( ctype_alnum( $part ) === false )
-				{
-					$msg = sprintf( 'Invalid client "%1$s" in "%2$s"', $part, $path );
-					throw new \Aimeos\Admin\JsonAdm\Exception( $msg, 400 );
-				}
-
-				$parts[$key] = ucwords( $part );
+				$msg = sprintf( 'Invalid client "%1$s" in "%2$s"', $part, $path );
+				throw new \Aimeos\Admin\JsonAdm\Exception( $msg, 400 );
 			}
 
-			$name = ( $name ?: $context->getConfig()->get( 'admin/jsonadm/' . $path . '/name', 'Standard' ) );
-			$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $name;
-		}
-		else
-		{
-			/** admin/jsonadm/name
-			 * Class name of the used JSON API client implementation
-			 *
-			 * Each default JSON API client can be replace by an alternative imlementation.
-			 * To use this implementation, you have to set the last part of the class
-			 * name as configuration value so the client factory knows which class it
-			 * has to instantiate.
-			 *
-			 * For example, if the name of the default class is
-			 *
-			 *  \Aimeos\Admin\JsonAdm\Standard
-			 *
-			 * and you want to replace it with your own version named
-			 *
-			 *  \Aimeos\Admin\JsonAdm\Mycntl
-			 *
-			 * then you have to set the this configuration option:
-			 *
-			 *  admin/jsonadm/name = Mycntl
-			 *
-			 * The value is the last part of your own class name and it's case sensitive,
-			 * so take care that the configuration value is exactly named like the last
-			 * part of the class name.
-			 *
-			 * The allowed characters of the class name are A-Z, a-z and 0-9. No other
-			 * characters are possible! You should always start the last part of the class
-			 * name with an upper case character and continue only with lower case characters
-			 * or numbers. Avoid chamel case names like "MyCntl"!
-			 *
-			 * @param string Last part of the class name
-			 * @since 2015.12
-			 * @category Developer
-			 */
-
-			$name = ( $name ?: $context->getConfig()->get( 'admin/jsonadm/name', 'Standard' ) );
-			$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
+			$parts[$key] = ucwords( $part );
 		}
 
+		if( $pname === null ) {
+			$pname = $context->getConfig()->get( 'admin/jsonadm/' . $path . '/name', 'Standard' );
+		}
 
-		if( ctype_alnum( $name ) === false )
+		if( ctype_alnum( $pname ) === false )
 		{
-			$classname = is_string( $name ) ? $classname : '<not a string>';
+			$classname = is_string( $pname ) ? $classname : '<not a string>';
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
 		}
 
+
+		$view = $context->getView();
+		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
+		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $pname;
+
 		if( class_exists( $classname ) === false ) {
-			$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
+			return self::createClientRoot( $context, $templatePaths, $path, $name );
+		}
+
+		$client = self::createClientBase( $classname, $iface, $context, $view, $templatePaths, $path );
+		return self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
+	}
+
+
+	/**
+	 * Creates the top level client
+	 *
+	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
+	 * @param \Aimeos\MW\View\Iface $view View object
+	 * @param array $templatePaths List of file system paths where the templates are stored
+	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param string|null $name Name of the JsonAdm client (default: "Standard")
+	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the client couldn't be created
+	 */
+	protected static function createClientRoot( \Aimeos\MShop\Context\Item\Iface $context,
+		array $templatePaths, $path, $name = null )
+	{
+		/** admin/jsonadm/name
+		 * Class name of the used JSON API client implementation
+		 *
+		 * Each default JSON API client can be replace by an alternative imlementation.
+		 * To use this implementation, you have to set the last part of the class
+		 * name as configuration value so the client factory knows which class it
+		 * has to instantiate.
+		 *
+		 * For example, if the name of the default class is
+		 *
+		 *  \Aimeos\Admin\JsonAdm\Standard
+		 *
+		 * and you want to replace it with your own version named
+		 *
+		 *  \Aimeos\Admin\JsonAdm\Mycntl
+		 *
+		 * then you have to set the this configuration option:
+		 *
+		 *  admin/jsonadm/name = Mycntl
+		 *
+		 * The value is the last part of your own class name and it's case sensitive,
+		 * so take care that the configuration value is exactly named like the last
+		 * part of the class name.
+		 *
+		 * The allowed characters of the class name are A-Z, a-z and 0-9. No other
+		 * characters are possible! You should always start the last part of the class
+		 * name with an upper case character and continue only with lower case characters
+		 * or numbers. Avoid chamel case names like "MyCntl"!
+		 *
+		 * @param string Last part of the class name
+		 * @since 2015.12
+		 * @category Developer
+		 */
+		if( $name === null ) {
+			$name = $context->getConfig()->get( 'admin/jsonadm/name', 'Standard' );
+		}
+
+		if( ctype_alnum( $name ) === false )
+		{
+			$classname = is_string( $name ) ? '\\Aimeos\\Admin\\JsonAdm\\' . $name : '<not a string>';
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
 		}
 
 		$view = $context->getView();
 		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
+		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
 
 		$client = self::createClientBase( $classname, $iface, $context, $view, $templatePaths, $path );
 
