@@ -32,6 +32,13 @@ foreach( $this->get( 'attributes', [] ) as $attr ) {
 		"prefix": <?= json_encode( $this->get( 'prefix' ) ); ?>,
 		"resources": <?= json_encode( $resources ); ?>,
 		"attributes": <?= json_encode( $attributes ); ?>
+
+		<?php if( $this->csrf()->name() != '' ) : ?>
+			, "csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
