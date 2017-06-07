@@ -371,7 +371,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->once() )->method( 'saveItem' );
+		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->returnValue( $productManagerStub->createItem() ) );
 		$productManagerStub->expects( $this->atLeastOnce() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 
@@ -409,7 +410,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
+		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' )
+			->will( $this->returnValue( $productManagerStub->createItem() ) );
 		$productManagerStub->expects( $this->atLeastOnce() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 
@@ -515,11 +517,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->once() )->method( 'createItem' )
+		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'createItem' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->any() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
-		$productManagerStub->expects( $this->once() )->method( 'saveItem' );
+		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->returnValue( $productManagerStub->createItem() ) );
 
 
 		$body = '{"data": {"type": "product", "attributes": {"product.type": "default", "product.label": "test"}}}';
@@ -527,7 +530,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 201, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
@@ -552,7 +554,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
+		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' )
+			->will( $this->returnValue( $productManagerStub->createItem() ) );
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 
@@ -587,13 +590,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->once() )->method( 'createItem' )
+		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'createItem' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->any() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )
 			->will( $this->returnValue( $productManagerListsStub ) );
-		$productManagerStub->expects( $this->once() )->method( 'saveItem' );
+		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->returnValue( $productManagerStub->createItem() ) );
 
 		$productManagerListsStub->expects( $this->once() )->method( 'saveItem' );
 

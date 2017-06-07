@@ -85,7 +85,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $stub->createItem();
 
 		$stub->expects( $this->once() )->method( 'moveItem' );
-		$stub->expects( $this->once() )->method( 'saveItem' );
+		$stub->expects( $this->once() )->method( 'saveItem' )
+			->will( $this->returnValue( $stub->createItem() ) );
 		$stub->expects( $this->exactly( 2 ) )->method( 'getItem' ) // 2x due to decorator
 			->will( $this->returnValue( $item ) );
 

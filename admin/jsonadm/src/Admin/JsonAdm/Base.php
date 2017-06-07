@@ -332,7 +332,7 @@ abstract class Base
 		}
 
 		$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
-		$manager->saveItem( $item );
+		$item = $manager->saveItem( $item );
 
 		if( isset( $entry->relationships ) ) {
 			$this->saveRelationships( $manager, $item, $entry->relationships );

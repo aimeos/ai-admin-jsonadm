@@ -235,7 +235,7 @@ class Standard
 		{
 			$item = $manager->getItem( $entry->id );
 			$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
-			$manager->saveItem( $item );
+			$item = $manager->saveItem( $item );
 
 			if( isset( $entry->parentid ) && $targetId !== null ) {
 				$manager->moveItem( $item->getId(), $entry->parentid, $targetId, $refId );
