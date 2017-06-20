@@ -57,10 +57,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetTree()
 	{
 		$params = array(
-			'id' => $this->getCatalogItem( 'group' )->getId(),
-			'filter' => array(
-				'==' => array( 'catalog.status' => 1 )
-			),
+			'id' => $this->getCatalogItem( 'root' )->getId(),
 			'include' => 'catalog,text'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -69,14 +66,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 'catalog', $result['data']['type'] );
 		$this->assertEquals( 2, count( $result['data']['relationships']['catalog'] ) );
-		$this->assertEquals( 2, count( $result['included'] ) );
+		$this->assertEquals( 7, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

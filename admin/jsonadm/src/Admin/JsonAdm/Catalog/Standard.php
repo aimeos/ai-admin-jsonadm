@@ -147,7 +147,7 @@ class Standard
 		if( in_array( 'catalog', $include ) )
 		{
 			foreach( $items as $item ) {
-				$list = array_merge( $list, $item->getChildren() );
+				$list = array_merge( $list, [$item], $this->getChildItems( $item->getChildren(), $include ) );
 			}
 		}
 
@@ -181,13 +181,18 @@ class Standard
 		{
 			$view->data = $manager->searchItems( $search, [], $total );
 			$view->listItems = $this->getListItems( $view->data, $include );
-			$view->childItems = $this->getChildItems( $view->data, $include );
+			$view->childItems = [];
 		}
 		else
 		{
-			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST, $search );
+			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
+			if( in_array( 'catalog', $include ) ) {
+				$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE;
+			}
+
+			$view->data = $manager->getTree( $id, $include, $level, $search );
 			$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
-			$view->childItems = $this->getChildItems( array( $view->data ), $include );
+			$view->childItems = $this->getChildItems( $view->data->getChildren(), $include );
 		}
 
 		$view->refItems = $this->getRefItems( $view->listItems );
