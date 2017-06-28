@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-03 12:08+0100\n"
-"PO-Revision-Date: 2016-04-21 20:41+0000\n"
+"POT-Creation-Date: 2017-06-28 18:43+0200\n"
+"PO-Revision-Date: 2017-05-14 13:08+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: Persian (http://www.transifex.com/aimeos/aimeos-core/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr ""
+msgstr "کلاس \"%1$s\" از کلاس \"%2$s\" پیاده سازی نشده است"
 
 #, php-format
 msgid "Class \"%1$s\" not found"
-msgstr ""
+msgstr "کلاس \"%1$s\" موجود نمی‌باشد"
 
 #, php-format
 msgid "Client generated IDs are not supported"
@@ -35,7 +35,7 @@ msgstr ""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr ""
+msgstr "نام کلاس \"%1$s\" معتبر نمی باشد"
 
 #, php-format
 msgid "Invalid client \"%1$s\" in \"%2$s\""
@@ -43,7 +43,7 @@ msgstr ""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "کارخانه‌ی \"%1$s\" معتبر نمی‌باشد"
 
 #, php-format
 msgid "No ID given"
@@ -54,8 +54,8 @@ msgstr ""
 
 #, php-format
 msgid "Template \"%1$s\" not available"
-msgstr ""
+msgstr "قالب \"%1$s\" در دسترس نمی‌باشد"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr ""
+msgstr "صدا زدن متد \"%1$s\" غیرممکن می‌باشد"
