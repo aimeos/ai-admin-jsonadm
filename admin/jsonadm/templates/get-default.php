@@ -152,6 +152,13 @@ foreach( (array) $fields as $resource => $list ) {
 	"meta": {
 		"total": <?= $total; ?>
 
+		<?php if( $this->csrf()->name() != '' ) : ?>
+			, "csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
+
 	},
 
 	"links": {
