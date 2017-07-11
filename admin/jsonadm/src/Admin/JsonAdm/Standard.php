@@ -433,6 +433,10 @@ class Standard
 				$attributes = array_merge( $attributes, $manager->getSearchAttributes( true ) );
 			}
 
+			foreach( $this->getResources( $view ) as $resource ) {
+				$resources[] = $resource;
+			}
+
 			$view->prefix = $prefix;
 			$view->resources = $resources;
 			$view->attributes = $attributes;
