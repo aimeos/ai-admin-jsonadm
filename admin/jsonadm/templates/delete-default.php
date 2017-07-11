@@ -13,6 +13,13 @@
 	"meta": {
 		"total": <?= $this->get( 'total', 0 ); ?>
 
+		<?php if( $this->csrf()->name() != '' ) : ?>
+			, "csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
+
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>

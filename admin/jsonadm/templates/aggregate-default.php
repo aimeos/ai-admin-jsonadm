@@ -20,6 +20,13 @@ foreach( $data as $key => $value ) {
 	"meta": {
 		"total": <?= count( $data ); ?>
 
+		<?php if( $this->csrf()->name() != '' ) : ?>
+			, "csrf": {
+				"name": "<?= $this->csrf()->name(); ?>",
+				"value": "<?= $this->csrf()->value(); ?>"
+			}
+		<?php endif; ?>
+
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
