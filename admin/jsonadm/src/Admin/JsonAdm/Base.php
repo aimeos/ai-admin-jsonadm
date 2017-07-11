@@ -104,6 +104,7 @@ abstract class Base
 			 * @param array List of domain names
 			 * @since 2016.01
 			 * @category Developer
+			 * @see admin/jsonadm/resources
 			 */
 			$default = array(
 				'attribute', 'catalog', 'coupon', 'customer', 'locale', 'media', 'order',
@@ -190,6 +191,34 @@ abstract class Base
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * Returns the list of additional resources
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View object with "resource" parameter
+	 * @return array List of domain names
+	 */
+	protected function getResources( \Aimeos\MW\View\Iface $view )
+	{
+		/** admin/jsonadm/resources
+		 * A list of additional resources name whose clients are available for the JSON API
+		 *
+		 * The HTTP OPTIONS method returns a list of resources known by the
+		 * JSON API including their URLs. The list of available resources
+		 * can be exteded dynamically be implementing a new Jsonadm client
+		 * class handling request for this new domain.
+		 *
+		 * The resource config lists the resources that are not automatically
+		 * derived from the admin/jsonadm/domains configuration.
+		 *
+		 * @param array List of domain names
+		 * @since 2017.07
+		 * @category Developer
+		 * @see admin/jsonadm/domains
+		 */
+		return (array) $view->config( 'admin/jsonadm/resources', ['coupon/config'] );
 	}
 
 

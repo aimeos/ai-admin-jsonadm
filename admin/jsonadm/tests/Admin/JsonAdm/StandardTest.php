@@ -721,7 +721,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertNull( $result['meta']['prefix'] );
-		$this->assertEquals( 59, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThan( 59, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -739,7 +739,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 'prefix', $result['meta']['prefix'] );
-		$this->assertEquals( 59, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThan( 59, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
