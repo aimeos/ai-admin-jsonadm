@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
+ * @copyright Aimeos (aimeos.org), 2017
+ */
+
+
+namespace Aimeos\Admin\JsonAdm\Service\Config;
+
+
+class StandardTest extends \PHPUnit\Framework\TestCase
+{
+	private $context;
+	private $object;
+	private $view;
+
+
+	protected function setUp()
+	{
+		$templatePaths = \TestHelperJadm::getJsonadmPaths();
+		$this->context = \TestHelperJadm::getContext();
+		$this->view = $this->context->getView();
+
+		$this->object = new \Aimeos\Admin\JsonAdm\Service\Config\Standard( $this->context, $this->view, $templatePaths, 'service/config' );
+	}
+
+
+	public function testGet()
+	{
+		$params = array(
+			'id' => 'DirectDebit,Category',
+			'type' => 'payment',
+		);
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 6, $result['meta']['total'] );
+		$this->assertInternalType( 'array', $result['data'] );
+		$this->assertEquals( 'payment.url-success', $result['data'][0]['id'] );
+		$this->assertEquals( 'payment.url-failure', $result['data'][1]['id'] );
+		$this->assertEquals( 'payment.url-cancel', $result['data'][2]['id'] );
+		$this->assertEquals( 'payment.url-update', $result['data'][3]['id'] );
+		$this->assertEquals( 'category.include', $result['data'][4]['id'] );
+		$this->assertEquals( 'category.exclude', $result['data'][5]['id'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+}

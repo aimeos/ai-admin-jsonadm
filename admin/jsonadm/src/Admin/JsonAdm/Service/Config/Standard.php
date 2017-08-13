@@ -8,14 +8,14 @@
  */
 
 
-namespace Aimeos\Admin\JsonAdm\Coupon\Config;
+namespace Aimeos\Admin\JsonAdm\Service\Config;
 
 use \Psr\Http\Message\ServerRequestInterface;
 use \Psr\Http\Message\ResponseInterface;
 
 
 /**
- * JSON API coupon config client
+ * JSON API service config client
  *
  * @package Admin
  * @subpackage JsonAdm
@@ -24,7 +24,7 @@ class Standard
 	extends \Aimeos\Admin\JsonAdm\Standard
 	implements \Aimeos\Admin\JsonAdm\Common\Iface
 {
-	/** admin/jsonadm/coupon/config/decorators/excludes
+	/** admin/jsonadm/service/config/decorators/excludes
 	 * Excludes decorators added by the "common" option from the JSON API clients
 	 *
 	 * Decorators extend the functionality of a class by adding new aspects
@@ -46,11 +46,11 @@ class Standard
 	 * @since 2017.07
 	 * @category Developer
 	 * @see admin/jsonadm/common/decorators/default
-	 * @see admin/jsonadm/coupon/config/decorators/global
-	 * @see admin/jsonadm/coupon/config/decorators/local
+	 * @see admin/jsonadm/service/config/decorators/global
+	 * @see admin/jsonadm/service/config/decorators/local
 	 */
 
-	/** admin/jsonadm/coupon/config/decorators/global
+	/** admin/jsonadm/service/config/decorators/global
 	 * Adds a list of globally available decorators only to the Jsonadm client
 	 *
 	 * Decorators extend the functionality of a class by adding new aspects
@@ -62,21 +62,21 @@ class Standard
 	 * ("\Aimeos\Admin\Jsonadm\Common\Decorator\*") around the Jsonadm
 	 * client.
 	 *
-	 *  admin/jsonadm/coupon/config/decorators/global = array( 'decorator1' )
+	 *  admin/jsonadm/service/config/decorators/global = array( 'decorator1' )
 	 *
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Admin\Jsonadm\Common\Decorator\Decorator1" only to the
-	 * "coupon/config" Jsonadm client.
+	 * "service/config" Jsonadm client.
 	 *
 	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see admin/jsonadm/common/decorators/default
-	 * @see admin/jsonadm/coupon/config/decorators/excludes
-	 * @see admin/jsonadm/coupon/config/decorators/local
+	 * @see admin/jsonadm/service/config/decorators/excludes
+	 * @see admin/jsonadm/service/config/decorators/local
 	 */
 
-	/** admin/jsonadm/coupon/config/decorators/local
+	/** admin/jsonadm/service/config/decorators/local
 	 * Adds a list of local decorators only to the Jsonadm client
 	 *
 	 * Decorators extend the functionality of a class by adding new aspects
@@ -85,21 +85,21 @@ class Standard
 	 * modify what is returned to the caller.
 	 *
 	 * This option allows you to wrap local decorators
-	 * ("\Aimeos\Admin\Jsonadm\Coupon\Config\Decorator\*") around the Jsonadm
+	 * ("\Aimeos\Admin\Jsonadm\Service\Config\Decorator\*") around the Jsonadm
 	 * client.
 	 *
-	 *  admin/jsonadm/coupon/config/decorators/local = array( 'decorator2' )
+	 *  admin/jsonadm/service/config/decorators/local = array( 'decorator2' )
 	 *
 	 * This would add the decorator named "decorator2" defined by
-	 * "\Aimeos\Admin\Jsonadm\Coupon\Config\Decorator\Decorator2" only to the
-	 * "coupon/config" Jsonadm client.
+	 * "\Aimeos\Admin\Jsonadm\Service\Config\Decorator\Decorator2" only to the
+	 * "service/config" Jsonadm client.
 	 *
 	 * @param array List of decorator names
 	 * @since 2017.07
 	 * @category Developer
 	 * @see admin/jsonadm/common/decorators/default
-	 * @see admin/jsonadm/coupon/config/decorators/excludes
-	 * @see admin/jsonadm/coupon/config/decorators/global
+	 * @see admin/jsonadm/service/config/decorators/excludes
+	 * @see admin/jsonadm/service/config/decorators/global
 	 */
 
 
@@ -136,7 +136,7 @@ class Standard
 			) );
 		}
 
-		/** admin/jsonadm/coupon/config/template-get
+		/** admin/jsonadm/service/config/template-get
 		 * Relative path to the JSON API template for GET requests
 		 *
 		 * The template file contains the code and processing instructions
@@ -155,7 +155,7 @@ class Standard
 		 * @since 2017.07
 		 * @category Developer
 		 */
-		$tplconf = 'admin/jsonadm/coupon/config/template-get';
+		$tplconf = 'admin/jsonadm/service/config/template-get';
 		$default = 'config-default.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -180,12 +180,16 @@ class Standard
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
 		}
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon' );
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
 
-		$item = $manager->createItem();
-		$item->setProvider( $id );
+		// @todo Pass type as second parameter to getProvider()
+		$values = [
+			'service.type' => $view->param( 'type', 'payment' ),
+			'service.provider' => $id,
+		];
+		$item = new \Aimeos\MShop\Service\Item\Standard( $values );
 
-		$view->configItems = $manager->getProvider( $item, null )->getConfigBE();
+		$view->configItems = $manager->getProvider( $item )->getConfigBE();
 
 		return $response;
 	}
