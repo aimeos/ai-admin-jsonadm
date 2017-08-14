@@ -218,7 +218,7 @@ abstract class Base
 		 * @category Developer
 		 * @see admin/jsonadm/domains
 		 */
-		return (array) $view->config( 'admin/jsonadm/resources', ['coupon/config', 'service/config'] );
+		return (array) $view->config( 'admin/jsonadm/resources', ['coupon/config', 'plugin/config', 'service/config'] );
 	}
 
 
