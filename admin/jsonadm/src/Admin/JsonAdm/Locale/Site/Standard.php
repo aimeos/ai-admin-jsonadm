@@ -134,28 +134,6 @@ class Standard
 
 
 	/**
-	 * Returns the items with parent/child relationships
-	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
-	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
-	 */
-	protected function getChildItems( array $items, array $include )
-	{
-		$list = [];
-
-		if( in_array( 'locale/site', $include ) )
-		{
-			foreach( $items as $item ) {
-				$list = array_merge( $list, $item->getChildren() );
-			}
-		}
-
-		return $list;
-	}
-
-
-	/**
 	 * Retrieves the item or items and adds the data to the view
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View instance
@@ -171,17 +149,13 @@ class Standard
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
 		$total = 1;
 
-		if( ( $id = $view->param( 'id' ) ) == null )
-		{
+		if( ( $id = $view->param( 'id' ) ) == null ) {
 			$view->data = $manager->searchItems( $search, [], $total );
-			$view->childItems = $this->getChildItems( $view->data, $include );
-		}
-		else
-		{
-			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST, $search );
-			$view->childItems = $this->getChildItems( array( $view->data ), $include );
+		} else {
+			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $search );
 		}
 
+		$view->childItems = [];
 		$view->listItems = [];
 		$view->refItems = [];
 		$view->total = $total;

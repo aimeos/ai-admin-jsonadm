@@ -26,6 +26,31 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGet()
+	{
+		$params = array(
+			'id' => $this->getSiteItem( 'unittest' )->getId(),
+			'filter' => array(
+				'==' => array( 'locale.status' => 0 )
+			),
+		);
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 'locale/site', $result['data']['type'] );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testGetSearch()
 	{
 		$params = array(
@@ -46,34 +71,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'locale/site', $result['data'][0]['type'] );
-		$this->assertEquals( 0, count( $result['included'] ) );
-
-		$this->assertArrayNotHasKey( 'errors', $result );
-	}
-
-
-	public function testGetTree()
-	{
-		$params = array(
-			'id' => $this->getSiteItem( 'unittest' )->getId(),
-			'filter' => array(
-				'==' => array( 'locale.status' => 0 )
-			),
-			'include' => 'locale/site'
-		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
-		$this->view->addHelper( 'param', $helper );
-
-		$response = $this->object->get( $this->view->request(), $this->view->response() );
-		$result = json_decode( (string) $response->getBody(), true );
-
-
-		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
-
-		$this->assertEquals( 1, $result['meta']['total'] );
-		$this->assertEquals( 'locale/site', $result['data']['type'] );
-		$this->assertEquals( 0, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
