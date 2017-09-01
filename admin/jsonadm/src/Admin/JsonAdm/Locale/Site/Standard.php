@@ -144,8 +144,6 @@ class Standard
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale/site' );
-
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
 		$total = 1;
 
