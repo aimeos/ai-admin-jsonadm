@@ -185,9 +185,9 @@ class Standard
 		}
 		else
 		{
-			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
+			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE;
 			if( in_array( 'catalog', $include ) ) {
-				$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE;
+				$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_LIST;
 			}
 
 			$view->data = $manager->getTree( $id, $include, $level, $search );
