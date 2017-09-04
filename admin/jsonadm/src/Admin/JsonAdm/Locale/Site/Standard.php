@@ -171,24 +171,17 @@ class Standard
 	 */
 	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
 	{
-		$targetId = ( isset( $entry->targetid ) ? $entry->targetid : null );
-		$refId = ( isset( $entry->refid ) ? $entry->refid : null );
-
 		if( isset( $entry->id ) )
 		{
 			$item = $manager->getItem( $entry->id );
 			$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
 			$item = $manager->saveItem( $item );
-
-			if( isset( $entry->parentid ) && $targetId !== null ) {
-				$manager->moveItem( $item->getId(), $entry->parentid, $targetId, $refId );
-			}
 		}
 		else
 		{
 			$item = $manager->createItem();
 			$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
-			$manager->insertItem( $item, $targetId, $refId );
+			$manager->insertItem( $item );
 		}
 
 		if( isset( $entry->relationships ) ) {
