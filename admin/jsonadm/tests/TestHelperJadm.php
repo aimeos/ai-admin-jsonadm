@@ -104,6 +104,9 @@ class TestHelperJadm
 
 		$view = new \Aimeos\MW\View\Standard( $tmplpaths );
 
+		$helper = new \Aimeos\MW\View\Helper\Access\All( $view );
+		$view->addHelper( 'access', $helper );
+
 		$trans = new \Aimeos\MW\Translation\None( 'de_DE' );
 		$helper = new \Aimeos\MW\View\Helper\Translate\Standard( $view, $trans );
 		$view->addHelper( 'translate', $helper );

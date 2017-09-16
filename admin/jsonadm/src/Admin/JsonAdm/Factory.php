@@ -71,8 +71,13 @@ class Factory
 		$path = strtolower( trim( $path, "/ \n\t\r\0\x0B" ) );
 		$id = (string) $context;
 
-		if( self::$cache === false || !isset( self::$clients[$id][$path] ) ) {
-			self::$clients[$id][$path] = self::createClientNew( $context, $templatePaths, $path, $name );
+		if( self::$cache === false || !isset( self::$clients[$id][$path] ) )
+		{
+			if( empty( $path ) ) {
+				self::$clients[$id][$path] = self::createClientRoot( $context, $templatePaths, $path, $name );
+			} else {
+				self::$clients[$id][$path] = self::createClientNew( $context, $templatePaths, $path, $name );
+			}
 		}
 
 		return self::$clients[$id][$path];
@@ -107,8 +112,11 @@ class Factory
 	protected static function createClientNew( \Aimeos\MShop\Context\Item\Iface $context,
 		array $templatePaths, $path, $name )
 	{
-		if( empty( $path ) ) {
-			return self::createClientRoot( $context, $templatePaths, $path, $name );
+		$view = $context->getView();
+		$config = $context->getConfig();
+
+		if( $view->access( $config->get( 'admin/jsonadm/access/' . $path . '/groups', [] ) ) !== true ) {
+			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JQAdm "%1$s" client', $path ) );
 		}
 
 
