@@ -29,6 +29,9 @@ return [
 				'code' => [
 					'groups' => ['admin', 'editor', 'super'],
 				],
+				'config' => [
+					'groups' => ['admin', 'editor', 'super'],
+				],
 			],
 			'customer' => [
 				'groups' => ['admin', 'editor', 'super'],
@@ -98,6 +101,9 @@ return [
 			],
 			'plugin' => [
 				'groups' => ['admin', 'super'],
+				'config' => [
+					'groups' => ['admin', 'super'],
+				],
 			],
 			'price' => [
 				'groups' => ['admin', 'editor', 'super'],
@@ -128,6 +134,9 @@ return [
 			],
 			'service' => [
 				'groups' => ['admin', 'super'],
+				'config' => [
+					'groups' => ['admin', 'super'],
+				],
 				'lists' => [
 					'groups' => ['admin', 'super'],
 					'type' => [
