@@ -115,7 +115,7 @@ class Factory
 		$view = $context->getView();
 		$config = $context->getConfig();
 
-		if( $view->access( $config->get( 'admin/jsonadm/access/' . $path . '/groups', [] ) ) !== true ) {
+		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . '/groups', [] ) ) !== true ) {
 			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JQAdm "%1$s" client', $path ) );
 		}
 

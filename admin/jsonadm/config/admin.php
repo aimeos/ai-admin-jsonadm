@@ -2,7 +2,7 @@
 
 return [
 	'jsonadm' => [
-		'access' => [
+		'resource' => [
 			'attribute' => [
 				'groups' => ['admin', 'editor', 'super'],
 				'lists' => [
