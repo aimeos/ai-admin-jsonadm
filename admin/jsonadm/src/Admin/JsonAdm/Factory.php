@@ -112,14 +112,6 @@ class Factory
 	protected static function createClientNew( \Aimeos\MShop\Context\Item\Iface $context,
 		array $templatePaths, $path, $name )
 	{
-		$view = $context->getView();
-		$config = $context->getConfig();
-
-		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . '/groups', [] ) ) !== true ) {
-			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JQAdm "%1$s" client', $path ) );
-		}
-
-
 		$pname = $name;
 		$parts = explode( '/', $path );
 
@@ -136,6 +128,13 @@ class Factory
 
 		if( $pname === null ) {
 			$pname = $context->getConfig()->get( 'admin/jsonadm/' . $path . '/name', 'Standard' );
+		}
+
+		$view = $context->getView();
+		$config = $context->getConfig();
+
+		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . '/groups', [] ) ) !== true ) {
+			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JQAdm "%1$s" client', $path ) );
 		}
 
 
