@@ -41,14 +41,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 6, $result['meta']['total'] );
+		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertInternalType( 'array', $result['data'] );
-		$this->assertEquals( 'payment.url-success', $result['data'][0]['id'] );
-		$this->assertEquals( 'payment.url-failure', $result['data'][1]['id'] );
-		$this->assertEquals( 'payment.url-cancel', $result['data'][2]['id'] );
-		$this->assertEquals( 'payment.url-update', $result['data'][3]['id'] );
-		$this->assertEquals( 'category.include', $result['data'][4]['id'] );
-		$this->assertEquals( 'category.exclude', $result['data'][5]['id'] );
+		$this->assertEquals( 'category.include', $result['data'][0]['id'] );
+		$this->assertEquals( 'category.exclude', $result['data'][1]['id'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
