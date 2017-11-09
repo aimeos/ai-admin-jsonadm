@@ -181,15 +181,9 @@ class Standard
 		}
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$item = $manager->createItem()->setProvider( $id );
 
-		// @todo Pass type as second parameter to getProvider()
-		$values = [
-			'service.type' => $view->param( 'type', 'payment' ),
-			'service.provider' => $id,
-		];
-		$item = new \Aimeos\MShop\Service\Item\Standard( $values );
-
-		$view->configItems = $manager->getProvider( $item )->getConfigBE();
+		$view->configItems = $manager->getProvider( $item, $view->param( 'type', 'payment' ) )->getConfigBE();
 
 		return $response;
 	}

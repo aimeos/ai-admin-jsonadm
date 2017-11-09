@@ -181,15 +181,9 @@ class Standard
 		}
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'plugin' );
+		$item = $manager->createItem()->setProvider( $id );
 
-		// @todo Pass type as second parameter to getProvider()
-		$values = [
-			'plugin.type' => $view->param( 'type', 'order' ),
-			'plugin.provider' => $id,
-		];
-		$item = new \Aimeos\MShop\Plugin\Item\Standard( $values );
-
-		$view->configItems = $manager->getProvider( $item )->getConfigBE();
+		$view->configItems = $manager->getProvider( $item, 'order' )->getConfigBE();
 
 		return $response;
 	}
