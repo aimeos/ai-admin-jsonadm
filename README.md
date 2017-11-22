@@ -7,7 +7,6 @@
 [![Build Status](https://travis-ci.org/aimeos/ai-admin-jsonadm.png?branch=master)](https://travis-ci.org/aimeos/ai-admin-jsonadm)
 [![Coverage Status](https://coveralls.io/repos/aimeos/ai-admin-jsonadm/badge.svg?branch=master)](https://coveralls.io/r/aimeos/ai-admin-jsonadm?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aimeos/ai-admin-jsonadm/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aimeos/ai-admin-jsonadm/?branch=master)
-[![HHVM Status](http://hhvm.h4cc.de/badge/aimeos/ai-admin-jsonadm.svg)](http://hhvm.h4cc.de/package/aimeos/ai-admin-jsonadm)
 [![License](https://poser.pugx.org/aimeos/ai-admin-jsonadm/license.svg)](https://packagist.org/packages/aimeos/ai-admin-jsonadm)
 
 JSON API based admin interface for Aimeos e-commerce projects
