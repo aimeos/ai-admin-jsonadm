@@ -730,7 +730,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testOptionsWithPrefix()
 	{
-		$response = $this->object->options( $this->view->request(), $this->view->response(), 'prefix' );
+		$this->view->prefix = 'prefix';
+		$response = $this->object->options( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 

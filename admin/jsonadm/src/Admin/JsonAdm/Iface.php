@@ -80,5 +80,5 @@ interface Iface
 	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null );
+	public function options( ServerRequestInterface $request, ResponseInterface $response );
 }
