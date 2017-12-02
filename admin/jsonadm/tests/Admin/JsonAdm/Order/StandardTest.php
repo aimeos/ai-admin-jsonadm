@@ -40,14 +40,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'aggregate', $result['data'][0]['type'] );
-		$this->assertGreaterThan( 0, count( $result['data'][0]['attributes'] ) );
+		$this->assertGreaterThan( 0, $result['data'][0]['attributes'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
