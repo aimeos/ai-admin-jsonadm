@@ -219,7 +219,7 @@ class Factory
 		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $aimeos, $path );
+		$client = self::createClientBase( $classname, $iface, $context, $path );
 
 		/** admin/jsonadm/decorators/excludes
 		 * Excludes decorators added by the "common" option from the JSON API clients
@@ -299,7 +299,7 @@ class Factory
 		 * @see admin/jsonadm/decorators/global
 		 */
 
-		$client = self::addClientDecorators( $client, $context, $aimeos, $path );
+		$client = self::addClientDecorators( $client, $context, $path );
 
 		return $client->setAimeos( $aimeos )->setView( $view );
 	}
