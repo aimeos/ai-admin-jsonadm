@@ -59,14 +59,14 @@ class Factory
 	 * \Aimeos\Admin\JsonAdm\Product\Type\Standard client.
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param \Aimeos\Bootstrap $aimeos Aimeos Bootstrap object
+	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
 	static public function createClient( \Aimeos\MShop\Context\Item\Iface $context,
-		array $templatePaths, $path, $name = null )
+		\Aimeos\Bootstrap $aimeos, $path, $name = null )
 	{
 		$path = strtolower( trim( $path, "/ \n\t\r\0\x0B" ) );
 		$id = (string) $context;
@@ -74,9 +74,9 @@ class Factory
 		if( self::$cache === false || !isset( self::$clients[$id][$path] ) )
 		{
 			if( empty( $path ) ) {
-				self::$clients[$id][$path] = self::createClientRoot( $context, $templatePaths, $path, $name );
+				self::$clients[$id][$path] = self::createClientRoot( $context, $aimeos, $path, $name );
 			} else {
-				self::$clients[$id][$path] = self::createClientNew( $context, $templatePaths, $path, $name );
+				self::$clients[$id][$path] = self::createClientNew( $context, $aimeos, $path, $name );
 			}
 		}
 
@@ -103,14 +103,14 @@ class Factory
 	 * Creates a new client specified by the given path of client names.
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param array $templatePaths List of file system paths where the templates are stored
+	 * @param \Aimeos\Bootstrap $aimeos Aimeos Bootstrap object
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
 	protected static function createClientNew( \Aimeos\MShop\Context\Item\Iface $context,
-		array $templatePaths, $path, $name )
+		\Aimeos\Bootstrap $aimeos, $path, $name )
 	{
 		$pname = $name;
 		$parts = explode( '/', $path );
@@ -149,11 +149,13 @@ class Factory
 		}
 
 		if( class_exists( $classname ) === false ) {
-			return self::createClientRoot( $context, $templatePaths, $path, $name );
+			return self::createClientRoot( $context, $aimeos, $path, $name );
 		}
 
-		$client = self::createClientBase( $classname, $iface, $context, $view, $templatePaths, $path );
-		return self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
+		$client = self::createClientBase( $classname, $iface, $context, $path );
+		$client = self::addClientDecorators( $client, $context, $path );
+
+		return $client->setAimeos( $aimeos )->setView( $view );
 	}
 
 
@@ -161,14 +163,14 @@ class Factory
 	 * Creates the top level client
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
-	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param \Aimeos\Bootstrap $aimeos Aimeos Bootstrap object
+	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 * @param string|null $name Name of the JsonAdm client (default: "Standard")
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the client couldn't be created
 	 */
 	protected static function createClientRoot( \Aimeos\MShop\Context\Item\Iface $context,
-		array $templatePaths, $path, $name = null )
+		\Aimeos\Bootstrap $aimeos, $path, $name = null )
 	{
 		/** admin/jsonadm/name
 		 * Class name of the used JSON API client implementation
@@ -217,7 +219,7 @@ class Factory
 		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $view, $templatePaths, $path );
+		$client = self::createClientBase( $classname, $iface, $context, $aimeos, $path );
 
 		/** admin/jsonadm/decorators/excludes
 		 * Excludes decorators added by the "common" option from the JSON API clients
@@ -297,6 +299,8 @@ class Factory
 		 * @see admin/jsonadm/decorators/global
 		 */
 
-		return self::addClientDecorators( $client, $context, $view, $templatePaths, $path );
+		$client = self::addClientDecorators( $client, $context, $aimeos, $path );
+
+		return $client->setAimeos( $aimeos )->setView( $view );
 	}
 }

@@ -19,10 +19,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp()
 	{
 		$this->context = \TestHelperJadm::getContext();
-		$templatePaths = \TestHelperJadm::getJsonadmPaths();
 		$this->view = $this->context->getView();
 
-		$this->object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'product' );
+		$this->object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, 'product' );
+		$this->object->setAimeos( \TestHelperJadm::getAimeos() );
+		$this->object->setView( $this->view );
 	}
 
 
@@ -151,8 +152,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetType()
 	{
-		$templatePaths = \TestHelperJadm::getJsonadmPaths();
-		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'product/property/type' );
+		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, 'product/property/type' );
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
@@ -172,8 +173,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetInvalid()
 	{
-		$templatePaths = \TestHelperJadm::getJsonadmPaths();
-		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, $this->view, $templatePaths, 'invalid' );
+		$object = new \Aimeos\Admin\JsonAdm\Standard( $this->context, 'invalid' );
+		$object->setView( $this->view );
 
 		$response = $object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );

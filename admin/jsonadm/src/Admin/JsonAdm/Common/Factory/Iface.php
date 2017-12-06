@@ -23,10 +23,10 @@ interface Iface
 	 * Creates a new client based on the name
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @param array $templatePaths List of file system paths where the templates are stored
-	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
+	 * @param \Aimeos\Bootstrap $aimeos Aimeos Bootstrap object
+	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Admin\JsonAdm\Iface Client Interface
 	 */
-	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, array $templatePaths, $path, $name = null );
+	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, \Aimeos\Bootstrap $aimeos, $path, $name = null );
 }
