@@ -24,7 +24,7 @@ interface Iface
 	 * Initializes the client
 	 *
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
-	 * @param string $path Name of the client separated by slashes, e.g "product/property"
+	 * @param string $path Name of the client separated by slashes, e.g "order/base"
 	 */
 	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path );
 }
