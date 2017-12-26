@@ -91,7 +91,7 @@ class Standard
 		 * @see admin/jsonadm/standard/template-options
 		 */
 		$tplconf = 'admin/jsonadm/standard/template-delete';
-		$default = 'delete-default.php';
+		$default = 'delete-standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -162,7 +162,7 @@ class Standard
 			 * @see admin/jsonadm/standard/template-options
 			 */
 			$tplconf = 'admin/jsonadm/standard/template-aggregate';
-			$default = 'aggregate-default.php';
+			$default = 'aggregate-standard.php';
 		}
 		else
 		{
@@ -192,7 +192,7 @@ class Standard
 			 * @see admin/jsonadm/standard/template-options
 			 */
 			$tplconf = 'admin/jsonadm/standard/template-get';
-			$default = 'get-default.php';
+			$default = 'get-standard.php';
 		}
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -270,7 +270,7 @@ class Standard
 		 * @see admin/jsonadm/standard/template-options
 		 */
 		$tplconf = 'admin/jsonadm/standard/template-patch';
-		$default = 'patch-default.php';
+		$default = 'patch-standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -347,7 +347,7 @@ class Standard
 		 * @see admin/jsonadm/standard/template-options
 		 */
 		$tplconf = 'admin/jsonadm/standard/template-post';
-		$default = 'post-default.php';
+		$default = 'post-standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -399,7 +399,7 @@ class Standard
 		 * @see admin/jsonadm/standard/template-options
 		 */
 		$tplconf = 'admin/jsonadm/standard/template-put';
-		$default = 'put-default.php';
+		$default = 'put-standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
@@ -484,7 +484,7 @@ class Standard
 		 * @see admin/jsonadm/standard/template-put
 		 */
 		$tplconf = 'admin/jsonadm/standard/template-options';
-		$default = 'options-default.php';
+		$default = 'options-standard.php';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
