@@ -45,8 +45,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 2, $result['meta']['total'] );
-		$this->assertEquals( 2, count( $result['data'] ) );
+		$this->assertGreaterThan( 1, $result['meta']['total'] );
+		$this->assertGreaterThan( 1, count( $result['data'] ) );
 		$this->assertEquals( 'price', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['data'][0]['relationships'] ) );
 		$this->assertEquals( 0, count( $result['included'] ) );
