@@ -247,6 +247,29 @@ abstract class Base
 
 
 	/**
+	 * Returns the list of allowed resources
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View object with "access" helper
+	 * @param array List of all available resources
+	 * @return array List of allowed resources
+	 */
+	protected function getAllowedResources( \Aimeos\MW\View\Iface $view, array $resources )
+	{
+		$config = $this->getContext()->getConfig();
+		$allowed = [];
+
+		foreach( $resources as $resource )
+		{
+			if( $view->access( $config->get( 'admin/jsonadm/resource/' . $resource . '/groups', [] ) ) === true ) {
+				$allowed[] = $resource;
+			}
+		}
+
+		return $allowed;
+	}
+
+
+	/**
 	 * Returns the list of additional resources
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View object with "resource" parameter

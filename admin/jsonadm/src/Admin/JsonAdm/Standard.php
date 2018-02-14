@@ -436,7 +436,7 @@ class Standard
 				$resources[] = $resource;
 			}
 
-			$view->resources = $resources;
+			$view->resources = $this->getAllowedResources( $view, $resources );
 			$view->attributes = $attributes;
 
 			$status = 200;
