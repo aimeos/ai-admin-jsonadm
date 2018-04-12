@@ -253,7 +253,7 @@ return [
 						 */
 						'groups' => ['admin', 'editor', 'super'],
 						'attribute' => [
-							/** admin/jsonadm/resource/order/base/product/attribute/ groups
+							/** admin/jsonadm/resource/order/base/product/attribute/groups
 							 * List of user groups that are allowed to manage order product attribute items
 							 *
 							 * @param array List of user group names
@@ -271,7 +271,7 @@ return [
 						 */
 						'groups' => ['admin', 'editor', 'super'],
 						'attribute' => [
-							/** admin/jsonadm/resource/order/base/service/attribute/ groups
+							/** admin/jsonadm/resource/order/base/service/attribute/groups
 							 * List of user groups that are allowed to manage order service attribute items
 							 *
 							 * @param array List of user group names
@@ -302,6 +302,15 @@ return [
 				'config' => [
 					/** admin/jsonadm/resource/plugin/config/groups
 					 * List of user groups that are allowed to fetch available plugin configuration
+					 *
+					 * @param array List of user group names
+					 * @since 2017.10
+					 */
+					'groups' => ['admin', 'super'],
+				],
+				'type' => [
+					/** admin/jsonadm/resource/plugin/type/groups
+					 * List of user groups that are allowed to manage plugin type items
 					 *
 					 * @param array List of user group names
 					 * @since 2017.10
@@ -470,6 +479,15 @@ return [
 				 * @since 2017.10
 				 */
 				'groups' => ['admin', 'editor', 'super'],
+				'address' => [
+					/** admin/jsonadm/resource/supplier/address/groups
+					 * List of user groups that are allowed to manage supplier address items
+					 *
+					 * @param array List of user group names
+					 * @since 2017.10
+					 */
+					'groups' => ['admin', 'super'],
+				],
 				'lists' => [
 					/** admin/jsonadm/resource/supplier/lists/groups
 					 * List of user groups that are allowed to manage supplier lists items
