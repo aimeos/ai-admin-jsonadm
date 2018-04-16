@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-02 17:37+0200\n"
-"PO-Revision-Date: 2017-10-02 15:52+0000\n"
+"POT-Creation-Date: 2018-04-08 18:07+0200\n"
+"PO-Revision-Date: 2018-04-08 16:17+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Polish (http://www.transifex.com/aimeos/aimeos-core/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#, php-format
+msgid "Aimeos object not available"
+msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -50,7 +54,15 @@ msgid "No ID given"
 msgstr ""
 
 #, php-format
+msgid "No view available"
+msgstr "Widok niedostępny"
+
+#, php-format
 msgid "Not allowed to access JQAdm \"%1$s\" client"
+msgstr ""
+
+#, php-format
+msgid "Not allowed to access JsonAdm \"%1$s\" client"
 msgstr ""
 
 msgid "Not implemented, use PATCH instead"

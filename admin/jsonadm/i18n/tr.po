@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Metal <meteoramic@yahoo.com>, 2015-2016
+# Metal <meteoramic@yahoo.com>, 2015-2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-02 17:37+0200\n"
-"PO-Revision-Date: 2017-10-04 12:58+0000\n"
+"POT-Creation-Date: 2018-04-08 18:07+0200\n"
+"PO-Revision-Date: 2018-04-11 23:32+0000\n"
 "Last-Translator: Metal <meteoramic@yahoo.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/aimeos/aimeos-core/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, php-format
+msgid "Aimeos object not available"
+msgstr "Aimeos nesnesi mevcut değil"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -51,8 +55,16 @@ msgid "No ID given"
 msgstr "Hiçbir ID verilmemiş"
 
 #, php-format
+msgid "No view available"
+msgstr "Hiçbir görünüm mevcut değil"
+
+#, php-format
 msgid "Not allowed to access JQAdm \"%1$s\" client"
 msgstr "JQAdm \"%1$s\" istemcisine erişime izin verilmedi"
+
+#, php-format
+msgid "Not allowed to access JsonAdm \"%1$s\" client"
+msgstr "JsonAdm \"%1$s\" istemcisine erişme izni yok"
 
 msgid "Not implemented, use PATCH instead"
 msgstr "Uygulanmadı, bunun yerine PATCH kullanın"

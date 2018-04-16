@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aimeos, 2015-2016
+# Aimeos, 2015-2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-02 17:37+0200\n"
-"PO-Revision-Date: 2017-10-02 15:52+0000\n"
+"POT-Creation-Date: 2018-04-08 18:07+0200\n"
+"PO-Revision-Date: 2018-04-08 16:47+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: German (http://www.transifex.com/aimeos/aimeos-core/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, php-format
+msgid "Aimeos object not available"
+msgstr "Aimeos-Objekt nicht verfügbar"
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
@@ -51,8 +55,16 @@ msgid "No ID given"
 msgstr "Keine ID übergeben"
 
 #, php-format
+msgid "No view available"
+msgstr "Es ist kein View vorhanden"
+
+#, php-format
 msgid "Not allowed to access JQAdm \"%1$s\" client"
 msgstr "Zugriff auf den JQAdm Client \"%1$s\" verweigert"
+
+#, php-format
+msgid "Not allowed to access JsonAdm \"%1$s\" client"
+msgstr "Zugriff auf den JsonAdm Client \"%1$s\" verweigert"
 
 msgid "Not implemented, use PATCH instead"
 msgstr "Nicht implementiert, benutzen sie stattdessen PATCH"
