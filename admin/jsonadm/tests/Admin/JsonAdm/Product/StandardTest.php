@@ -41,19 +41,18 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
-		$this->assertEquals( 6, count( $result['data'][0]['relationships']['text'] ) );
+		$this->assertEquals( 7, count( $result['data'][0]['relationships']['text'] ) );
 		$this->assertArrayHaskey( 'self', $result['data'][0]['relationships']['text'][0]['data']['links'] );
 		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product'] ) );
 		$this->assertArrayHaskey( 'self', $result['data'][0]['relationships']['product'][0]['data']['links'] );
 		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property'] ) );
-		$this->assertEquals( 14, count( $result['included'] ) );
+		$this->assertEquals( 15, count( $result['included'] ) );
 		$this->assertEquals( 'product/property', $result['included'][0]['type'] );
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
 		$this->assertArrayHaskey( 'related', $result['included'][0]['links'] );
