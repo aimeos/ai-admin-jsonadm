@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Darshan Sampat <darshan@usindia.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-03 21:45+0200\n"
-"PO-Revision-Date: 2018-07-03 10:06+0000\n"
+"PO-Revision-Date: 2018-07-09 08:57+0000\n"
 "Last-Translator: Darshan Sampat <darshan@usindia.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/aimeos/aimeos-core/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -31,47 +32,47 @@ msgstr "クラス \"1 %1$s\"が見つかりません"
 
 #, php-format
 msgid "Client generated IDs are not supported"
-msgstr ""
+msgstr "顧客生成IDはサポートされていません"
 
 #, php-format
 msgid "Invalid JSON in body"
-msgstr ""
+msgstr "本文に無効なJSONがあります"
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr ""
+msgstr "無効なクラス名 \"%1$s\""
 
 #, php-format
 msgid "Invalid client \"%1$s\" in \"%2$s\""
-msgstr ""
+msgstr "\"%2$s\"の無効なクライアント \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr ""
+msgstr "無効なファクトリ \"1%1$s\""
 
 #, php-format
 msgid "No ID given"
-msgstr ""
+msgstr "IDなし"
 
 #, php-format
 msgid "No view available"
-msgstr ""
+msgstr "利用可能なビューがありません"
 
 #, php-format
 msgid "Not allowed to access JQAdm \"%1$s\" client"
-msgstr ""
+msgstr "JQAdm \"%1$s\"クライアントにアクセスできません"
 
 #, php-format
 msgid "Not allowed to access JsonAdm \"%1$s\" client"
-msgstr ""
+msgstr "JsonAdm \"%1$sクライアントにアクセスできません"
 
 msgid "Not implemented, use PATCH instead"
-msgstr ""
+msgstr "実行されていない、代わりにPATCHを使用する"
 
 #, php-format
 msgid "Template \"%1$s\" not available"
-msgstr ""
+msgstr "テンプレート \"%1$s\"は利用できません"
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr ""
+msgstr "メソッド \"1%1$s\"を呼び出すことができません"
