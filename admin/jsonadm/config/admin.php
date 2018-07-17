@@ -29,6 +29,24 @@ return [
 						'groups' => ['admin', 'super'],
 					],
 				],
+				'property' => [
+					/** admin/jsonadm/resource/attribute/property/groups
+					 * List of user groups that are allowed to manage attribute property items
+					 *
+					 * @param array List of user group names
+					 * @since 2018.07
+					 */
+					'groups' => ['admin', 'super'],
+					'type' => [
+						/** admin/jsonadm/resource/attribute/property/type/groups
+						 * List of user groups that are allowed to manage attribute property type items
+						 *
+						 * @param array List of user group names
+						 * @since 2018.07
+						 */
+						'groups' => ['admin', 'super'],
+					],
+				],
 				'type' => [
 					/** admin/jsonadm/resource/attribute/type/groups
 					 * List of user groups that are allowed to manage attribute type items
@@ -137,6 +155,24 @@ return [
 						'groups' => ['admin', 'super'],
 					],
 				],
+				'property' => [
+					/** admin/jsonadm/resource/customer/property/groups
+					 * List of user groups that are allowed to manage customer property items
+					 *
+					 * @param array List of user group names
+					 * @since 2018.07
+					 */
+					'groups' => ['admin', 'super'],
+					'type' => [
+						/** admin/jsonadm/resource/customer/property/type/groups
+						 * List of user groups that are allowed to manage customer property type items
+						 *
+						 * @param array List of user group names
+						 * @since 2018.07
+						 */
+						'groups' => ['admin', 'super'],
+					],
+				],
 			],
 			'locale' => [
 				/** admin/jsonadm/resource/locale/groups
@@ -208,6 +244,24 @@ return [
 					 * @since 2017.10
 					 */
 					'groups' => ['admin', 'super'],
+				],
+				'property' => [
+					/** admin/jsonadm/resource/media/property/groups
+					 * List of user groups that are allowed to manage media property items
+					 *
+					 * @param array List of user group names
+					 * @since 2018.07
+					 */
+					'groups' => ['admin', 'super'],
+					'type' => [
+						/** admin/jsonadm/resource/media/property/type/groups
+						 * List of user groups that are allowed to manage media property type items
+						 *
+						 * @param array List of user group names
+						 * @since 2018.07
+						 */
+						'groups' => ['admin', 'super'],
+					],
 				],
 			],
 			'order' => [
