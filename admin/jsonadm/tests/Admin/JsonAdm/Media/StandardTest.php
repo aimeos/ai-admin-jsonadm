@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'media.label' => 'cn_colombie_179x178' )
+				'==' => array( 'media.label' => 'prod_179x178/196_prod_179x178.jpg' )
 			),
 			'include' => 'attribute'
 		);
@@ -40,7 +40,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );

@@ -65,9 +65,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'fields' => array(
-				'product' => 'product.id,product.label'
+				'product' => 'product.id,product.code,product.label'
 			),
-			'sort' => 'product.id',
+			'sort' => 'product.code',
 			'include' => 'product,product/property'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -76,15 +76,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
-		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
-		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product'] ) );
+		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 5, count( $result['data'][8]['relationships']['product'] ) );
 		$this->assertEquals( 21, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
