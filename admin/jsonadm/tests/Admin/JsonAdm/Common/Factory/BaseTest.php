@@ -118,7 +118,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$class = '\Aimeos\\Admin\\JsonAdm\\Product\\Standard';
 		$params = [$class, $iface, $this->context, $this->view, [], ''];
 
-		$this->setExpectedException( '\Aimeos\Admin\JsonAdm\Exception' );
+		$this->setExpectedException( '\Aimeos\MW\Common\Exception' );
 		$this->access( 'createClientBase' )->invokeArgs( $this->object, $params );
 	}
 
