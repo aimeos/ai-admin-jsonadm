@@ -59,6 +59,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetFieldsIncluded()
 	{
 		$params = array(
+			'filter' => array(
+				'=~' => array( 'supplier.code' => 'unitCode00' )
+			),
 			'fields' => array(
 				'supplier' => 'supplier.id,supplier.label'
 			),
