@@ -79,7 +79,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'coupon', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['coupon/code'] ) );
-		$this->assertEquals( 5, count( $result['included'] ) );
+		$this->assertEquals( 6, count( $result['included'] ) );
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
 }
