@@ -57,7 +57,7 @@ $configItems = $this->get( 'configItems', [] );
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		, "errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard.php' ), array( 'errors' => $this->errors ) ); ?>
+		, "errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php else : ?>
 

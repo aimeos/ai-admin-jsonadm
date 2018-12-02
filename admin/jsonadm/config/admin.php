@@ -627,17 +627,17 @@ return [
 		],
 		'partials' => [
 			'catalog' => [
-				'template-data' => 'partials/catalog/data-standard.php',
+				'template-data' => 'partials/catalog/data-standard',
 			],
 			'locale' => [
 				'site' => [
-					'template-data' => 'partials/locale/site/data-standard.php',
+					'template-data' => 'partials/locale/site/data-standard',
 				],
 			],
 			'order' => [
-				'template-data' => 'partials/order/data-standard.php',
+				'template-data' => 'partials/order/data-standard',
 				'base' => [
-					'template-data' => 'partials/order/base/data-standard.php',
+					'template-data' => 'partials/order/base/data-standard',
 				],
 			],
 		],

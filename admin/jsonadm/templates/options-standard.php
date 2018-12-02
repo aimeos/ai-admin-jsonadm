@@ -43,7 +43,7 @@ foreach( $this->get( 'attributes', [] ) as $attr ) {
 
 	<?php if( isset( $this->errors ) ) : ?>
 
-		,"errors": <?= $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors-standard.php' ), array( 'errors' => $this->errors ) ); ?>
+		,"errors": <?= $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php endif; ?>
 
