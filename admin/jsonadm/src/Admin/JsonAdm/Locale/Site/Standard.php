@@ -174,13 +174,21 @@ class Standard
 		if( isset( $entry->id ) )
 		{
 			$item = $manager->getItem( $entry->id );
-			$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
+
+			if( isset( $entry->attributes ) ) {
+				$item->fromArray( (array) $entry->attributes );
+			}
+
 			$item = $manager->saveItem( $item );
 		}
 		else
 		{
 			$item = $manager->createItem();
-			$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
+
+			if( isset( $entry->attributes ) ) {
+				$item->fromArray( (array) $entry->attributes );
+			}
+
 			$manager->insertItem( $item );
 		}
 

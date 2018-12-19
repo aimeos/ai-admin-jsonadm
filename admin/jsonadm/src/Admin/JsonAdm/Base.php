@@ -425,7 +425,10 @@ abstract class Base
 			$item = $manager->createItem();
 		}
 
-		$item = $this->addItemData( $manager, $item, $entry, $item->getResourceType() );
+		if( isset( $entry->attributes ) ) {
+			$item->fromArray( (array) $entry->attributes );
+		}
+
 		$item = $manager->saveItem( $item );
 
 		if( isset( $entry->relationships ) ) {
@@ -455,7 +458,11 @@ abstract class Base
 			{
 				foreach( (array) $list->data as $data )
 				{
-					$listItem = $this->addItemData( $listManager, $listManager->createItem(), $data, $domain );
+					$listItem = $listManager->createItem();
+
+					if( isset( $data->attributes ) ) {
+						$item->fromArray( (array) $data->attributes );
+					}
 
 					if( isset( $data->id ) ) {
 						$listItem->setRefId( $data->id );
@@ -468,29 +475,5 @@ abstract class Base
 				}
 			}
 		}
-	}
-
-
-	/**
-	 * Adds the data from the given object to the item
-	 *
-	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager object
-	 * @param \Aimeos\MShop\Common\Item\Iface $item Item object to add the data to
-	 * @param \stdClass $data Object with "attributes" property
-	 * @param string $domain Domain of the type item
-	 * @return \Aimeos\MShop\Common\Item\Iface Item including the data
-	 */
-	protected function addItemData(\Aimeos\MShop\Common\Manager\Iface $manager,
-		\Aimeos\MShop\Common\Item\Iface $item, \stdClass $data, $domain )
-	{
-		if( isset( $data->attributes ) )
-		{
-			$attr = (array) $data->attributes;
-			$key = str_replace( '/', '.', $item->getResourceType() );
-
-			$item->fromArray( $attr );
-		}
-
-		return $item;
 	}
 }
