@@ -229,7 +229,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'product.type.code' => 'select' )
+				'==' => array( 'product.type' => 'select' )
 			)
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -257,7 +257,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'filter' => array(
 				'&&' => array(
 					array( '=~' => array( 'product.label' => 'Unittest: Test' ) ),
-					array( '==' => array( 'product.type.code' => 'select' ) ),
+					array( '==' => array( 'product.type' => 'select' ) ),
 				)
 			)
 		);
@@ -539,7 +539,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayHasKey( 'data', $result );
 		$this->assertEquals( '-1', $result['data']['id'] );
 		$this->assertEquals( 'product', $result['data']['type'] );
-		$this->assertGreaterThan( 0, $result['data']['attributes']['product.typeid'] );
+		$this->assertEquals( 'default', $result['data']['attributes']['product.type'] );
 		$this->assertEquals( 'test', $result['data']['attributes']['product.label'] );
 
 		$this->assertArrayNotHasKey( 'included', $result );
@@ -722,7 +722,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertNull( $result['meta']['prefix'] );
-		$this->assertGreaterThan( 59, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThan( 65, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -741,7 +741,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 'prefix', $result['meta']['prefix'] );
-		$this->assertGreaterThan( 59, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThan( 65, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );

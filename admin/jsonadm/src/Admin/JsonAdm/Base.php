@@ -293,7 +293,19 @@ abstract class Base
 		 * @category Developer
 		 * @see admin/jsonadm/domains
 		 */
-		return (array) $view->config( 'admin/jsonadm/resources', ['coupon/config', 'plugin/config', 'service/config'] );
+		return (array) $view->config( 'admin/jsonadm/resources', [
+			'coupon/config', 'plugin/config', 'service/config',
+			'attribute/type', 'attribute/list/type', 'attribute/property/type',
+			'catalog/list/type',
+			'customer/list/type', 'customer/property/type',
+			'media/type', 'media/list/type', 'media/property/type',
+			'plugin/type',
+			'price/type', 'price/list/type',
+			'product/type', 'product/list/type', 'product/property/type',
+			'service/type', 'service/list/type',
+			'supplier/list/type',
+			'text/type', 'text/list/type',
+		] );
 	}
 
 
@@ -475,12 +487,6 @@ abstract class Base
 		{
 			$attr = (array) $data->attributes;
 			$key = str_replace( '/', '.', $item->getResourceType() );
-
-			if( isset( $attr[$key.'.type'] ) )
-			{
-				$typeItem = $manager->getSubManager( 'type' )->findItem( $attr[$key.'.type'], [], $domain );
-				$attr[$key.'.typeid'] = $typeItem->getId();
-			}
 
 			$item->fromArray( $attr );
 		}
