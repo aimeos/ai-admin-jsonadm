@@ -175,8 +175,8 @@ class Standard
 		{
 			$item = $manager->getItem( $entry->id );
 
-			if( isset( $entry->attributes ) ) {
-				$item->fromArray( (array) $entry->attributes );
+			if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
+				$item->fromArray( $attr );
 			}
 
 			$item = $manager->saveItem( $item );
@@ -185,8 +185,8 @@ class Standard
 		{
 			$item = $manager->createItem();
 
-			if( isset( $entry->attributes ) ) {
-				$item->fromArray( (array) $entry->attributes );
+			if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
+				$item->fromArray( $attr );
 			}
 
 			$manager->insertItem( $item );
