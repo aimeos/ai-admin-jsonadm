@@ -180,7 +180,7 @@ class Standard
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
 		}
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'coupon' );
 
 		$item = $manager->createItem();
 		$item->setProvider( $id );

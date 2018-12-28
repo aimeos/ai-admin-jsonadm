@@ -143,7 +143,7 @@ class Standard
 	 */
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'locale/site' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'locale/site' );
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
 		$total = 1;
 

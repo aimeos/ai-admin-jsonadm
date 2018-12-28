@@ -152,7 +152,7 @@ class Standard
 				$ids[] = $item->getBaseId();
 			}
 
-			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/base' );
+			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', 'order.base.id', $ids ) );
@@ -163,7 +163,7 @@ class Standard
 		if( in_array( 'order/status', $include ) )
 		{
 			$ids = array_keys( $items );
-			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'order/status' );
+			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/status' );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', 'order.status.parentid', $ids ) );

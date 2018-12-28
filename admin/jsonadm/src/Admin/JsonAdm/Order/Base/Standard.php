@@ -149,7 +149,7 @@ class Standard
 
 		foreach( $include as $type )
 		{
-			$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), $type );
+			$manager = \Aimeos\MShop::create( $this->getContext(), $type );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ) );

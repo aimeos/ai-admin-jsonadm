@@ -143,7 +143,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getCatalogItem( $code )
 	{
-		$manager = \Aimeos\MShop\Catalog\Manager\Factory::createManager( $this->context );
+		$manager = \Aimeos\MShop\Catalog\Manager\Factory::create( $this->context );
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'catalog.code', $code ) );
 		$items = $manager->searchItems( $search );

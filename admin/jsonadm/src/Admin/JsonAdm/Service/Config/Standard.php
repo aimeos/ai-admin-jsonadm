@@ -180,7 +180,7 @@ class Standard
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
 		}
 
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
 		$item = $manager->createItem()->setProvider( $id );
 
 		$view->configItems = $manager->getProvider( $item, $view->param( 'type', 'payment' ) )->getConfigBE();

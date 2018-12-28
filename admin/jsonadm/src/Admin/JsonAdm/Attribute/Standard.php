@@ -109,7 +109,7 @@ class Standard
 	 */
 	protected function getListItems( array $items, array $include )
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'attribute/lists' );
+		$manager = \Aimeos\MShop::create( $this->getContext(), 'attribute/lists' );
 
 		$search = $manager->createSearch();
 		$expr = array(
