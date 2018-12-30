@@ -150,7 +150,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 			return self::createRoot( $context, $aimeos, $path, $name );
 		}
 
-		$client = self::createClientBase( $classname, $iface, $context, $path );
+		$client = self::createAdmin( $classname, $iface, $context, $path );
 		$client = self::addClientDecorators( $client, $context, $path );
 
 		return $client->setAimeos( $aimeos )->setView( $view );
@@ -217,7 +217,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
 
-		$client = self::createClientBase( $classname, $iface, $context, $path );
+		$client = self::createAdmin( $classname, $iface, $context, $path );
 
 		/** admin/jsonadm/decorators/excludes
 		 * Excludes decorators added by the "common" option from the JSON API clients

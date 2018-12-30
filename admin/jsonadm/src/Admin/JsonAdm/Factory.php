@@ -32,10 +32,10 @@ class Factory
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
-	static public function createClient( \Aimeos\MShop\Context\Item\Iface $context,
+	static public function create( \Aimeos\MShop\Context\Item\Iface $context,
 		\Aimeos\Bootstrap $aimeos, $path, $name = null )
 	{
-		return self::create( $context, $aimeos, $path, $name );
+		return parent::create( $context, $aimeos, $path, $name );
 	}
 
 

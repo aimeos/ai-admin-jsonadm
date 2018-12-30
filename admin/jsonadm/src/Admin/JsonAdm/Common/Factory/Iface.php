@@ -28,5 +28,5 @@ interface Iface
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Admin\JsonAdm\Iface Client Interface
 	 */
-	public static function createClient( \Aimeos\MShop\Context\Item\Iface $context, \Aimeos\Bootstrap $aimeos, $path, $name = null );
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context, \Aimeos\Bootstrap $aimeos, $path, $name = null );
 }
