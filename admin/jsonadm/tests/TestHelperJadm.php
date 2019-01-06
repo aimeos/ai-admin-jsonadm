@@ -83,7 +83,7 @@ class TestHelperJadm
 		$ctx->setI18n( array( 'de' => $i18n ) );
 
 
-		$localeManager = \Aimeos\MShop\Locale\Manager\Factory::create( $ctx );
+		$localeManager = \Aimeos\MShop::create( $ctx, 'locale' );
 		$locale = $localeManager->bootstrap( $site, 'de', '', false );
 		$ctx->setLocale( $locale );
 
