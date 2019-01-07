@@ -19,50 +19,6 @@ namespace Aimeos\Admin;
  */
 class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 {
-	static private $cache = true;
-	static private $clients = [];
-
-
-	/**
-	 * Enables or disables caching of class instances.
-	 *
-	 * @param boolean $value True to enable caching, false to disable it.
-	 * @return boolean Previous cache setting
-	 */
-	static public function cache( $value )
-	{
-		$old = self::$cache;
-		self::$cache = (boolean) $value;
-
-		return $old;
-	}
-
-
-	/**
-	 * Removes the client objects from the cache.
-	 *
-	 * If neither a context ID nor a path is given, the complete cache will be pruned.
-	 *
-	 * @param integer $id Context ID the objects have been created with (string of \Aimeos\MShop\Context\Item\Iface)
-	 * @param string $path Path describing the client to clear, e.g. "product/lists/type"
-	 */
-	static public function clear( $id = null, $path = null )
-	{
-		if( $id !== null )
-		{
-			if( $path !== null ) {
-				self::$clients[$id][$path] = null;
-			} else {
-				self::$clients[$id] = [];
-			}
-
-			return;
-		}
-
-		self::$clients = [];
-	}
-
-
 	/**
 	 * Creates the required client specified by the given path of client names.
 	 *
@@ -81,19 +37,11 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	static public function create( \Aimeos\MShop\Context\Item\Iface $context,
 		\Aimeos\Bootstrap $aimeos, $path, $name = null )
 	{
-		$path = strtolower( trim( $path, "/ \n\t\r\0\x0B" ) );
-		$id = (string) $context;
-
-		if( self::$cache === false || !isset( self::$clients[$id][$path] ) )
-		{
-			if( empty( $path ) ) {
-				self::$clients[$id][$path] = self::createRoot( $context, $aimeos, $path, $name );
-			} else {
-				self::$clients[$id][$path] = self::createNew( $context, $aimeos, $path, $name );
-			}
+		if( empty( $path ) ) {
+			return self::createRoot( $context, $aimeos, $path, $name );
+		} else {
+			return self::createNew( $context, $aimeos, $path, $name );
 		}
-
-		return self::$clients[$id][$path];
 	}
 
 
@@ -117,7 +65,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		{
 			if( ctype_alnum( $part ) === false )
 			{
-				$msg = sprintf( 'Invalid client "%1$s" in "%2$s"', $part, $path );
+				$msg = sprintf( 'Invalid client "%1$s"', $path );
 				throw new \Aimeos\Admin\JsonAdm\Exception( $msg, 400 );
 			}
 
@@ -137,7 +85,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 
 
 		$view = $context->getView();
-		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
+		$iface = \Aimeos\Admin\JsonAdm\Iface::class;
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $pname;
 
 		if( ctype_alnum( $pname ) === false )

@@ -15,8 +15,6 @@ class TestHelperJadm
 	public static function bootstrap()
 	{
 		self::getAimeos();
-		\Aimeos\MShop::cache( false );
-		\Aimeos\Admin\JsonAdm\Factory::setCache( false );
 	}
 
 
