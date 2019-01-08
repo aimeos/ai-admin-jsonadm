@@ -37,6 +37,8 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	static public function create( \Aimeos\MShop\Context\Item\Iface $context,
 		\Aimeos\Bootstrap $aimeos, $path, $name = null )
 	{
+		$path = trim( $path, '/' );
+
 		if( empty( $path ) ) {
 			return self::createRoot( $context, $aimeos, $path, $name );
 		} else {

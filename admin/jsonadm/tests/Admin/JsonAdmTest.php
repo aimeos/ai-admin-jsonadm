@@ -49,7 +49,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJadm::getContext();
 		$aimeos = \TestHelperJadm::getAimeos();
 
-		$client = \Aimeos\Admin\JsonAdm::create( $context, $aimeos, '' );
+		$client = \Aimeos\Admin\JsonAdm::create( $context, $aimeos, '/' );
 		$this->assertInstanceOf( '\\Aimeos\\Admin\\JsonAdm\\Common\\Iface', $client );
 		$this->assertInstanceOf( '\\Aimeos\\Admin\\JsonAdm\\Standard', $client );
 	}
