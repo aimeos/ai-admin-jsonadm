@@ -43,14 +43,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 8, $result['meta']['total'] );
 		$this->assertInternalType( 'array', $result['data'] );
-		$this->assertEquals( 'autofill.address', $result['data'][0]['id'] );
-		$this->assertEquals( 'autofill.delivery', $result['data'][1]['id'] );
-		$this->assertEquals( 'autofill.deliverycode', $result['data'][2]['id'] );
-		$this->assertEquals( 'autofill.payment', $result['data'][3]['id'] );
-		$this->assertEquals( 'autofill.paymentcode', $result['data'][4]['id'] );
-		$this->assertEquals( 'autofill.useorder', $result['data'][5]['id'] );
-		$this->assertEquals( 'autofill.orderaddress', $result['data'][6]['id'] );
-		$this->assertEquals( 'autofill.orderservice', $result['data'][7]['id'] );
+		$this->assertEquals( 'address', $result['data'][0]['id'] );
+		$this->assertEquals( 'delivery', $result['data'][1]['id'] );
+		$this->assertEquals( 'deliverycode', $result['data'][2]['id'] );
+		$this->assertEquals( 'payment', $result['data'][3]['id'] );
+		$this->assertEquals( 'paymentcode', $result['data'][4]['id'] );
+		$this->assertEquals( 'useorder', $result['data'][5]['id'] );
+		$this->assertEquals( 'orderaddress', $result['data'][6]['id'] );
+		$this->assertEquals( 'orderservice', $result['data'][7]['id'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
