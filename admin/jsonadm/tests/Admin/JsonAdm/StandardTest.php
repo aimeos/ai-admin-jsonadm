@@ -315,7 +315,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGetSort()
 	{
 		$params = array(
-			'sort' => 'product.label,-product.code'
+			'sort' => 'product.label'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -330,8 +330,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
-		$this->assertEquals( 'QRST', $result['data'][0]['attributes']['product.code'] );
-		$this->assertEquals( '16 discs', $result['data'][0]['attributes']['product.label'] );
+		$this->assertEquals( 'ABCD', $result['data'][0]['attributes']['product.code'] );
+		$this->assertEquals( 'ABCD/16 discs', $result['data'][0]['attributes']['product.label'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
