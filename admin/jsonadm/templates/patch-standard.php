@@ -23,11 +23,9 @@
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		, "errors": <?= $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php elseif( isset( $this->data ) ) : ?>
-
 		, "data": <?= $this->partial( $this->config( 'admin/jsonadm/partials/template-data', 'partials/data-standard' ), array( 'data' => $this->get( 'data' ) ) ); ?>
 
 	<?php endif; ?>

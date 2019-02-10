@@ -56,11 +56,9 @@ $configItems = $this->get( 'configItems', [] );
 	}
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		, "errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php else : ?>
-
 		, "data": <?= json_encode( $build( $configItems, $this->param( 'id' ) ), $options ); ?>
 
 	<?php endif; ?>

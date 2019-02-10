@@ -164,24 +164,19 @@ foreach( (array) $fields as $resource => $list ) {
 	"links": {
 
 		<?php if( is_array( $this->get( 'data' ) ) ) : ?>
-
 			<?php if( $first !== null ) : ?>
-
 				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 
 			<?php endif; ?>
 			<?php if( $prev !== null ) : ?>
-
 				"prev": "<?php $params['page']['offset'] = $prev; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 
 			<?php endif; ?>
 			<?php if( $next !== null ) : ?>
-
 				"next": "<?php $params['page']['offset'] = $next; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 
 			<?php endif; ?>
 			<?php if( $last !== null ) : ?>
-
 				"last": "<?php $params['page']['offset'] = $last; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 
 			<?php endif; ?>
@@ -191,11 +186,9 @@ foreach( (array) $fields as $resource => $list ) {
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		"errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php elseif( isset( $this->data ) ) : ?>
-
 		"data": <?= $this->partial( $this->config( $this->get( 'partial-data', 'admin/jsonadm/partials/template-data' ), 'partials/data-standard' ), array( 'data' => $this->get( 'data' ), 'childItems' => $this->get( 'childItems', [] ), 'listItems' => $this->get( 'listItems', [] ) ) ); ?>,
 
 		"included": <?= $this->partial( $this->config( $this->get( 'partial-included', 'admin/jsonadm/partials/template-included' ), 'partials/included-standard' ), array( 'childItems' => $this->get( 'childItems', [] ), 'refItems' => $this->get( 'refItems', [] ) ) ); ?>

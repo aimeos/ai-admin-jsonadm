@@ -34,7 +34,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
-	static public function create( \Aimeos\MShop\Context\Item\Iface $context,
+	public static function create( \Aimeos\MShop\Context\Item\Iface $context,
 		\Aimeos\Bootstrap $aimeos, $path, $name = null )
 	{
 		$path = trim( $path, '/' );

@@ -30,11 +30,9 @@ foreach( $data as $key => $value ) {
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
-
 		"errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php elseif( isset( $this->data ) ) : ?>
-
 		"data": <?= json_encode( $entries ); ?>
 
 	<?php endif; ?>
