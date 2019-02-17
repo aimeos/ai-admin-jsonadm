@@ -426,7 +426,7 @@ abstract class Base
 		}
 
 		if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
-			$item = $item->fromArray( $attr );
+			$item = $item->fromArray( $attr, true );
 		}
 
 		$item = $manager->saveItem( $item );
@@ -461,7 +461,7 @@ abstract class Base
 					$listItem = $listManager->createItem();
 
 					if( isset( $data->attributes ) && ( $attr = (array) $data->attributes ) ) {
-						$item = $item->fromArray( $attr );
+						$item = $item->fromArray( $attr, true );
 					}
 
 					if( isset( $data->id ) ) {
