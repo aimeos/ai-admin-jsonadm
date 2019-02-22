@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'order.editor' => 'core:unittest' )
+				'==' => array( 'order.editor' => 'core:lib/mshoplib' )
 			),
 			'aggregate' => 'order.cdate',
 		);
