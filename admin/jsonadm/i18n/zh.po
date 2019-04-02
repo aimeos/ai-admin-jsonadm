@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-27 08:31+0200\n"
-"PO-Revision-Date: 2018-10-02 14:15+0000\n"
+"POT-Creation-Date: 2019-04-02 15:11+0200\n"
+"PO-Revision-Date: 2019-04-02 13:26+0000\n"
 "Last-Translator: stevechen <steve.stevechen@gmail.com>\n"
 "Language-Team: Chinese (http://www.transifex.com/aimeos/aimeos-core/language/zh/)\n"
 "MIME-Version: 1.0\n"
@@ -42,6 +42,10 @@ msgstr "在body中包含了無效的 JSON"
 #, php-format
 msgid "Invalid class name \"%1$s\""
 msgstr "無效的class名稱\"%1$s\""
+
+#, php-format
+msgid "Invalid client \"%1$s\""
+msgstr "無效的 client \"%1$s\""
 
 #, php-format
 msgid "Invalid client \"%1$s\" in \"%2$s\""

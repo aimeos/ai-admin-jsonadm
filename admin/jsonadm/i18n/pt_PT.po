@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-08 18:07+0200\n"
+"POT-Creation-Date: 2019-04-02 15:11+0200\n"
 "PO-Revision-Date: 2015-12-07 16:03+0000\n"
 "Last-Translator: Aimeos <aimeos@aimeos.org>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/aimeos/aimeos-core/language/pt_PT/)\n"
@@ -39,6 +39,10 @@ msgstr ""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
+msgstr ""
+
+#, php-format
+msgid "Invalid client \"%1$s\""
 msgstr ""
 
 #, php-format

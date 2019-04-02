@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-27 08:31+0200\n"
-"PO-Revision-Date: 2018-04-08 16:17+0000\n"
+"POT-Creation-Date: 2019-04-02 15:11+0200\n"
+"PO-Revision-Date: 2019-04-02 13:26+0000\n"
 "Last-Translator: Aimeos\n"
 "Language-Team: Czech (http://www.transifex.com/aimeos/aimeos-core/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -41,6 +41,10 @@ msgstr "Tělo obsahuje poškozený JSON"
 #, php-format
 msgid "Invalid class name \"%1$s\""
 msgstr "Chybné jméno třídy \"%1$s\""
+
+#, php-format
+msgid "Invalid client \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid client \"%1$s\" in \"%2$s\""
