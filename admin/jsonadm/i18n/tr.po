@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Metal <meteoramic@yahoo.com>, 2015-2016,2018
+# Metal <meteoramic@yahoo.com>, 2015-2016,2018-2019
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-04-02 15:11+0200\n"
-"PO-Revision-Date: 2019-04-02 13:26+0000\n"
+"PO-Revision-Date: 2019-04-02 18:02+0000\n"
 "Last-Translator: Metal <meteoramic@yahoo.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/aimeos/aimeos-core/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Class \"%1$s\" bulunamadı"
 
 #, php-format
 msgid "Client generated IDs are not supported"
-msgstr "Müşteri oluşturulan ID'ler desteklenmiyor"
+msgstr "İstemci oluşturulan ID'ler desteklenmiyor"
 
 #, php-format
 msgid "Invalid JSON in body"
@@ -44,11 +44,11 @@ msgstr "Geçersiz class adı \"%1$s\""
 
 #, php-format
 msgid "Invalid client \"%1$s\""
-msgstr "Geçersiz müşteri \"%1$s\""
+msgstr "Geçersiz istemci \"%1$s\""
 
 #, php-format
 msgid "Invalid client \"%1$s\" in \"%2$s\""
-msgstr "\"%2$s\" içinde geçersiz müşteri \"%1$s\""
+msgstr "\"%2$s\" içinde geçersiz istemci \"%1$s\""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
