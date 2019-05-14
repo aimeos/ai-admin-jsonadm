@@ -6,7 +6,7 @@ return array(
 		'aimeos-core',
 	),
 	'config' => array(
-		'admin/jsonadm/config',
+		'config',
 	),
 	'include' => array(
 		'admin/jsonadm/src',
