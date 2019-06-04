@@ -141,7 +141,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 30, $result['meta']['total'] );
+		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
@@ -300,8 +300,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 30, $result['meta']['total'] );
-		$this->assertEquals( 5, count( $result['data'] ) );
+		$this->assertEquals( 28, $result['meta']['total'] );
+		$this->assertEquals( 3, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 0, count( $result['included'] ) );
 		$this->assertArrayHasKey( 'first', $result['links'] );
@@ -327,7 +327,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 30, $result['meta']['total'] );
+		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 'ABCD', $result['data'][0]['attributes']['product.code'] );
@@ -357,7 +357,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 30, $result['meta']['total'] );
+		$this->assertEquals( 28, $result['meta']['total'] );
 		$this->assertEquals( 25, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
