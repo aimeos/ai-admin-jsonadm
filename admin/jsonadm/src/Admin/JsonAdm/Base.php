@@ -300,7 +300,7 @@ abstract class Base
 			'customer/list/type', 'customer/property/type',
 			'media/type', 'media/list/type', 'media/property/type',
 			'plugin/type',
-			'price/type', 'price/list/type',
+			'price/type', 'price/list/type', 'price/property/type',
 			'product/type', 'product/list/type', 'product/property/type',
 			'service/type', 'service/list/type',
 			'supplier/list/type',
