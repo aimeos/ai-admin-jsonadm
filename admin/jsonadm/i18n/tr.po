@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-07-01 19:09+0200\n"
-"PO-Revision-Date: 2019-07-01 23:49+0000\n"
+"PO-Revision-Date: 2019-07-24 17:11+0000\n"
 "Last-Translator: Metal <meteoramic@yahoo.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/aimeos/aimeos-core/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Class \"%1$s\" bulunamadı"
 
 #, php-format
 msgid "Client generated IDs are not supported"
-msgstr "İstemci oluşturulan ID'ler desteklenmiyor"
+msgstr "İstemci tarafından oluşturulan kimlik numaraları desteklenmiyor"
 
 #, php-format
 msgid "Invalid JSON in body"
@@ -56,7 +56,7 @@ msgstr "Geçersiz fabrika \"%1$s\""
 
 #, php-format
 msgid "No ID given"
-msgstr "Hiçbir ID verilmemiş"
+msgstr "Hiçbir kimlik numarası verilmemiş"
 
 #, php-format
 msgid "No view available"
