@@ -74,9 +74,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'order', $result['data'][0]['type'] );
-		$this->assertEquals( 3, count( $result['data'][0]['relationships']['order/status'] ) );
+		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/status'] ) );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/base'] ) );
-		$this->assertEquals( 4, count( $result['included'] ) );
+		$this->assertEquals( 2, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
@@ -105,8 +105,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertGreaterThanOrEqual( 4, count( $result['data'] ) );
 		$this->assertEquals( 'order', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
-		$this->assertGreaterThanOrEqual( 3, count( $result['data'][0]['relationships']['order/status'] ) );
-		$this->assertGreaterThanOrEqual( 11, count( $result['included'] ) );
+		$this->assertGreaterThanOrEqual( 1, count( $result['data'][0]['relationships']['order/status'] ) );
+		$this->assertGreaterThanOrEqual( 7, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
