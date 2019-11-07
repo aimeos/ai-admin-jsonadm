@@ -158,11 +158,7 @@ abstract class Base
 			 * @category Developer
 			 * @see admin/jsonadm/resources
 			 */
-			$default = array(
-				'attribute', 'catalog', 'coupon', 'customer', 'locale', 'media', 'order',
-				'plugin', 'price', 'product', 'service', 'supplier', 'stock', 'tag', 'text'
-			);
-			$domains = $this->getContext()->getConfig()->get( 'admin/jsonadm/domains', $default );
+			$domains = $this->getContext()->getConfig()->get( 'admin/jsonadm/domains', [] );
 		}
 
 		return (array) $domains;
@@ -293,19 +289,7 @@ abstract class Base
 		 * @category Developer
 		 * @see admin/jsonadm/domains
 		 */
-		return (array) $view->config( 'admin/jsonadm/resources', [
-			'coupon/config', 'plugin/config', 'service/config',
-			'attribute/type', 'attribute/list/type', 'attribute/property/type',
-			'catalog/list/type',
-			'customer/list/type', 'customer/property/type',
-			'media/type', 'media/list/type', 'media/property/type',
-			'plugin/type',
-			'price/type', 'price/list/type', 'price/property/type',
-			'product/type', 'product/list/type', 'product/property/type',
-			'service/type', 'service/list/type',
-			'supplier/list/type',
-			'text/type', 'text/list/type',
-		] );
+		return (array) $view->config( 'admin/jsonadm/resources', [] );
 	}
 
 
