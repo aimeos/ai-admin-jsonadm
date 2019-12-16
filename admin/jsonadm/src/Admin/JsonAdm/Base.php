@@ -454,6 +454,7 @@ abstract class Base
 
 					$listItem->setParentId( $id );
 					$listItem->setDomain( $domain );
+					$listItem->setType( "default" );
 
 					$listManager->saveItem( $listItem, false );
 				}
