@@ -442,7 +442,7 @@ abstract class Base
 			{
 				foreach( (array) $list->data as $data )
 				{
-					$listItem = $listManager->createItem();
+					$listItem = $listManager->createItem()->setType( 'default' );
 
 					if( isset( $data->attributes ) && ( $attr = (array) $data->attributes ) ) {
 						$item = $item->fromArray( $attr, true );
@@ -454,7 +454,6 @@ abstract class Base
 
 					$listItem->setParentId( $id );
 					$listItem->setDomain( $domain );
-					$listItem->setType( "default" );
 
 					$listManager->saveItem( $listItem, false );
 				}
