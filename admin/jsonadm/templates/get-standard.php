@@ -135,7 +135,7 @@ $limit = max( $this->param( 'page/limit', 25 ), 1 );
 $first = ( $offset > 0 ? 0 : null );
 $prev = ( $offset - $limit >= 0 ? $offset - $limit : null );
 $next = ( $offset + $limit < $total ? $offset + $limit : null );
-$last = ( ((int) ($total / $limit)) * $limit > $offset ? ((int) ($total / $limit)) * $limit : null );
+$last = ( ( (int) ( $total / $limit ) ) * $limit > $offset ? ( (int) ( $total / $limit ) ) * $limit : null );
 
 
 $ref = array( 'id', 'resource', 'filter', 'page', 'sort', 'include', 'fields' );
