@@ -107,7 +107,7 @@ class Standard
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include )
+	protected function getChildItems( array $items, array $include ) : array
 	{
 		$list = [];
 		$ids = array_keys( $items );

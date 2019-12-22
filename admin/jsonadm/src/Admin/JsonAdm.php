@@ -35,15 +35,15 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
 	public static function create( \Aimeos\MShop\Context\Item\Iface $context,
-		\Aimeos\Bootstrap $aimeos, $path, $name = null )
+		\Aimeos\Bootstrap $aimeos, string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$path = trim( $path, '/' );
 
 		if( empty( $path ) ) {
 			return self::createRoot( $context, $aimeos, $path, $name );
-		} else {
-			return self::createNew( $context, $aimeos, $path, $name );
 		}
+
+		return self::createNew( $context, $aimeos, $path, $name );
 	}
 
 
@@ -58,7 +58,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
 	protected static function createNew( \Aimeos\MShop\Context\Item\Iface $context,
-		\Aimeos\Bootstrap $aimeos, $path, $name )
+		\Aimeos\Bootstrap $aimeos, string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$pname = $name;
 		$parts = explode( '/', $path );
@@ -90,9 +90,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		$iface = \Aimeos\Admin\JsonAdm\Iface::class;
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $pname;
 
-		if( ctype_alnum( $pname ) === false )
-		{
-			$classname = is_string( $pname ) ? $classname : '<not a string>';
+		if( ctype_alnum( $pname ) === false ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
 		}
 
@@ -118,7 +116,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the client couldn't be created
 	 */
 	protected static function createRoot( \Aimeos\MShop\Context\Item\Iface $context,
-		\Aimeos\Bootstrap $aimeos, $path, $name = null )
+		\Aimeos\Bootstrap $aimeos, string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		/** admin/jsonadm/name
 		 * Class name of the used JSON API client implementation
@@ -157,15 +155,13 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 			$name = $context->getConfig()->get( 'admin/jsonadm/name', 'Standard' );
 		}
 
-		if( ctype_alnum( $name ) === false )
-		{
-			$classname = is_string( $name ) ? '\\Aimeos\\Admin\\JsonAdm\\' . $name : '<not a string>';
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
-		}
-
 		$view = $context->getView();
 		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
+
+		if( ctype_alnum( $name ) === false ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
+		}
 
 		$client = self::createAdmin( $classname, $iface, $context, $path );
 

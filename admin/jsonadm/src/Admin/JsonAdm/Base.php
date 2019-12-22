@@ -31,7 +31,7 @@ abstract class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context MShop context object
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 */
-	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, $path )
+	public function __construct( \Aimeos\MShop\Context\Item\Iface $context, string $path )
 	{
 		$this->context = $context;
 		$this->path = $path;
@@ -45,7 +45,7 @@ abstract class Base
 	 * @param array $param List of method parameter
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Unable to call method "%1$s"', $name ) );
 	}
@@ -56,7 +56,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Bootstrap The Aimeos bootstrap object
 	 */
-	public function getAimeos()
+	public function getAimeos() : \Aimeos\Bootstrap
 	{
 		if( !isset( $this->aimeos ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Aimeos object not available' ) );
@@ -70,9 +70,9 @@ abstract class Base
 	 * Sets the Aimeos bootstrap object
 	 *
 	 * @param \Aimeos\Bootstrap $aimeos The Aimeos bootstrap object
-	 * @return \Aimeos\Admin\JQAdm\Iface Reference to this object for fluent calls
+	 * @return \Aimeos\Admin\JsonAdm\Iface Reference to this object for fluent calls
 	 */
-	public function setAimeos( \Aimeos\Bootstrap $aimeos )
+	public function setAimeos( \Aimeos\Bootstrap $aimeos ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$this->aimeos = $aimeos;
 		return $this;
@@ -84,7 +84,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
 	 */
-	public function getView()
+	public function getView() : \Aimeos\MW\View\Iface
 	{
 		if( !isset( $this->view ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
@@ -98,9 +98,9 @@ abstract class Base
 	 * Sets the view object that will generate the admin output.
 	 *
 	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output
-	 * @return \Aimeos\Admin\JQAdm\Iface Reference to this object for fluent calls
+	 * @return \Aimeos\Admin\JsonAdm\Iface Reference to this object for fluent calls
 	 */
-	public function setView( \Aimeos\MW\View\Iface $view )
+	public function setView( \Aimeos\MW\View\Iface $view ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$this->view = $view;
 		return $this;
@@ -114,7 +114,7 @@ abstract class Base
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include )
+	protected function getChildItems( array $items, array $include ) : array
 	{
 		return [];
 	}
@@ -125,7 +125,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MShop\Context\Item\Iface Context object
 	 */
-	protected function getContext()
+	protected function getContext() : \Aimeos\MShop\Context\Item\Iface
 	{
 		return $this->context;
 	}
@@ -137,7 +137,7 @@ abstract class Base
 	 * @param \Aimeos\MW\View\Iface $view View object with "resource" parameter
 	 * @return array List of domain names
 	 */
-	protected function getDomains( \Aimeos\MW\View\Iface $view )
+	protected function getDomains( \Aimeos\MW\View\Iface $view ) : array
 	{
 		if( ( $domains = $view->param( 'resource' ) ) == '' )
 		{
@@ -171,7 +171,7 @@ abstract class Base
 	 * @param \stdClass $request Decoded request body
 	 * @return array List of item IDs
 	 */
-	protected function getIds( $request )
+	protected function getIds( \stdClass $request ) : array
 	{
 		$ids = [];
 
@@ -196,7 +196,7 @@ abstract class Base
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 */
-	protected function getListItems( array $items, array $include )
+	protected function getListItems( array $items, array $include ) : array
 	{
 		return [];
 	}
@@ -207,7 +207,7 @@ abstract class Base
 	 *
 	 * @return string Client path, e.g. "product/property"
 	 */
-	protected function getPath()
+	protected function getPath() : string
 	{
 		return $this->path;
 	}
@@ -219,7 +219,7 @@ abstract class Base
 	 * @param array $listItems List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getRefItems( array $listItems )
+	protected function getRefItems( array $listItems ) : array
 	{
 		$list = $map = [];
 		$context = $this->getContext();
@@ -249,7 +249,7 @@ abstract class Base
 	 * @param array List of all available resources
 	 * @return array List of allowed resources
 	 */
-	protected function getAllowedResources( \Aimeos\MW\View\Iface $view, array $resources )
+	protected function getAllowedResources( \Aimeos\MW\View\Iface $view, array $resources ) : array
 	{
 		$config = $this->getContext()->getConfig();
 		$allowed = [];
@@ -271,7 +271,7 @@ abstract class Base
 	 * @param \Aimeos\MW\View\Iface $view View object with "resource" parameter
 	 * @return array List of domain names
 	 */
-	protected function getResources( \Aimeos\MW\View\Iface $view )
+	protected function getResources( \Aimeos\MW\View\Iface $view ) : array
 	{
 		/** admin/jsonadm/resources
 		 * A list of additional resources name whose clients are available for the JSON API
@@ -300,7 +300,7 @@ abstract class Base
 	 * @param array $params List of criteria data with condition, sorting and paging
 	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteria( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteria( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		$this->initCriteriaConditions( $criteria, $params );
 		$this->initCriteriaSortations( $criteria, $params );
@@ -315,11 +315,12 @@ abstract class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		if( !isset( $params['filter'] ) ) {
-			return;
+			return $criteria;
 		}
 
 		if( ( $cond = $criteria->toConditions( (array) $params['filter'] ) ) !== null ) {
@@ -335,13 +336,14 @@ abstract class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		$start = ( isset( $params['page']['offset'] ) ? (int) $params['page']['offset'] : 0 );
 		$size = ( isset( $params['page']['limit'] ) ? (int) $params['page']['limit'] : 25 );
 
-		$criteria->setSlice( $start, $size );
+		return $criteria->setSlice( $start, $size );
 	}
 
 
@@ -350,11 +352,12 @@ abstract class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
-	protected function initCriteriaSortations( \Aimeos\MW\Criteria\Iface $criteria, array $params )
+	protected function initCriteriaSortations( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
 	{
 		if( !isset( $params['sort'] ) ) {
-			return;
+			return $criteria;
 		}
 
 		$sortation = [];
@@ -368,7 +371,7 @@ abstract class Base
 			}
 		}
 
-		$criteria->setSortations( $sortation );
+		return $criteria->setSortations( $sortation );
 	}
 
 
@@ -379,7 +382,7 @@ abstract class Base
 	 * @param \stdClass $request Object with request body data
 	 * @return array List of items
 	 */
-	protected function saveData( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $request )
+	protected function saveData( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $request ) : array
 	{
 		$data = [];
 
@@ -401,7 +404,7 @@ abstract class Base
 	 * @param \stdClass $entry Object including "id" and "attributes" elements
 	 * @return \Aimeos\MShop\Common\Item\Iface New or updated item
 	 */
-	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
+	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
 		if( isset( $entry->id ) ) {
 			$item = $manager->getItem( $entry->id );

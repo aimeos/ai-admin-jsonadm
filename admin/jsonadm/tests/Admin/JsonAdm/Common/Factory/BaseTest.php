@@ -21,7 +21,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelperJadm::getContext();
 		$this->view = $this->context->getView();
 
-		$this->client = new \Aimeos\Admin\JsonAdm\Product\Standard( $this->context, $this->view, [], '' );
+		$this->client = new \Aimeos\Admin\JsonAdm\Product\Standard( $this->context, '' );
 
 		$this->object = $this->getMockBuilder( \Aimeos\Admin\JsonAdm\Common\Factory\Base::class )
 			->getMockForAbstractClass();
@@ -40,7 +40,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 		$config->set( 'client/jsonapi/common/decorators/default', ['Test'] );
 		$config->set( 'client/jsonapi/product/decorators/excludes', ['Test'] );
 
-		$params = [$this->client, $this->context, $this->view, [], 'product'];
+		$params = [$this->client, $this->context, 'product'];
 		$result = $this->access( 'addClientDecorators' )->invokeArgs( $this->object, $params );
 
 		$this->assertInstanceOf( '\Aimeos\\Admin\\JsonAdm\\Iface', $result );
@@ -50,7 +50,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testAddDecorators()
 	{
 		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-		$params = [$this->client, ['Example'], $prefix, $this->context, $this->view, [], ''];
+		$params = [$this->client, ['Example'], $prefix, $this->context, ''];
 
 		$result = $this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
 
@@ -61,7 +61,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testAddDecoratorsInvalidClass()
 	{
 		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-		$params = [$this->client, ['Test'], $prefix, $this->context, $this->view, [], ''];
+		$params = [$this->client, ['Test'], $prefix, $this->context, ''];
 
 		$this->setExpectedException( \Aimeos\Admin\JsonAdm\Exception::class );
 		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
@@ -71,7 +71,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testAddDecoratorsInvalidName()
 	{
 		$prefix = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-		$params = [$this->client, [''], $prefix, $this->context, $this->view, [], ''];
+		$params = [$this->client, [''], $prefix, $this->context, ''];
 
 		$this->setExpectedException( \Aimeos\Admin\JsonAdm\Exception::class );
 		$this->access( 'addDecorators' )->invokeArgs( $this->object, $params );
@@ -82,7 +82,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$iface = '\Aimeos\\Admin\\JsonAdm\\Iface';
 		$class = '\Aimeos\\Admin\\JsonAdm\\Product\\Standard';
-		$params = [$class, $iface, $this->context, $this->view, [], ''];
+		$params = [$class, $iface, $this->context, ''];
 
 		$result = $this->access( 'createAdmin' )->invokeArgs( $this->object, $params );
 
@@ -93,7 +93,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCreateClientBaseCache()
 	{
 		$iface = '\Aimeos\\Admin\\JsonAdm\\Iface';
-		$params = ['test', $iface, $this->context, $this->view, [], ''];
+		$params = ['test', $iface, $this->context, ''];
 
 		$this->object->injectClient( 'test', $this->client );
 		$result = $this->access( 'createAdmin' )->invokeArgs( $this->object, $params );
@@ -105,7 +105,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	public function testCreateClientBaseInvalidClass()
 	{
 		$iface = '\Aimeos\\Admin\\JsonAdm\\Iface';
-		$params = ['invalid', $iface, $this->context, $this->view, [], ''];
+		$params = ['invalid', $iface, $this->context, ''];
 
 		$this->setExpectedException( \Aimeos\Admin\JsonAdm\Exception::class );
 		$this->access( 'createAdmin' )->invokeArgs( $this->object, $params );
@@ -116,7 +116,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$iface = '\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\Iface';
 		$class = '\Aimeos\\Admin\\JsonAdm\\Product\\Standard';
-		$params = [$class, $iface, $this->context, $this->view, [], ''];
+		$params = [$class, $iface, $this->context, ''];
 
 		$this->setExpectedException( \Aimeos\MW\Common\Exception::class );
 		$this->access( 'createAdmin' )->invokeArgs( $this->object, $params );

@@ -107,7 +107,7 @@ class Standard
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 */
-	protected function getListItems( array $items, array $include )
+	protected function getListItems( array $items, array $include ) : array
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'price/lists' );
 

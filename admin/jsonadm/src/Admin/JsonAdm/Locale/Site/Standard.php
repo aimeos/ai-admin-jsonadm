@@ -110,7 +110,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** admin/jsonadm/partials/locale/site/template-data
 		 * Relative path to the data partial template file for the locale site  client
@@ -141,7 +141,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
+	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'locale/site' );
 		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
@@ -169,7 +169,7 @@ class Standard
 	 * @param \stdClass $entry Object including "id" and "attributes" elements
 	 * @return \Aimeos\MShop\Common\Item\Iface New or updated item
 	 */
-	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
+	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
 		if( isset( $entry->id ) )
 		{

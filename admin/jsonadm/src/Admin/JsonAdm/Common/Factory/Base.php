@@ -31,7 +31,7 @@ class Base
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Admin\JsonAdm\Iface|null $client JSON API client object
 	 */
-	public static function injectClient( $classname, \Aimeos\Admin\JsonAdm\Iface $client = null )
+	public static function injectClient( string $classname, \Aimeos\Admin\JsonAdm\Iface $client = null )
 	{
 		self::$objects[$classname] = $client;
 	}
@@ -46,7 +46,7 @@ class Base
 	 * @return \Aimeos\Admin\JsonAdm\Common\Iface Client object
 	 */
 	protected static function addClientDecorators( \Aimeos\Admin\JsonAdm\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, $path )
+		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Common\Iface
 	{
 		$config = $context->getConfig();
 
@@ -118,10 +118,10 @@ class Base
 	 * @param string $classprefix Decorator class prefix, e.g. "\Aimeos\Admin\JsonAdm\Product\Decorator\"
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
-	 * @return \Aimeos\Admin\JsonAdm\Common\Iface Client object
+	 * @return \Aimeos\Admin\JsonAdm\Iface Client object
 	 */
-	protected static function addDecorators( \Aimeos\Admin\JsonAdm\Iface $client, array $decorators, $classprefix,
-			\Aimeos\MShop\Context\Item\Iface $context, $path )
+	protected static function addDecorators( \Aimeos\Admin\JsonAdm\Iface $client, array $decorators, string $classprefix,
+			\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		foreach( $decorators as $name )
 		{
@@ -155,7 +155,8 @@ class Base
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 * @return \Aimeos\Admin\JsonAdm\Common\Iface Client object
 	 */
-	protected static function createAdmin( $classname, $interface, \Aimeos\MShop\Context\Item\Iface $context, $path )
+	protected static function createAdmin( string $classname, string $interface,
+		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Common\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
 			return self::$objects[$classname];

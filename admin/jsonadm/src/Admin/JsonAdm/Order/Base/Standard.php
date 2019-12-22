@@ -110,7 +110,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** admin/jsonadm/partials/order/base/template-data
 		 * Relative path to the data partial template file for the order base client
@@ -140,7 +140,7 @@ class Standard
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include )
+	protected function getChildItems( array $items, array $include ) : array
 	{
 		$list = [];
 		$ids = array_keys( $items );

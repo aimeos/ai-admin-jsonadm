@@ -27,5 +27,5 @@ interface Iface
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 */
-	public function __construct( \Aimeos\Admin\JsonAdm\Iface $client, \Aimeos\MShop\Context\Item\Iface $context, $path );
+	public function __construct( \Aimeos\Admin\JsonAdm\Iface $client, \Aimeos\MShop\Context\Item\Iface $context, string $path );
 }

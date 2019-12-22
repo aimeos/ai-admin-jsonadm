@@ -110,7 +110,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		/** admin/jsonadm/partials/catalog/template-data
 		 * Relative path to the data partial template file for the catalog client
@@ -140,7 +140,7 @@ class Standard
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include )
+	protected function getChildItems( array $items, array $include ) : array
 	{
 		$list = [];
 
@@ -162,7 +162,7 @@ class Standard
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
+	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'catalog' );
 
@@ -209,7 +209,7 @@ class Standard
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 */
-	protected function getListItems( array $items, array $include )
+	protected function getListItems( array $items, array $include ) : array
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'catalog/lists' );
 
@@ -231,7 +231,7 @@ class Standard
 	 * @param \stdClass $entry Object including "id" and "attributes" elements
 	 * @return \Aimeos\MShop\Common\Item\Iface New or updated item
 	 */
-	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry )
+	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
 		$targetId = ( isset( $entry->targetid ) ? $entry->targetid : null );
 		$refId = ( isset( $entry->refid ) ? $entry->refid : null );

@@ -34,7 +34,7 @@ abstract class Base
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 */
-	public function __construct( \Aimeos\Admin\JsonAdm\Iface $client, \Aimeos\MShop\Context\Item\Iface $context, $path )
+	public function __construct( \Aimeos\Admin\JsonAdm\Iface $client, \Aimeos\MShop\Context\Item\Iface $context, string $path )
 	{
 		parent::__construct( $context, $path );
 
@@ -50,7 +50,7 @@ abstract class Base
 	 * @return mixed Returns the value of the called method
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If method call failed
 	 */
-	public function __call( $name, array $param )
+	public function __call( string $name, array $param )
 	{
 		return @call_user_func_array( array( $this->client, $name ), $param );
 	}
@@ -63,7 +63,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function delete( ServerRequestInterface $request, ResponseInterface $response )
+	public function delete( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->client->delete( $request, $response );
 	}
@@ -76,7 +76,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function get( ServerRequestInterface $request, ResponseInterface $response )
+	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->client->get( $request, $response );
 	}
@@ -90,7 +90,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function patch( ServerRequestInterface $request, ResponseInterface $response )
+	public function patch( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->client->patch( $request, $response );
 	}
@@ -104,7 +104,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function post( ServerRequestInterface $request, ResponseInterface $response )
+	public function post( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->client->post( $request, $response );
 	}
@@ -118,7 +118,7 @@ abstract class Base
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function put( ServerRequestInterface $request, ResponseInterface $response )
+	public function put( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->client->put( $request, $response );
 	}
@@ -133,7 +133,8 @@ abstract class Base
 	 * @param string|null $prefix Form parameter prefix when nesting parameters is required
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	public function options( ServerRequestInterface $request, ResponseInterface $response, $prefix = null )
+	public function options( ServerRequestInterface $request, ResponseInterface $response,
+		string $prefix = null ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->client->options( $request, $response, $prefix );
 	}
@@ -144,7 +145,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Bootstrap The Aimeos bootstrap object
 	 */
-	public function getAimeos()
+	public function getAimeos() : \Aimeos\Bootstrap
 	{
 		return $this->client->getAimeos();
 	}
@@ -154,9 +155,9 @@ abstract class Base
 	 * Sets the Aimeos bootstrap object
 	 *
 	 * @param \Aimeos\Bootstrap $aimeos The Aimeos bootstrap object
-	 * @return \Aimeos\Admin\JQAdm\Iface Reference to this object for fluent calls
+	 * @return \Aimeos\Admin\JsonAdm\Iface Reference to this object for fluent calls
 	 */
-	public function setAimeos( \Aimeos\Bootstrap $aimeos )
+	public function setAimeos( \Aimeos\Bootstrap $aimeos ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		parent::setAimeos( $aimeos );
 
@@ -170,7 +171,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
 	 */
-	public function getView()
+	public function getView() : \Aimeos\MW\View\Iface
 	{
 		return $this->client->getView();
 	}
@@ -180,9 +181,9 @@ abstract class Base
 	 * Sets the view object that will generate the admin output.
 	 *
 	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output
-	 * @return \Aimeos\Admin\JQAdm\Iface Reference to this object for fluent calls
+	 * @return \Aimeos\Admin\JsonAdm\Iface Reference to this object for fluent calls
 	 */
-	public function setView( \Aimeos\MW\View\Iface $view )
+	public function setView( \Aimeos\MW\View\Iface $view ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		parent::setView( $view );
 
@@ -196,7 +197,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Admin\JsonAdm\Iface Admin client object
 	 */
-	protected function getClient()
+	protected function getClient() : \Aimeos\Admin\JsonAdm\Iface
 	{
 		return $this->client;
 	}
