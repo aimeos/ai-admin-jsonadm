@@ -185,7 +185,7 @@ class Standard
 		$item = $manager->createItem();
 		$item->setProvider( $id );
 
-		$view->configItems = $manager->getProvider( $item, null )->getConfigBE();
+		$view->configItems = $manager->getProvider( $item, '' )->getConfigBE();
 
 		return $response;
 	}

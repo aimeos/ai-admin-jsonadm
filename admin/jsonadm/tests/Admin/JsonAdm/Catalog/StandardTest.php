@@ -90,12 +90,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatch()
 	{
 		$stub = $this->getCatalogMock( array( 'getItem', 'moveItem', 'saveItem' ) );
+		$item = $stub->createItem()->setId( '-1' );
 
 		$stub->expects( $this->once() )->method( 'moveItem' );
 		$stub->expects( $this->once() )->method( 'saveItem' )
-			->will( $this->returnValue( $stub->createItem() ) );
+			->will( $this->returnValue( $item ) );
 		$stub->expects( $this->exactly( 2 ) )->method( 'getItem' ) // 2x due to decorator
-			->will( $this->returnValue( $stub->createItem() ) );
+			->will( $this->returnValue( $item ) );
 
 
 		$params = array( 'id' => '-1' );
@@ -124,10 +125,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPost()
 	{
 		$stub = $this->getCatalogMock( array( 'getItem', 'insertItem' ) );
+		$item = $stub->createItem()->setId( '-1' );
 
 		$stub->expects( $this->any() )->method( 'getItem' )
-			->will( $this->returnValue( $stub->createItem() ) );
-		$stub->expects( $this->once() )->method( 'insertItem' );
+			->will( $this->returnValue( $item ) );
+		$stub->expects( $this->once() )->method( 'insertItem' )
+			->will( $this->returnValue( $item ) );
 
 
 		$body = '{"data": {"type": "catalog", "attributes": {"catalog.code": "test", "catalog.label": "Test catalog"}}}';
