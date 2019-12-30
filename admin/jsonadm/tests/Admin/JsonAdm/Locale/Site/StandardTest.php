@@ -88,10 +88,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatch()
 	{
 		$stub = $this->getSiteMock( array( 'getItem', 'moveItem', 'saveItem' ) );
-		$item = $stub->createItem();
+		$item = $stub->createItem()->setId( '-1' );
 
 		$stub->expects( $this->once() )->method( 'saveItem' )
-			->will( $this->returnValue( $stub->createItem() ) );
+			->will( $this->returnValue( $item ) );
 		$stub->expects( $this->exactly( 2 ) )->method( 'getItem' ) // 2x due to decorator
 			->will( $this->returnValue( $item ) );
 
@@ -126,7 +126,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$stub->expects( $this->any() )->method( 'getItem' )
 			->will( $this->returnValue( $item ) );
-		$stub->expects( $this->once() )->method( 'insertItem' );
+		$stub->expects( $this->once() )->method( 'insertItem' )
+			->will( $this->returnValue( $item->setId( '-1' ) ) );
 
 
 		$body = '{"data": {"type": "locale/site", "attributes": {"locale.site.code": "unittest", "locale.site.label": "Unit test"}}}';
