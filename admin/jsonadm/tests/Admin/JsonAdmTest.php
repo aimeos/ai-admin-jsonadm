@@ -60,7 +60,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJadm::getContext();
 		$aimeos = \TestHelperJadm::getAimeos();
 
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm::create( $context, $aimeos, '%^' );
 	}
 
@@ -70,7 +70,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 		$context = \TestHelperJadm::getContext();
 		$aimeos = \TestHelperJadm::getAimeos();
 
-		$this->setExpectedException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm::create( $context, $aimeos, '', '%^' );
 	}
 }

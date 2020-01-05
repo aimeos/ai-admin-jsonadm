@@ -16,7 +16,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	private $view;
 
 
-	protected function setUp()
+	protected function setUp() : void
 	{
 		$this->context = \TestHelperJadm::getContext();
 		$this->view = $this->context->getView();
@@ -43,7 +43,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 2, $result['meta']['total'] );
-		$this->assertInternalType( 'array', $result['data'] );
+		$this->assertIsArray( $result['data'] );
 		$this->assertEquals( 'category.include', $result['data'][0]['id'] );
 		$this->assertEquals( 'category.exclude', $result['data'][1]['id'] );
 
