@@ -157,9 +157,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'catalog.code', $code ) );
-		$items = $manager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( sprintf( 'No catalog item with code "%1$s" found', $code ) );
 		}
 

@@ -59,7 +59,7 @@ $build = function( \Aimeos\MShop\Locale\Item\Site\Iface $item ) use ( $fields )
 
 $data = $this->get( 'data', [] );
 
-if( is_array( $data ) )
+if( $data instanceof \Aimeos\Map )
 {
 	$response = [];
 

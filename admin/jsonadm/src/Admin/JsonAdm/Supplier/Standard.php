@@ -103,14 +103,14 @@ class Standard
 	/**
 	 * Returns the items with parent/child relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include ) : array
+	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$list = [];
-		$refIds = array_keys( $items );
+		$list = new \Aimeos\Map();
+		$ids = $items->keys()->toArray();
 		$include = array_intersect( $include, array( 'supplier/address' ) );
 
 		foreach( $include as $type )
@@ -118,9 +118,9 @@ class Standard
 			$manager = \Aimeos\MShop::create( $this->getContext(), $type );
 
 			$search = $manager->createSearch();
-			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.parentid', $refIds ) );
+			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.parentid', $ids ) );
 
-			$list = array_merge( $list, $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->searchItems( $search ) );
 		}
 
 		return $list;
@@ -130,17 +130,17 @@ class Standard
 	/**
 	 * Returns the list items for association relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 */
-	protected function getListItems( array $items, array $include ) : array
+	protected function getListItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'supplier/lists' );
 
 		$search = $manager->createSearch();
 		$expr = array(
-			$search->compare( '==', 'supplier.lists.parentid', array_keys( $items ) ),
+			$search->compare( '==', 'supplier.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'supplier.lists.domain', $include ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );

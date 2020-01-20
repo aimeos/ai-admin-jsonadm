@@ -110,13 +110,13 @@ abstract class Base
 	/**
 	 * Returns the items with parent/child relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include ) : array
+	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		return [];
+		return new \Aimeos\Map();
 	}
 
 
@@ -177,6 +177,7 @@ abstract class Base
 
 		if( isset( $request->data ) )
 		{
+//			\Aimeos\Map::from( (array) $request->data )->col( 'id' )->toArray()
 			foreach( (array) $request->data as $entry )
 			{
 				if( isset( $entry->id ) ) {
@@ -192,13 +193,13 @@ abstract class Base
 	/**
 	 * Returns the list items for association relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
 	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 */
-	protected function getListItems( array $items, array $include ) : array
+	protected function getListItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		return [];
+		return new \Aimeos\Map();
 	}
 
 
@@ -216,12 +217,13 @@ abstract class Base
 	/**
 	 * Returns the items associated via a lists table
 	 *
-	 * @param array $listItems List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $listItems List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getRefItems( array $listItems ) : array
+	protected function getRefItems( \Aimeos\Map $listItems ) : \Aimeos\Map
 	{
-		$list = $map = [];
+		$map = [];
+		$list = new \Aimeos\Map();
 		$context = $this->getContext();
 
 		foreach( $listItems as $listItem ) {
@@ -235,7 +237,7 @@ abstract class Base
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $domain ) . '.id', $ids ) );
 
-			$list = array_merge( $list, $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->searchItems( $search ) );
 		}
 
 		return $list;
@@ -380,9 +382,9 @@ abstract class Base
 	 *
 	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
 	 * @param \stdClass $request Object with request body data
-	 * @return array List of items
+	 * @return \Aimeos\Map List of items
 	 */
-	protected function saveData( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $request ) : array
+	protected function saveData( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $request ) : \Aimeos\Map
 	{
 		$data = [];
 
@@ -393,7 +395,7 @@ abstract class Base
 			}
 		}
 
-		return $data;
+		return new \Aimeos\Map( $data );
 	}
 
 

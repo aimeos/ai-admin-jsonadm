@@ -163,7 +163,7 @@ foreach( (array) $fields as $resource => $list ) {
 
 	"links": {
 
-		<?php if( is_array( $this->get( 'data' ) ) ) : ?>
+		<?php if( $this->get( 'data' ) instanceof \Aimeos\Map ) : ?>
 			<?php if( $first !== null ) : ?>
 				"first": "<?php $params['page']['offset'] = $first; echo $this->url( $target, $cntl, $action, $params, [], $config ); ?>",
 

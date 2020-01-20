@@ -136,39 +136,34 @@ class Standard
 	/**
 	 * Returns the items with parent/child relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include ) : array
+	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$list = [];
+		$list = new \Aimeos\Map();
 
 		if( in_array( 'order/base', $include ) )
 		{
-			$ids = [];
-
-			foreach( $items as $item ) {
-				$ids[] = $item->getBaseId();
-			}
-
+			$ids = \Aimeos\Map::from( $items )->getBaseId()->toArray();
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', 'order.base.id', $ids ) );
 
-			$list = array_merge( $list, $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->searchItems( $search ) );
 		}
 
 		if( in_array( 'order/status', $include ) )
 		{
-			$ids = array_keys( $items );
+			$ids = $items->keys()->toArray();
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/status' );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', 'order.status.parentid', $ids ) );
 
-			$list = array_merge( $list, $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->searchItems( $search ) );
 		}
 
 		return $list;

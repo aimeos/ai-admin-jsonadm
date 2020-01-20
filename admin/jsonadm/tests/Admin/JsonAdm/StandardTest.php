@@ -137,7 +137,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
@@ -295,7 +294,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
@@ -813,9 +811,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'product' );
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'product.code', $code ) );
-		$items = $manager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( sprintf( 'No product item with code "%1$s" found', $code ) );
 		}
 

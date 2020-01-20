@@ -136,18 +136,18 @@ class Standard
 	/**
 	 * Returns the items with parent/child relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include ) : array
+	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$list = [];
+		$list = new \Aimeos\Map();
 
 		if( in_array( 'catalog', $include ) )
 		{
 			foreach( $items as $item ) {
-				$list = array_merge( $list, [$item], $this->getChildItems( $item->getChildren(), $include ) );
+				$list = $list->push( $item )->merge( $this->getChildItems( new \Aimeos\Map( $item->getChildren() ), $include ) );
 			}
 		}
 
@@ -181,7 +181,7 @@ class Standard
 		{
 			$view->data = $manager->searchItems( $search, [], $total );
 			$view->listItems = $this->getListItems( $view->data, $include );
-			$view->childItems = [];
+			$view->childItems = new \Aimeos\Map();
 		}
 		else
 		{
@@ -191,8 +191,8 @@ class Standard
 			}
 
 			$view->data = $manager->getTree( $id, $include, $level, $search );
-			$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
-			$view->childItems = $this->getChildItems( $view->data->getChildren(), $include );
+			$view->listItems = $this->getListItems( new \Aimeos\Map( [$id => $view->data] ), $include );
+			$view->childItems = $this->getChildItems( new \Aimeos\Map( $view->data->getChildren() ), $include );
 		}
 
 		$view->refItems = $this->getRefItems( $view->listItems );
@@ -205,17 +205,17 @@ class Standard
 	/**
 	 * Returns the list items for association relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 */
-	protected function getListItems( array $items, array $include ) : array
+	protected function getListItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'catalog/lists' );
 
 		$search = $manager->createSearch();
 		$expr = array(
-			$search->compare( '==', 'catalog.lists.parentid', array_keys( $items ) ),
+			$search->compare( '==', 'catalog.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'catalog.lists.domain', $include ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );

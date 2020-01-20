@@ -21,7 +21,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$build = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $listItems ) use ( $fields )
+$build = function( \Aimeos\MShop\Catalog\Item\Iface $item, \Aimeos\Map $listItems ) use ( $fields )
 {
 	$id = $item->getId();
 	$type = $item->getResourceType();
@@ -76,9 +76,9 @@ $build = function( \Aimeos\MShop\Catalog\Item\Iface $item, array $listItems ) us
 
 
 $data = $this->get( 'data', [] );
-$listItems = $this->get( 'listItems', [] );
+$listItems = $this->get( 'listItems', new \Aimeos\Map() );
 
-if( is_array( $data ) )
+if( $data instanceof \Aimeos\Map )
 {
 	$response = [];
 

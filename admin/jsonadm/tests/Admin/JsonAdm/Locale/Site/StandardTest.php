@@ -154,9 +154,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$manager = \Aimeos\MShop::create( $this->context, 'locale/site' );
 		$search = $manager->createSearch();
 		$search->setConditions( $search->compare( '==', 'locale.site.code', $code ) );
-		$items = $manager->searchItems( $search );
 
-		if( ( $item = reset( $items ) ) === false ) {
+		if( ( $item = $manager->searchItems( $search )->first() ) === null ) {
 			throw new \RuntimeException( sprintf( 'No locale site item with code "%1$s" found', $code ) );
 		}
 

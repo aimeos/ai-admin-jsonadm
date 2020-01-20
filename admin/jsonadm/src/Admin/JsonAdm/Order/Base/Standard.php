@@ -136,14 +136,14 @@ class Standard
 	/**
 	 * Returns the items with parent/child relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 */
-	protected function getChildItems( array $items, array $include ) : array
+	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$list = [];
-		$ids = array_keys( $items );
+		$list = new \Aimeos\Map();
+		$ids = $items->keys()->toArray();
 		$keys = array( 'order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service' );
 		$include = array_intersect( $include, $keys );
 
@@ -154,7 +154,7 @@ class Standard
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ) );
 
-			$list = array_merge( $list, $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->searchItems( $search ) );
 		}
 
 		return $list;

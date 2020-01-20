@@ -103,17 +103,17 @@ class Standard
 	/**
 	 * Returns the list items for association relationships
 	 *
-	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
+	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
 	 * @param array $include List of resource types that should be fetched
-	 * @return array List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
+	 * @return \Aimeos\Map List of items implementing \Aimeos\MShop\Common\Item\Lists\Iface
 	 */
-	protected function getListItems( array $items, array $include ) : array
+	protected function getListItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'attribute/lists' );
 
 		$search = $manager->createSearch();
 		$expr = array(
-			$search->compare( '==', 'attribute.lists.parentid', array_keys( $items ) ),
+			$search->compare( '==', 'attribute.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'attribute.lists.domain', $include ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );

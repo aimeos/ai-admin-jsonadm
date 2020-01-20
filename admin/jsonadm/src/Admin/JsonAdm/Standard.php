@@ -562,8 +562,8 @@ class Standard
 		else
 		{
 			$view->data = $manager->getItem( $id, [] );
-			$view->childItems = $this->getChildItems( array( $id => $view->data ), $include );
-			$view->listItems = $this->getListItems( array( $id => $view->data ), $include );
+			$view->childItems = $this->getChildItems( new \Aimeos\Map( [$id => $view->data] ), $include );
+			$view->listItems = $this->getListItems( new \Aimeos\Map( [$id => $view->data] ), $include );
 		}
 
 		$view->refItems = $this->getRefItems( $view->listItems );

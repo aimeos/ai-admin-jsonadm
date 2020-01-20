@@ -153,9 +153,9 @@ class Standard
 			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $search );
 		}
 
-		$view->childItems = [];
-		$view->listItems = [];
-		$view->refItems = [];
+		$view->childItems = new \Aimeos\Map();
+		$view->listItems = new \Aimeos\Map();
+		$view->refItems = new \Aimeos\Map();
 		$view->total = $total;
 
 		return $response;

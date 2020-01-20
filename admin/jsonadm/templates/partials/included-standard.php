@@ -21,7 +21,7 @@ foreach( (array) $fields as $resource => $list ) {
 }
 
 
-$build = function( array $items ) use ( $fields )
+$build = function( \Aimeos\Map $items ) use ( $fields )
 {
 	$list = [];
 
@@ -30,7 +30,7 @@ $build = function( array $items ) use ( $fields )
 	$action = $this->config( 'admin/jsonadm/url/action', 'get' );
 	$config = $this->config( 'admin/jsonadm/url/config', [] );
 
-	foreach( (array) $items as $item )
+	foreach( $items as $item )
 	{
 		$id = $item->getId();
 		$type = $item->getResourceType();
@@ -57,9 +57,8 @@ $build = function( array $items ) use ( $fields )
 };
 
 
-$response = [];
-$response = $build( $this->get( 'childItems', [] ) );
-$response = array_merge( $response, $build( $this->get( 'refItems', [] ) ) );
+$response = $build( $this->get( 'childItems', new \Aimeos\Map() ) );
+$response = array_merge( $response, $build( $this->get( 'refItems', new \Aimeos\Map() ) ) );
 
 
 echo json_encode( $response, $options );
