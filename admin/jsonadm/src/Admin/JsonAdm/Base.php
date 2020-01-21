@@ -116,7 +116,7 @@ abstract class Base
 	 */
 	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		return new \Aimeos\Map();
+		return map();
 	}
 
 
@@ -199,7 +199,7 @@ abstract class Base
 	 */
 	protected function getListItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		return new \Aimeos\Map();
+		return map();
 	}
 
 
@@ -223,7 +223,7 @@ abstract class Base
 	protected function getRefItems( \Aimeos\Map $listItems ) : \Aimeos\Map
 	{
 		$map = [];
-		$list = new \Aimeos\Map();
+		$list = map();
 		$context = $this->getContext();
 
 		foreach( $listItems as $listItem ) {
@@ -395,7 +395,7 @@ abstract class Base
 			}
 		}
 
-		return new \Aimeos\Map( $data );
+		return map( $data );
 	}
 
 

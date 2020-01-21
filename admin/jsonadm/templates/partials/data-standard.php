@@ -79,8 +79,8 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, \Aimeos\Map $childItem
 
 
 $data = $this->get( 'data', [] );
-$childItems = $this->get( 'childItems', new \Aimeos\Map() );
-$listItems = $this->get( 'listItems', new \Aimeos\Map() );
+$childItems = $this->get( 'childItems', map() );
+$listItems = $this->get( 'listItems', map() );
 
 if( $data instanceof \Aimeos\Map )
 {

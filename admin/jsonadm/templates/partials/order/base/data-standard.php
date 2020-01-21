@@ -66,8 +66,8 @@ $build = function( \Aimeos\MShop\Order\Item\Base\Iface $item, \Aimeos\Map $child
 };
 
 
-$data = $this->get( 'data', new \Aimeos\Map() );
-$childItems = $this->get( 'childItems', new \Aimeos\Map() );
+$data = $this->get( 'data', map() );
+$childItems = $this->get( 'childItems', map() );
 
 if( $data instanceof \Aimeos\Map )
 {

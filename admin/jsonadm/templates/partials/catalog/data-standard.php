@@ -76,7 +76,7 @@ $build = function( \Aimeos\MShop\Catalog\Item\Iface $item, \Aimeos\Map $listItem
 
 
 $data = $this->get( 'data', [] );
-$listItems = $this->get( 'listItems', new \Aimeos\Map() );
+$listItems = $this->get( 'listItems', map() );
 
 if( $data instanceof \Aimeos\Map )
 {

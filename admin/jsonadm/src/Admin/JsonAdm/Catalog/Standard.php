@@ -142,12 +142,12 @@ class Standard
 	 */
 	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$list = new \Aimeos\Map();
+		$list = map();
 
 		if( in_array( 'catalog', $include ) )
 		{
 			foreach( $items as $item ) {
-				$list = $list->push( $item )->merge( $this->getChildItems( new \Aimeos\Map( $item->getChildren() ), $include ) );
+				$list = $list->push( $item )->merge( $this->getChildItems( map( $item->getChildren() ), $include ) );
 			}
 		}
 
@@ -181,7 +181,7 @@ class Standard
 		{
 			$view->data = $manager->searchItems( $search, [], $total );
 			$view->listItems = $this->getListItems( $view->data, $include );
-			$view->childItems = new \Aimeos\Map();
+			$view->childItems = map();
 		}
 		else
 		{
@@ -191,8 +191,8 @@ class Standard
 			}
 
 			$view->data = $manager->getTree( $id, $include, $level, $search );
-			$view->listItems = $this->getListItems( new \Aimeos\Map( [$id => $view->data] ), $include );
-			$view->childItems = $this->getChildItems( new \Aimeos\Map( $view->data->getChildren() ), $include );
+			$view->listItems = $this->getListItems( map( [$id => $view->data] ), $include );
+			$view->childItems = $this->getChildItems( map( $view->data->getChildren() ), $include );
 		}
 
 		$view->refItems = $this->getRefItems( $view->listItems );

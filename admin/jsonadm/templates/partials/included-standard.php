@@ -57,8 +57,8 @@ $build = function( \Aimeos\Map $items ) use ( $fields )
 };
 
 
-$response = $build( $this->get( 'childItems', new \Aimeos\Map() ) );
-$response = array_merge( $response, $build( $this->get( 'refItems', new \Aimeos\Map() ) ) );
+$response = $build( $this->get( 'childItems', map() ) );
+$response = array_merge( $response, $build( $this->get( 'refItems', map() ) ) );
 
 
 echo json_encode( $response, $options );

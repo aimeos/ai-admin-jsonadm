@@ -109,7 +109,7 @@ class Standard
 	 */
 	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$list = new \Aimeos\Map();
+		$list = map();
 		$ids = $items->keys()->toArray();
 		$include = array_intersect( $include, array( 'customer/address' ) );
 

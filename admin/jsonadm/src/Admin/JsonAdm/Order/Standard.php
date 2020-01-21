@@ -142,7 +142,7 @@ class Standard
 	 */
 	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$list = new \Aimeos\Map();
+		$list = map();
 
 		if( in_array( 'order/base', $include ) )
 		{
