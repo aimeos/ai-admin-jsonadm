@@ -69,7 +69,7 @@ $build = function( \Aimeos\MShop\Order\Item\Base\Iface $item, \Aimeos\Map $child
 $data = $this->get( 'data', map() );
 $childItems = $this->get( 'childItems', map() );
 
-if( $data instanceof \Aimeos\Map )
+if( is_map( $data ) )
 {
 	$response = [];
 

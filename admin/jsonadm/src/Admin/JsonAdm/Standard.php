@@ -516,8 +516,8 @@ class Standard
 				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 			}
 
-			$ids = $this->getIds( $payload );
-			$manager->deleteItems( $ids );
+			$ids = map( $payload->data )->col( 'id' );
+			$manager->deleteItems( $ids->toArray() );
 			$view->total = count( $ids );
 		}
 		else

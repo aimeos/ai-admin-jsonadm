@@ -146,7 +146,7 @@ class Standard
 
 		if( in_array( 'order/base', $include ) )
 		{
-			$ids = \Aimeos\Map::from( $items )->getBaseId()->toArray();
+			$ids = map( $items )->getBaseId()->toArray();
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
 
 			$search = $manager->createSearch();

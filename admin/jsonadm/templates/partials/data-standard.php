@@ -82,7 +82,7 @@ $data = $this->get( 'data', [] );
 $childItems = $this->get( 'childItems', map() );
 $listItems = $this->get( 'listItems', map() );
 
-if( $data instanceof \Aimeos\Map )
+if( is_map( $data ) )
 {
 	$response = [];
 

@@ -166,31 +166,6 @@ abstract class Base
 
 
 	/**
-	 * Returns the IDs sent in the request body
-	 *
-	 * @param \stdClass $request Decoded request body
-	 * @return array List of item IDs
-	 */
-	protected function getIds( \stdClass $request ) : array
-	{
-		$ids = [];
-
-		if( isset( $request->data ) )
-		{
-//			\Aimeos\Map::from( (array) $request->data )->col( 'id' )->toArray()
-			foreach( (array) $request->data as $entry )
-			{
-				if( isset( $entry->id ) ) {
-					$ids[] = $entry->id;
-				}
-			}
-		}
-
-		return $ids;
-	}
-
-
-	/**
 	 * Returns the list items for association relationships
 	 *
 	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
