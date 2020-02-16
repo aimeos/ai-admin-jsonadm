@@ -48,16 +48,16 @@ $build = function( \Aimeos\MShop\Order\Item\Iface $item, array $childItems ) use
 		'relationships' => []
 	);
 
-	foreach( $childItems as $childId => $childItem )
+	foreach( $childItems as $childItem )
 	{
 		if( $childItem instanceof \Aimeos\MShop\Order\Item\Status\Iface && $childItem->getParentId() == $id
 			|| $childItem instanceof \Aimeos\MShop\Order\Item\Base\Iface && $childItem->getId() == $baseId
 		) {
 			$type = $childItem->getResourceType();
-			$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childId );
+			$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childItem->getId() );
 
 			$result['relationships'][$type][] = array( 'data' => array(
-				'id' => $childId, 'type' => $type,
+				'id' => $childItem->getId(), 'type' => $type,
 				'links' => array(
 					'self' => $this->url( $target, $cntl, $action, $params, [], $config )
 				)
