@@ -48,6 +48,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'order/base', $result['data'][0]['type'] );
+		$this->assertEquals( 2, count( $result['data'][0]['relationships'] ) );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/base/address'] ) );
 		$this->assertEquals( 6, count( $result['data'][0]['relationships']['order/base/product'] ) );
 		$this->assertEquals( 7, count( $result['included'] ) );
@@ -60,7 +61,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'fields' => array(
-				'order/base' => 'order.base.languageid,order.base.currencyid'
+				'order/base' => 'order.base.languageid,order.base.currencyid',
+				'order/base/product' => 'order.base.product.name,order.base.product.price'
 			),
 			'sort' => 'order.base.id',
 			'include' => 'order/base/product'
@@ -81,6 +83,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
 		$this->assertGreaterThanOrEqual( 4, count( $result['data'][0]['relationships']['order/base/product'] ) );
 		$this->assertGreaterThanOrEqual( 14, count( $result['included'] ) );
+		$this->assertGreaterThanOrEqual( 2, count( $result['included'][0]['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

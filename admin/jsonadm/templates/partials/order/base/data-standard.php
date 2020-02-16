@@ -47,15 +47,15 @@ $build = function( \Aimeos\MShop\Order\Item\Base\Iface $item, \Aimeos\Map $child
 		'relationships' => []
 	);
 
-	foreach( $childItems as $childId => $childItem )
+	foreach( $childItems as $childItem )
 	{
 		if( $childItem->getBaseId() == $id )
 		{
 			$type = $childItem->getResourceType();
-			$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childId );
+			$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childItem->getId() );
 
 			$result['relationships'][$type][] = array( 'data' => array(
-				'id' => $childId, 'type' => $type, 'links' => array(
+				'id' => $childItem->getId(), 'type' => $type, 'links' => array(
 					'self' => $this->url( $target, $cntl, $action, $params, [], $config )
 				)
 			) );
