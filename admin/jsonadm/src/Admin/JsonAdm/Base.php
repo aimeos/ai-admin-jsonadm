@@ -432,16 +432,18 @@ abstract class Base
 						$listItem->setRefId( $data->id );
 					}
 
-					$listItem->setParentId( $id );
-					$listItem->setDomain( $domain );
-
+					$listItem->setParentId( $id )->setDomain( $domain );
 					$listManager->saveItem( $listItem, false );
-					
-					if( $domain == "product" ) {
-						$productManager = \Aimeos\MShop::create( $context, 'product' );
-						if( isset( $data->id ) ) {
-							$item = $productManager->getItem( $data->id );
-							\Aimeos\MShop::create( $context, 'index' )->rebuildIndex( [$item->getId() => $item] );
+
+					if( $domain === "product" )
+					{
+						$productManager = \Aimeos\MShop::create( $this->context, 'product' );
+						$domains = $this->context->getConfig( 'mshop/index/manager/standard/domains', [] );
+
+						if( isset( $data->id ) )
+						{
+							$item = $productManager->getItem( $listItem->getRefId(), $domains );
+							\Aimeos\MShop::create( $this->context, 'index' )->rebuildIndex( [$item->getId() => $item] );
 						}
 					}
 				}

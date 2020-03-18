@@ -588,6 +588,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'createItem', 'getItem', 'saveItem' ) );
 		$productManagerListsStub = $this->getProductListsMock( array( 'saveItem' ) );
 
+		$product = $productManagerStub->findItem( 'CNE' );
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
@@ -600,19 +601,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $productManagerStub->createItem() ) );
 
-		$productManagerListsStub->expects( $this->once() )->method( 'saveItem' );
+		$productManagerListsStub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
 
 		$body = '{"data": {"type": "product",
 			"attributes": {"product.label": "test"},
 			"relationships": {"text": {"data": [
-				{"type": "text", "id": "-2", "attributes": {"product.lists.type": "default"}}
+				{"type": "text", "id": "-2", "attributes": {"product.lists.type": "default"}},
+				{"type": "product", "id": "' . $product->getId() . '", "attributes": {"product.lists.type": "default"}}
 			]}}
 		}}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
 
 		$response = $this->object->post( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 201, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
