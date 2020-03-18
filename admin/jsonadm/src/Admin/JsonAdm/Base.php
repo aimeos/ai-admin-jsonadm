@@ -436,6 +436,14 @@ abstract class Base
 					$listItem->setDomain( $domain );
 
 					$listManager->saveItem( $listItem, false );
+					
+					if( $domain == "product" ) {
+						$productManager = \Aimeos\MShop::create( $context, 'product' );
+						if( isset( $data->id ) ) {
+							$item = $productManager->getItem( $data->id );
+							\Aimeos\MShop::create( $context, 'index' )->rebuildIndex( [$item->getId() => $item] );
+						}
+					}
 				}
 			}
 		}
