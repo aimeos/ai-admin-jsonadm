@@ -441,7 +441,7 @@ abstract class Base
 						$domains = $this->context->getConfig()->get( 'mshop/index/manager/standard/domains', [] );
 
 						$item = $productManager->getItem( $listItem->getRefId(), $domains );
-						\Aimeos\MShop::create( $this->context, 'index' )->rebuildIndex( [$item->getId() => $item] );
+						\Aimeos\MShop::create( $this->context, 'index' )->rebuild( [$item->getId() => $item] );
 					}
 				}
 			}
