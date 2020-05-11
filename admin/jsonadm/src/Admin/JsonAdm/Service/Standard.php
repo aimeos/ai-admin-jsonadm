@@ -121,34 +121,34 @@ class Standard
 		return $manager->searchItems( $search );
 	}
 	
-     /**
-     * Saves and returns the new or updated item
-     *
-     * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
-     * @param \stdClass $entry Object including "id" and "attributes" elements
-     * @return \Aimeos\MShop\Common\Item\Iface New or updated item
-     */
-    protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
-    {
-        if( isset( $entry->id ) ) {
-            $item = $manager->getItem( $entry->id );
-        } else {
-            $item = $manager->createItem();
-        }
-
-        if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
-            if(isset($attr["service.config"])) {
-                $attr["service.config"] = (array) $attr["service.config"];
-            }
-            $item = $item->fromArray( $attr, true );
-        }
-
-        $item = $manager->saveItem( $item );
-
-        if( isset( $entry->relationships ) ) {
-            $this->saveRelationships( $manager, $item, $entry->relationships );
-        }
-
-        return $manager->getItem( $item->getId() );
-    }
+	/**
+	* Saves and returns the new or updated item
+	*
+	* @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
+	* @param \stdClass $entry Object including "id" and "attributes" elements
+	* @return \Aimeos\MShop\Common\Item\Iface New or updated item
+	*/
+	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
+	{
+		if( isset( $entry->id ) ) {
+			$item = $manager->getItem( $entry->id );
+		} else {
+			$item = $manager->createItem();
+		}
+		
+		if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
+			if( isset( $attr["service.config"] ) ) {
+				$attr["service.config"] = (array) $attr["service.config"];
+			}
+			$item = $item->fromArray( $attr, true );
+		}
+		
+		$item = $manager->saveItem( $item );
+		
+		if( isset( $entry->relationships ) ) {
+			$this->saveRelationships( $manager, $item, $entry->relationships );
+		}
+		
+		return $manager->getItem( $item->getId() );
+	}
 }
