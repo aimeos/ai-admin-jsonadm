@@ -392,7 +392,7 @@ abstract class Base
 		if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
 			if( $item instanceof \Aimeos\MShop\Common\Item\Config\Iface ) {
 				$key = str_replace( '/', '.', $this->path ) . '.config';
-				$attr[ $key ] = (array) ( $attr[ $key ] ?? [] );
+				$attr[$key] = (array) ( $attr[$key] ?? [] );
 			}
 			$item = $item->fromArray( $attr, true );
 		}
@@ -430,7 +430,7 @@ abstract class Base
 
 					if( isset( $data->attributes ) && ( $attr = (array) $data->attributes ) ) {
 						$key = str_replace( '/', '.', $this->path ) . '.config';
-						$attr[ $key ] = (array) ( $attr[ $key ] ?? [] );
+						$attr[$key] = (array) ( $attr[$key] ?? [] );
 						$item = $item->fromArray( $attr, true );
 					}
 
