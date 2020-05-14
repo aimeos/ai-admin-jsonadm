@@ -143,13 +143,28 @@ class Standard
 	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
 		$list = map();
+		$context = $this->getContext();
 		$ids = $items->keys()->toArray();
-		$keys = array( 'order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service' );
-		$include = array_intersect( $include, $keys );
+		$domains = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'];
+		$include = map( $domains )->intersect( $include );
+
+		if( ( $key = $include->search( 'order/base/product' ) ) !== null )
+		{
+			$manager = \Aimeos\MShop::create( $context, 'order/base/product' );
+
+			$search = $manager->createSearch();
+			$search->setConditions( $search->combine( '&&', [
+				$search->compare( '==', 'order.base.product.baseid', $ids ),
+				$search->compare( '=~', 'order.base.product.siteid', $context->getLocale()->getSiteId() )
+			] ) );
+
+			$list = $list->merge( $manager->searchItems( $search ) );
+			$include->remove( $key );
+		}
 
 		foreach( $include as $type )
 		{
-			$manager = \Aimeos\MShop::create( $this->getContext(), $type );
+			$manager = \Aimeos\MShop::create( $context, $type );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ) );
@@ -158,5 +173,27 @@ class Standard
 		}
 
 		return $list;
+	}
+
+
+	/**
+	 * Initializes the criteria object with conditions based on the given parameter
+	 *
+	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
+	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
+	 */
+	protected function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params ) : \Aimeos\MW\Criteria\Iface
+	{
+		if( isset( $params['filter'] ) && ( $cond = $criteria->toConditions( (array) $params['filter'] ) ) !== null ) {
+			$criteria = $criteria->setConditions( $criteria->combine( '&&', [$cond, $criteria->getConditions()] ) );
+		}
+
+		$criteria->setConditions( $criteria->combine( '&&', [
+			$criteria->compare( '=~', 'order.base.product.siteid', $this->getContext()->getLocale()->getSiteId() ),
+			$criteria->getConditions()
+		] ) );
+
+		return $criteria;
 	}
 }
