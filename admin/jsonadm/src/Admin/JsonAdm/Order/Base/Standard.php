@@ -145,29 +145,35 @@ class Standard
 	{
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
+		$siteids = array_merge( $context->getLocale()->getSitePath(), $context->getLocale()->getSiteSubTree() );
+
+		$search = $manager->createSearch();
+		$search->setConditions( $search->combine( '&&', [
+			$search->compare( '==', 'order.base.product.siteid', $siteids ),
+			$search->getConditions(),
+		] ) );
 
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $search, $view->param() );
 			$view->data = $manager->aggregate( $search, $key, $view->param( 'value' ), $view->param( 'type' ) );
 			return $response;
 		}
 
 		$total = 1;
-		$search = $manager->createSearch();
 		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
 
-		if( ( $id = $view->param( 'id' ) ) == null ) {
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
-		} else {
-			$search->setConditions( $search->compare( '==', 'order.base.id', $id ) );
+		if( ( $id = $view->param( 'id' ) ) != null )
+		{
+			$search->setConditions( $search->combine( '&&', [
+				$search->compare( '==', 'order.base.id', $id ),
+				$search->getConditions()
+			 ] ) );
 		}
-
-		$siteids = array_merge( $context->getLocale()->getSitePath(), $context->getLocale()->getSiteSubTree() );
-		$search->setConditions( $search->combine( '&&', [
-			$search->compare( '==', 'order.base.product.siteid', $siteids ),
-			$search->getConditions(),
-		] ) );
+		else
+		{
+			$search = $this->initCriteria( $search, $view->param() );
+		}
 
 		$view->data = $manager->searchItems( $search, [], $total );
 		$view->childItems = $this->getChildItems( $view->data, $include );

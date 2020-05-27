@@ -134,6 +134,58 @@ class Standard
 
 
 	/**
+	 * Retrieves the item or items and adds the data to the view
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
+	{
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
+		$siteids = array_merge( $context->getLocale()->getSitePath(), $context->getLocale()->getSiteSubTree() );
+
+		$search = $manager->createSearch();
+		$search->setConditions( $search->combine( '&&', [
+			$search->compare( '==', 'order.base.product.siteid', $siteids ),
+			$search->getConditions(),
+		] ) );
+
+		if( ( $key = $view->param( 'aggregate' ) ) !== null )
+		{
+			$search = $this->initCriteria( $search, $view->param() );
+			$view->data = $manager->aggregate( $search, $key, $view->param( 'value' ), $view->param( 'type' ) );
+			return $response;
+		}
+
+		$total = 1;
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
+
+		if( ( $id = $view->param( 'id' ) ) != null )
+		{
+			$search->setConditions( $search->combine( '&&', [
+				$search->compare( '==', 'order.id', $id ),
+				$search->getConditions()
+			 ] ) );
+		}
+		else
+		{
+			$search = $this->initCriteria( $search, $view->param() );
+		}
+
+		$view->data = $manager->searchItems( $search, [], $total );
+		$view->childItems = $this->getChildItems( $view->data, $include );
+		$view->listItems = $this->getListItems( $view->data, $include );
+		$view->refItems = $this->getRefItems( $view->listItems );
+		$view->total = $total;
+
+		return $response;
+	}
+
+
+	/**
 	 * Returns the items with parent/child relationships
 	 *
 	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
