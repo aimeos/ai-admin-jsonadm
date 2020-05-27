@@ -143,6 +143,7 @@ class Standard
 	protected function getChildItems( array $items, array $include )
 	{
 		$list = [];
+		$context = $this->getContext();
 
 		if( in_array( 'order/base', $include ) )
 		{
@@ -152,10 +153,14 @@ class Standard
 				$ids[] = $item->getBaseId();
 			}
 
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
+			$manager = \Aimeos\MShop::create( $context, 'order/base' );
+			$siteids = array_merge( $context->getLocale()->getSitePath(), $context->getLocale()->getSiteSubTree() );
 
 			$search = $manager->createSearch();
-			$search->setConditions( $search->compare( '==', 'order.base.id', $ids ) );
+			$search->setConditions( $search->combine( '&&', [
+				$search->compare( '==', 'order.base.product.siteid', $siteids ),
+				$search->compare( '==', 'order.base.id', $ids ),
+			] ) );
 
 			$list = array_merge( $list, $manager->searchItems( $search ) );
 		}
@@ -163,7 +168,7 @@ class Standard
 		if( in_array( 'order/status', $include ) )
 		{
 			$ids = array_keys( $items );
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/status' );
+			$manager = \Aimeos\MShop::create( $context, 'order/status' );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', 'order.status.parentid', $ids ) );

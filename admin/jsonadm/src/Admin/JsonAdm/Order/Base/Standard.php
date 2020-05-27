@@ -134,6 +134,52 @@ class Standard
 
 
 	/**
+	 * Retrieves the item or items and adds the data to the view
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response )
+	{
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
+
+		if( ( $key = $view->param( 'aggregate' ) ) !== null )
+		{
+			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$view->data = $manager->aggregate( $search, $key, $view->param( 'value' ), $view->param( 'type' ) );
+			return $response;
+		}
+
+		$total = 1;
+		$search = $manager->createSearch();
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
+
+		if( ( $id = $view->param( 'id' ) ) == null ) {
+			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+		} else {
+			$search->setConditions( $search->compare( '==', 'order.base.id', $id ) );
+		}
+
+		$siteids = array_merge( $context->getLocale()->getSitePath(), $context->getLocale()->getSiteSubTree() );
+		$search->setConditions( $search->combine( '&&', [
+			$search->compare( '==', 'order.base.product.siteid', $siteids ),
+			$search->getConditions(),
+		] ) );
+
+		$view->data = $manager->searchItems( $search, [], $total );
+		$view->childItems = $this->getChildItems( $view->data, $include );
+		$view->listItems = $this->getListItems( $view->data, $include );
+		$view->refItems = $this->getRefItems( $view->listItems );
+		$view->total = $total;
+
+		return $response;
+	}
+
+
+	/**
 	 * Returns the items with parent/child relationships
 	 *
 	 * @param array $items List of items implementing \Aimeos\MShop\Common\Item\Iface
@@ -144,15 +190,28 @@ class Standard
 	{
 		$list = [];
 		$ids = array_keys( $items );
+		$context = $this->getContext();
+
 		$keys = array( 'order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service' );
 		$include = array_intersect( $include, $keys );
 
 		foreach( $include as $type )
 		{
-			$manager = \Aimeos\MShop::create( $this->getContext(), $type );
+			$manager = \Aimeos\MShop::create( $context, $type );
 
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ) );
+
+			if( $type === 'order/base/product' )
+			{
+				$locale = $context->getLocale();
+				$siteids = array_merge( $locale->getSitePath(), $locale->getSiteSubTree() );
+
+				$search->setConditions( $search->combine( '&&', [
+					$search->compare( '==', 'order.base.product.siteid', $siteids ),
+					$search->getConditions(),
+				] ) );
+			}
 
 			$list = array_merge( $list, $manager->searchItems( $search ) );
 		}
