@@ -134,6 +134,46 @@ class Standard
 
 
 	/**
+	 * Retrieves the item or items and adds the data to the view
+	 *
+	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 */
+	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	{
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
+		$search = $manager->createSearch( false, true );
+
+		if( ( $key = $view->param( 'aggregate' ) ) !== null )
+		{
+			$search = $this->initCriteria( $search, $view->param() );
+			$view->data = $manager->aggregate( $search, $key, $view->param( 'value' ), $view->param( 'type' ) );
+			return $response;
+		}
+
+		$total = 1;
+		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
+
+		if( ( $id = $view->param( 'id' ) ) == null ) {
+			$search = $this->initCriteria( $search, $view->param() );
+		} else {
+			$search->setConditions( $search->compare( '==', 'order.id', $id ) );
+		}
+
+		$view->data = $manager->searchItems( $search, [], $total );
+		$view->childItems = $this->getChildItems( $view->data, $include );
+		$view->listItems = $this->getListItems( $view->data, $include );
+		$view->refItems = $this->getRefItems( $view->listItems );
+		$view->total = $total;
+
+		return $response;
+	}
+
+
+	/**
 	 * Returns the items with parent/child relationships
 	 *
 	 * @param \Aimeos\Map $items List of items implementing \Aimeos\MShop\Common\Item\Iface
@@ -149,8 +189,11 @@ class Standard
 			$ids = map( $items )->getBaseId()->toArray();
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
 
-			$search = $manager->createSearch();
-			$search->setConditions( $search->compare( '==', 'order.base.id', $ids ) );
+			$search = $manager->createSearch( false, true );
+			$search->setConditions( $search->combine( '&&', [
+				$search->compare( '==', 'order.base.id', $ids ),
+				$search->getConditions()
+			] ) );
 
 			$list = $list->merge( $manager->searchItems( $search ) );
 		}
