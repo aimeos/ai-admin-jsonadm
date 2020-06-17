@@ -3,19 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Péter Kozma <kopegrafika@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: aimeos-core\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-02 15:27+0200\n"
-"PO-Revision-Date: 2019-04-02 13:26+0000\n"
-"Last-Translator: Aimeos\n"
-"Language-Team: Hungarian (http://www.transifex.com/aimeos/aimeos-core/language/hu/)\n"
+"PO-Revision-Date: 2020-05-09 23:23+0000\n"
+"Last-Translator: Rodolfo Ruival <ruileo1977@yahoo.com>\n"
+"Language-Team: Spanish (Argentina) (http://www.transifex.com/aimeos/aimeos-core/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
+"Language: es_AR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, php-format
@@ -24,11 +23,11 @@ msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" does not implement \"%2$s\""
-msgstr "\"%1$s\" class nem hajtja végre a \"%2$s\"-t"
+msgstr ""
 
 #, php-format
 msgid "Class \"%1$s\" not found"
-msgstr "A/Az \"%1$s\" osztály nem található."
+msgstr ""
 
 #, php-format
 msgid "Client generated IDs are not supported"
@@ -36,11 +35,11 @@ msgstr ""
 
 #, php-format
 msgid "Invalid JSON in body"
-msgstr "Érvénytelen JSON a tartalomban"
+msgstr ""
 
 #, php-format
 msgid "Invalid class name \"%1$s\""
-msgstr "Érvénytelen osztálynév: \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "Invalid client \"%1$s\""
@@ -52,15 +51,15 @@ msgstr ""
 
 #, php-format
 msgid "Invalid factory \"%1$s\""
-msgstr "Érvénytelen gyártó: \"%1$s\""
+msgstr ""
 
 #, php-format
 msgid "No ID given"
-msgstr "Nem kapott azonosítót"
+msgstr ""
 
 #, php-format
 msgid "No view available"
-msgstr ""
+msgstr "Vista no disponible"
 
 #, php-format
 msgid "Not allowed to access JQAdm \"%1$s\" client"
@@ -75,8 +74,8 @@ msgstr ""
 
 #, php-format
 msgid "Template \"%1$s\" not available"
-msgstr "\"%1$s\" sablon nem elérhető"
+msgstr ""
 
 #, php-format
 msgid "Unable to call method \"%1$s\""
-msgstr "Nem lehet, meghívni a \"%1$s\" eljárást"
+msgstr ""
