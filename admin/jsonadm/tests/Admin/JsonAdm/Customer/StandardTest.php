@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'customer.code' => 'UTC001' )
+				'==' => array( 'customer.code' => 'test@example.com' )
 			),
 			'include' => 'text,customer/address'
 		);
@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'=~' => array( 'customer.code' => 'UTC' )
+				'=~' => array( 'customer.code' => 'test' )
 			),
 			'fields' => array(
 				'customer' => 'customer.id,customer.label'
