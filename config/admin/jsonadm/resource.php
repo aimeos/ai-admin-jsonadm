@@ -133,7 +133,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 		'lists' => [
 			/** admin/jsonadm/resource/customer/lists/groups
