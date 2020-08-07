@@ -29,7 +29,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$stub = $this->getIndexMock( ['remove'] )->expects( $this->once() )->method( 'remove' );
+		$this->getIndexMock( ['remove'] )->expects( $this->once() )->method( 'remove' );
 		$id = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['id' => $id] );
@@ -50,7 +50,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMultiple()
 	{
-		$stub = $this->getIndexMock( ['remove'] )->expects( $this->once() )->method( 'remove' );
+		$this->getIndexMock( ['remove'] )->expects( $this->once() )->method( 'remove' );
 		$id = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 
 		$body = '{"data": ["' . $id . '"]}';
@@ -71,7 +71,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$stub = $this->getIndexMock( ['rebuild'] )->expects( $this->once() )->method( 'rebuild' );
+		$this->getIndexMock( ['rebuild'] )->expects( $this->once() )->method( 'rebuild' );
 		$id = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 
 		$body = '{"data": "' . $id . '"}';
@@ -92,7 +92,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMultiple()
 	{
-		$stub = $this->getIndexMock( ['rebuild'] )->expects( $this->once() )->method( 'rebuild' );
+		$this->getIndexMock( ['rebuild'] )->expects( $this->once() )->method( 'rebuild' );
 		$id = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 
 		$body = '{"data": ["' . $id . '"]}';
