@@ -23,6 +23,7 @@ return [
 			'catalog' => 'catalog',
 			'coupon' => 'coupon',
 			'customer' => 'customer',
+			'index' => 'index',
 			'locale' => 'locale',
 			'media' => 'media',
 			'order' => 'order',

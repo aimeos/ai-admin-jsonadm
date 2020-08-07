@@ -172,6 +172,15 @@ return [
 			],
 		],
 	],
+	'index' => [
+		/** admin/jsonadm/resource/index/groups
+		 * List of user groups that are allowed to manage index items
+		 *
+		 * @param array List of user group names
+		 * @since 2020.10
+		 */
+		'groups' => ['admin', 'editor', 'super'],
+	],
 	'locale' => [
 		/** admin/jsonadm/resource/locale/groups
 		 * List of user groups that are allowed to manage locale items
