@@ -389,11 +389,14 @@ abstract class Base
 			$item = $manager->createItem();
 		}
 
-		if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
-			if( $item instanceof \Aimeos\MShop\Common\Item\Config\Iface ) {
+		if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) )
+		{
+			if( $item instanceof \Aimeos\MShop\Common\Item\Config\Iface )
+			{
 				$key = str_replace( '/', '.', $this->path ) . '.config';
 				$attr[$key] = (array) ( $attr[$key] ?? [] );
 			}
+
 			$item = $item->fromArray( $attr, true );
 		}
 
