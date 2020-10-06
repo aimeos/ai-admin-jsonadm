@@ -180,6 +180,60 @@ return [
 		 * @since 2020.10
 		 */
 		'groups' => ['admin', 'editor', 'super'],
+		'attribute' => [
+			/** admin/jsonadm/resource/index/attribute/groups
+			 * List of user groups that are allowed to manage index attribute items
+			 *
+			 * @param array List of user group names
+			 * @since 2020.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+		'attribute' => [
+			/** admin/jsonadm/resource/index/attribute/groups
+			 * List of user groups that are allowed to manage index attribute items
+			 *
+			 * @param array List of user group names
+			 * @since 2020.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+		'catalog' => [
+			/** admin/jsonadm/resource/index/catalog/groups
+			 * List of user groups that are allowed to manage index catalog items
+			 *
+			 * @param array List of user group names
+			 * @since 2020.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+		'price' => [
+			/** admin/jsonadm/resource/index/price/groups
+			 * List of user groups that are allowed to manage index price items
+			 *
+			 * @param array List of user group names
+			 * @since 2020.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+		'supplier' => [
+			/** admin/jsonadm/resource/index/supplier/groups
+			 * List of user groups that are allowed to manage index supplier items
+			 *
+			 * @param array List of user group names
+			 * @since 2020.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+		'text' => [
+			/** admin/jsonadm/resource/index/text/groups
+			 * List of user groups that are allowed to manage index text items
+			 *
+			 * @param array List of user group names
+			 * @since 2020.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
 	],
 	'locale' => [
 		/** admin/jsonadm/resource/locale/groups
@@ -401,6 +455,24 @@ return [
 				 *
 				 * @param array List of user group names
 				 * @since 2017.10
+				 */
+				'groups' => ['admin', 'super'],
+			],
+		],
+		'property' => [
+			/** admin/jsonadm/resource/price/property/groups
+			 * List of user groups that are allowed to manage price property items
+			 *
+			 * @param array List of user group names
+			 * @since 2019.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+			'type' => [
+				/** admin/jsonadm/resource/price/property/type/groups
+				 * List of user groups that are allowed to manage price property type items
+				 *
+				 * @param array List of user group names
+				 * @since 2019.10
 				 */
 				'groups' => ['admin', 'super'],
 			],
