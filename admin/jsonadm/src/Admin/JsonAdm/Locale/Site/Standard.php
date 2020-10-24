@@ -148,7 +148,7 @@ class Standard
 		$total = 1;
 
 		if( ( $id = $view->param( 'id' ) ) == null ) {
-			$view->data = $manager->searchItems( $search, [], $total );
+			$view->data = $manager->search( $search, [], $total );
 		} else {
 			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $search );
 		}

@@ -120,7 +120,7 @@ class Standard
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.parentid', $ids ) );
 
-			$list = $list->merge( $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->search( $search ) );
 		}
 
 		return $list;

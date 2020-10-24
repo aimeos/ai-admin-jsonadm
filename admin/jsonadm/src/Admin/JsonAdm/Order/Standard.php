@@ -163,7 +163,7 @@ class Standard
 			$search->setConditions( $search->compare( '==', 'order.id', $id ) );
 		}
 
-		$view->data = $manager->searchItems( $search, [], $total );
+		$view->data = $manager->search( $search, [], $total );
 		$view->childItems = $this->getChildItems( $view->data, $include );
 		$view->listItems = $this->getListItems( $view->data, $include );
 		$view->refItems = $this->getRefItems( $view->listItems );
@@ -195,7 +195,7 @@ class Standard
 				$search->getConditions()
 			] ) );
 
-			$list = $list->merge( $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->search( $search ) );
 		}
 
 		if( in_array( 'order/status', $include ) )
@@ -206,7 +206,7 @@ class Standard
 			$search = $manager->createSearch();
 			$search->setConditions( $search->compare( '==', 'order.status.parentid', $ids ) );
 
-			$list = $list->merge( $manager->searchItems( $search ) );
+			$list = $list->merge( $manager->search( $search ) );
 		}
 
 		return $list;

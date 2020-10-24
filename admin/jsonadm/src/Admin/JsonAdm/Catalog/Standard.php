@@ -179,7 +179,7 @@ class Standard
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
-			$view->data = $manager->searchItems( $search, [], $total );
+			$view->data = $manager->search( $search, [], $total );
 			$view->listItems = $this->getListItems( $view->data, $include );
 			$view->childItems = map();
 		}
@@ -220,7 +220,7 @@ class Standard
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
-		return $manager->searchItems( $search );
+		return $manager->search( $search );
 	}
 
 

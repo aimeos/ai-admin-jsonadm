@@ -555,7 +555,7 @@ class Standard
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
 			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
-			$view->data = $manager->searchItems( $search, [], $total );
+			$view->data = $manager->search( $search, [], $total );
 			$view->childItems = $this->getChildItems( $view->data, $include );
 			$view->listItems = $this->getListItems( $view->data, $include );
 		}
