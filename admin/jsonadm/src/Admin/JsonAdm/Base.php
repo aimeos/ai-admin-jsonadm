@@ -443,15 +443,6 @@ abstract class Base
 
 					$listItem->setParentId( $id )->setDomain( $domain );
 					$listManager->saveItem( $listItem, false );
-
-					if( $domain === "product" )
-					{
-						$productManager = \Aimeos\MShop::create( $this->context, 'product' );
-						$domains = $this->context->getConfig()->get( 'mshop/index/manager/standard/domains', [] );
-
-						$item = $productManager->getItem( $listItem->getRefId(), $domains );
-						\Aimeos\MShop::create( $this->context, 'index' )->rebuild( [$item->getId() => $item] );
-					}
 				}
 			}
 		}
