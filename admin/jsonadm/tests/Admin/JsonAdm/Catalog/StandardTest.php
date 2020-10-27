@@ -89,13 +89,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$stub = $this->getCatalogMock( array( 'getItem', 'moveItem', 'saveItem' ) );
+		$stub = $this->getCatalogMock( array( 'get', 'moveItem', 'saveItem' ) );
 		$item = $stub->createItem()->setId( '-1' );
 
 		$stub->expects( $this->once() )->method( 'moveItem' );
 		$stub->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
-		$stub->expects( $this->exactly( 2 ) )->method( 'getItem' ) // 2x due to decorator
+		$stub->expects( $this->exactly( 2 ) )->method( 'get' ) // 2x due to decorator
 			->will( $this->returnValue( $item ) );
 
 
@@ -124,10 +124,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$stub = $this->getCatalogMock( array( 'getItem', 'insertItem' ) );
+		$stub = $this->getCatalogMock( array( 'get', 'insertItem' ) );
 		$item = $stub->createItem()->setId( '-1' );
 
-		$stub->expects( $this->any() )->method( 'getItem' )
+		$stub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 		$stub->expects( $this->once() )->method( 'insertItem' )
 			->will( $this->returnValue( $item ) );

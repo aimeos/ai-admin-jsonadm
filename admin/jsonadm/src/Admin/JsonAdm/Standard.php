@@ -561,7 +561,7 @@ class Standard
 		}
 		else
 		{
-			$view->data = $manager->getItem( $id, [] );
+			$view->data = $manager->get( $id, [] );
 			$view->childItems = $this->getChildItems( map( [$id => $view->data] ), $include );
 			$view->listItems = $this->getListItems( map( [$id => $view->data] ), $include );
 		}

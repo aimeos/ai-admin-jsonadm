@@ -194,7 +194,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetException()
 	{
-		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+		$this->getProductMock( ['get'] )->expects( $this->once() )->method( 'get' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$params = array( 'id' => -1 );
@@ -211,7 +211,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetMShopException()
 	{
-		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+		$this->getProductMock( ['get'] )->expects( $this->once() )->method( 'get' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
 		$params = array( 'id' => -1 );
@@ -366,7 +366,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
 
 		$item = $productManagerStub->createItem();
 		$item->setLabel( 'test' );
@@ -374,7 +374,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
-		$productManagerStub->expects( $this->atLeastOnce() )->method( 'getItem' )
+		$productManagerStub->expects( $this->atLeastOnce() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 
 
@@ -405,7 +405,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchBulk()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
 
 		$item = $productManagerStub->createItem();
 		$item->setLabel( 'test' );
@@ -413,7 +413,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
-		$productManagerStub->expects( $this->atLeastOnce() )->method( 'getItem' )
+		$productManagerStub->expects( $this->atLeastOnce() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 
 
@@ -477,7 +477,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchException()
 	{
-		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+		$this->getProductMock( ['get'] )->expects( $this->once() )->method( 'get' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$body = '{"data":[{"id":-1}]}';
@@ -495,7 +495,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchMShopException()
 	{
-		$this->getProductMock( array( 'getItem' ) )->expects( $this->once() )->method( 'getItem' )
+		$this->getProductMock( ['get'] )->expects( $this->once() )->method( 'get' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
 		$body = '{"data":[{"id":-1}]}';
@@ -513,14 +513,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$productManagerStub = $this->getProductMock( array( 'createItem', 'getItem', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'createItem', 'get', 'saveItem' ) );
 
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->once() )->method( 'createItem' )
 			->will( $this->returnValue( $item ) );
-		$productManagerStub->expects( $this->any() )->method( 'getItem' )
+		$productManagerStub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
@@ -549,7 +549,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostBulk()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getItem', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
 
 		$item = $productManagerStub->createItem();
 		$item->setLabel( 'test' );
@@ -557,7 +557,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
-		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'getItem' )
+		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 
 
@@ -585,7 +585,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostRelationships()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'createItem', 'getItem', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'createItem', 'get', 'saveItem' ) );
 		$productManagerListsStub = $this->getProductListsMock( array( 'saveItem' ) );
 
 		$product = $productManagerStub->findItem( 'CNE' );
@@ -594,7 +594,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'createItem' )
 			->will( $this->returnValue( $item ) );
-		$productManagerStub->expects( $this->any() )->method( 'getItem' )
+		$productManagerStub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )
 			->will( $this->returnValue( $productManagerListsStub ) );

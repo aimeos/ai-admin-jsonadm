@@ -137,7 +137,6 @@ class Standard
 			}
 
 			$manager->remove( $id );
-//			$this->getContext()->getCache()->deleteByTags( map( $id )->prefix( 'product-' )->toArray() );
 			$status = 200;
 		 }
 		 catch( \Aimeos\Admin\JsonAdm\Exception $e )
@@ -237,7 +236,6 @@ class Standard
 			$items = $manager->search( $manager->filter()->add( 'product.id', '==', $ids ), $domains );
 
 			\Aimeos\MShop::create( $context, 'index' )->rebuild( $items->toArray() );
-//			$context->getCache()->deleteByTags( map( $items )->getId()->prefix( 'product-' )->toArray() );
 
 			$status = 201;
 			$view->total = count( $ids );

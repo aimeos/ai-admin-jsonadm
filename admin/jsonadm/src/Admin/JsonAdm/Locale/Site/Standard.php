@@ -173,7 +173,7 @@ class Standard
 	{
 		if( isset( $entry->id ) )
 		{
-			$item = $manager->getItem( $entry->id );
+			$item = $manager->get( $entry->id );
 
 			if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
 				$item = $item->fromArray( $attr, true );
@@ -196,6 +196,6 @@ class Standard
 			$this->saveRelationships( $manager, $item, $entry->relationships );
 		}
 
-		return $manager->getItem( $item->getId() );
+		return $manager->get( $item->getId() );
 	}
 }

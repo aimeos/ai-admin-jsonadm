@@ -384,7 +384,7 @@ abstract class Base
 	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
 		if( isset( $entry->id ) ) {
-			$item = $manager->getItem( $entry->id );
+			$item = $manager->get( $entry->id );
 		} else {
 			$item = $manager->createItem();
 		}
@@ -406,7 +406,7 @@ abstract class Base
 			$this->saveRelationships( $manager, $item, $entry->relationships );
 		}
 
-		return $manager->getItem( $item->getId() );
+		return $manager->get( $item->getId() );
 	}
 
 
