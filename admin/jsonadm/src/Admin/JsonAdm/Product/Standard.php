@@ -117,7 +117,7 @@ class Standard
 		{
 			$manager = \Aimeos\MShop::create( $this->getContext(), $type );
 
-			$search = $manager->createSearch();
+			$search = $manager->filter();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.parentid', $ids ) );
 
 			$list = $list->merge( $manager->search( $search ) );
@@ -138,7 +138,7 @@ class Standard
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'product/lists' );
 
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$expr = array(
 			$search->compare( '==', 'product.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'product.lists.domain', $include ),

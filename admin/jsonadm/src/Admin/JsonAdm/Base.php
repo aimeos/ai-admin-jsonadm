@@ -209,7 +209,7 @@ abstract class Base
 		{
 			$manager = \Aimeos\MShop::create( $context, $domain );
 
-			$search = $manager->createSearch();
+			$search = $manager->filter();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $domain ) . '.id', $ids ) );
 
 			$list = $list->merge( $manager->search( $search ) );

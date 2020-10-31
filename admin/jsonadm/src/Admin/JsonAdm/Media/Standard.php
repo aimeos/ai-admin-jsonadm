@@ -111,7 +111,7 @@ class Standard
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'media/lists' );
 
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$expr = array(
 			$search->compare( '==', 'media.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'media.lists.domain', $include ),

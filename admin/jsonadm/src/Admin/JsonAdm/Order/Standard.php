@@ -145,7 +145,7 @@ class Standard
 	{
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
-		$search = $manager->createSearch( false, true );
+		$search = $manager->filter( false, true );
 
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
@@ -189,7 +189,7 @@ class Standard
 			$ids = map( $items )->getBaseId()->toArray();
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
 
-			$search = $manager->createSearch( false, true );
+			$search = $manager->filter( false, true );
 			$search->setConditions( $search->combine( '&&', [
 				$search->compare( '==', 'order.base.id', $ids ),
 				$search->getConditions()
@@ -203,7 +203,7 @@ class Standard
 			$ids = $items->keys()->toArray();
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/status' );
 
-			$search = $manager->createSearch();
+			$search = $manager->filter();
 			$search->setConditions( $search->compare( '==', 'order.status.parentid', $ids ) );
 
 			$list = $list->merge( $manager->search( $search ) );

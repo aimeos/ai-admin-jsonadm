@@ -152,7 +152,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getSiteItem( $code )
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'locale/site' );
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$search->setConditions( $search->compare( '==', 'locale.site.code', $code ) );
 
 		if( ( $item = $manager->search( $search )->first() ) === null ) {

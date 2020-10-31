@@ -155,7 +155,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getCatalogItem( $code )
 	{
 		$manager = \Aimeos\MShop::create( $this->context, 'catalog' );
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$search->setConditions( $search->compare( '==', 'catalog.code', $code ) );
 
 		if( ( $item = $manager->search( $search )->first() ) === null ) {

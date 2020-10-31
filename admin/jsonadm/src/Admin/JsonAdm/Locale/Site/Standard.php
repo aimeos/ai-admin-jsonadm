@@ -144,7 +144,7 @@ class Standard
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'locale/site' );
-		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+		$search = $this->initCriteria( $manager->filter(), $view->param() );
 		$total = 1;
 
 		if( ( $id = $view->param( 'id' ) ) == null ) {

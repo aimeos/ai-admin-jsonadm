@@ -145,7 +145,7 @@ class Standard
 	{
 		$context = $this->getContext();
 		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
-		$search = $manager->createSearch( false, true );
+		$search = $manager->filter( false, true );
 
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
@@ -193,7 +193,7 @@ class Standard
 		{
 			$manager = \Aimeos\MShop::create( $context, $type );
 
-			$search = $manager->createSearch( false, true );
+			$search = $manager->filter( false, true );
 			$search->setConditions( $search->combine( '&&', [
 				$search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ),
 				$search->getConditions(),

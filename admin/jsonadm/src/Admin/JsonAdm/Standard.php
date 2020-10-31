@@ -544,7 +544,7 @@ class Standard
 
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $manager->filter(), $view->param() );
 			$view->data = $manager->aggregate( $search, $key, $view->param( 'value' ), $view->param( 'type' ) );
 			return $response;
 		}
@@ -554,7 +554,7 @@ class Standard
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $manager->filter(), $view->param() );
 			$view->data = $manager->search( $search, [], $total );
 			$view->childItems = $this->getChildItems( $view->data, $include );
 			$view->listItems = $this->getListItems( $view->data, $include );

@@ -168,13 +168,13 @@ class Standard
 
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $manager->filter(), $view->param() );
 			$view->data = $manager->aggregate( $search, $key );
 			return $response;
 		}
 
 		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
-		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+		$search = $this->initCriteria( $manager->filter(), $view->param() );
 		$total = 1;
 
 		if( ( $id = $view->param( 'id' ) ) == null )
@@ -213,7 +213,7 @@ class Standard
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'catalog/lists' );
 
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$expr = array(
 			$search->compare( '==', 'catalog.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'catalog.lists.domain', $include ),

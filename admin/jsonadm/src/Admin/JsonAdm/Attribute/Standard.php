@@ -111,7 +111,7 @@ class Standard
 	{
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'attribute/lists' );
 
-		$search = $manager->createSearch();
+		$search = $manager->filter();
 		$expr = array(
 			$search->compare( '==', 'attribute.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'attribute.lists.domain', $include ),
