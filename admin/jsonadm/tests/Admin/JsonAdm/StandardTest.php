@@ -588,7 +588,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'createItem', 'get', 'saveItem' ) );
 		$productManagerListsStub = $this->getProductListsMock( array( 'saveItem' ) );
 
-		$product = $productManagerStub->findItem( 'CNE' );
+		$product = $productManagerStub->find( 'CNE' );
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
