@@ -88,7 +88,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatch()
 	{
 		$stub = $this->getSiteMock( array( 'get', 'moveItem', 'saveItem' ) );
-		$item = $stub->createItem()->setId( '-1' );
+		$item = $stub->create()->setId( '-1' );
 
 		$stub->expects( $this->once() )->method( 'saveItem' )
 			->will( $this->returnValue( $item ) );
@@ -122,7 +122,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPost()
 	{
 		$stub = $this->getSiteMock( array( 'get', 'insertItem' ) );
-		$item = $stub->createItem();
+		$item = $stub->create();
 
 		$stub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );

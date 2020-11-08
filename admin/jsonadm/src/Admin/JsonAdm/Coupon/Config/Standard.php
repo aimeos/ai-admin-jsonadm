@@ -182,7 +182,7 @@ class Standard
 
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'coupon' );
 
-		$item = $manager->createItem();
+		$item = $manager->create();
 		$item->setProvider( $id );
 
 		$view->configItems = $manager->getProvider( $item, '' )->getConfigBE();

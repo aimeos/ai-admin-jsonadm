@@ -368,7 +368,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
 
-		$item = $productManagerStub->createItem();
+		$item = $productManagerStub->create();
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
@@ -407,7 +407,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
 
-		$item = $productManagerStub->createItem();
+		$item = $productManagerStub->create();
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
@@ -513,12 +513,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$productManagerStub = $this->getProductMock( array( 'createItem', 'get', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'create', 'get', 'saveItem' ) );
 
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->once() )->method( 'createItem' )
+		$productManagerStub->expects( $this->once() )->method( 'create' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -551,7 +551,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
 
-		$item = $productManagerStub->createItem();
+		$item = $productManagerStub->create();
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
@@ -585,21 +585,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostRelationships()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'createItem', 'get', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'create', 'get', 'saveItem' ) );
 		$productManagerListsStub = $this->getProductListsMock( array( 'saveItem' ) );
 
 		$product = $productManagerStub->find( 'CNE' );
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'createItem' )
+		$productManagerStub->expects( $this->once() )->method( 'create' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )
 			->will( $this->returnValue( $productManagerListsStub ) );
 		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
-			->will( $this->returnValue( $productManagerStub->createItem() ) );
+			->will( $this->returnValue( $item ) );
 
 		$productManagerListsStub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
 

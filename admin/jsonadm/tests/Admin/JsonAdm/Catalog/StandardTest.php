@@ -90,7 +90,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPatch()
 	{
 		$stub = $this->getCatalogMock( array( 'get', 'moveItem', 'saveItem' ) );
-		$item = $stub->createItem()->setId( '-1' );
+		$item = $stub->create()->setId( '-1' );
 
 		$stub->expects( $this->once() )->method( 'moveItem' );
 		$stub->expects( $this->once() )->method( 'saveItem' )
@@ -125,7 +125,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testPost()
 	{
 		$stub = $this->getCatalogMock( array( 'get', 'insertItem' ) );
-		$item = $stub->createItem()->setId( '-1' );
+		$item = $stub->create()->setId( '-1' );
 
 		$stub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );

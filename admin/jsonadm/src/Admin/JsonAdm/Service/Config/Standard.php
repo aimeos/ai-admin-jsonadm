@@ -181,7 +181,7 @@ class Standard
 		}
 
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
-		$item = $manager->createItem()->setProvider( $id );
+		$item = $manager->create()->setProvider( $id );
 
 		$view->configItems = $manager->getProvider( $item, $view->param( 'type', 'payment' ) )->getConfigBE();
 

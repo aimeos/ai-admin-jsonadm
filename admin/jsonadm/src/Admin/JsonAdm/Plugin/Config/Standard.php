@@ -181,7 +181,7 @@ class Standard
 		}
 
 		$manager = \Aimeos\MShop::create( $this->getContext(), 'plugin' );
-		$item = $manager->createItem()->setProvider( $id );
+		$item = $manager->create()->setProvider( $id );
 
 		$view->configItems = $manager->getProvider( $item, 'order' )->getConfigBE();
 

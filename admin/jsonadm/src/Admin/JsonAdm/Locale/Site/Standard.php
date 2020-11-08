@@ -183,7 +183,7 @@ class Standard
 		}
 		else
 		{
-			$item = $manager->createItem();
+			$item = $manager->create();
 
 			if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
 				$item = $item->fromArray( $attr, true );

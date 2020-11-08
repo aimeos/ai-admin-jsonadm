@@ -386,7 +386,7 @@ abstract class Base
 		if( isset( $entry->id ) ) {
 			$item = $manager->get( $entry->id );
 		} else {
-			$item = $manager->createItem();
+			$item = $manager->create();
 		}
 
 		if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) )
@@ -429,7 +429,7 @@ abstract class Base
 			{
 				foreach( (array) $list->data as $data )
 				{
-					$listItem = $listManager->createItem()->setType( 'default' );
+					$listItem = $listManager->create()->setType( 'default' );
 
 					if( isset( $data->attributes ) && ( $attr = (array) $data->attributes ) ) {
 						$key = str_replace( '/', '.', $this->path ) . '.config';
