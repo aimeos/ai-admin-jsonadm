@@ -37,7 +37,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
-		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' );
+		$this->getProductMock( array( 'delete' ) )->expects( $this->once() )->method( 'delete' );
 
 		$params = array( 'id' => $this->getProductItem()->getId() );
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -100,7 +100,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteException()
 	{
-		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
+		$this->getProductMock( array( 'delete' ) )->expects( $this->once() )->method( 'delete' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$params = array( 'id' => $this->getProductItem()->getId() );
@@ -117,7 +117,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteMShopException()
 	{
-		$this->getProductMock( array( 'deleteItem' ) )->expects( $this->once() )->method( 'deleteItem' )
+		$this->getProductMock( array( 'delete' ) )->expects( $this->once() )->method( 'delete' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
 		$params = array( 'id' => $this->getProductItem()->getId() );

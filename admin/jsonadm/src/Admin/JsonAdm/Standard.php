@@ -522,7 +522,7 @@ class Standard
 		}
 		else
 		{
-			$manager->deleteItem( $id );
+			$manager->delete( $id );
 			$view->total = 1;
 		}
 
