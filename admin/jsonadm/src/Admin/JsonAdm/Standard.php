@@ -517,7 +517,7 @@ class Standard
 			}
 
 			$ids = map( $payload->data )->col( 'id' );
-			$manager->deleteItems( $ids->toArray() );
+			$manager->delete( $ids->toArray() );
 			$view->total = count( $ids );
 		}
 		else

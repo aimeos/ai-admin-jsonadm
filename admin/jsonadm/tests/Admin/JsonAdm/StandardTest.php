@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDeleteBulk()
 	{
-		$this->getProductMock( array( 'deleteItems' ) )->expects( $this->once() )->method( 'deleteItems' );
+		$this->getProductMock( array( 'delete' ) )->expects( $this->once() )->method( 'delete' );
 
 		$body = '{"data":[{"type": "product", "id": "-1"},{"type": "product", "id": "-2"}]}';
 		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
