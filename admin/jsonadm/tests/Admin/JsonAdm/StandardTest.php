@@ -366,13 +366,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'get', 'save' ) );
 
 		$item = $productManagerStub->create();
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
+		$productManagerStub->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->atLeastOnce() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -405,13 +405,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatchBulk()
 	{
-		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'get', 'save' ) );
 
 		$item = $productManagerStub->create();
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' )
+		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->atLeastOnce() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -513,7 +513,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$productManagerStub = $this->getProductMock( array( 'create', 'get', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'create', 'get', 'save' ) );
 
 		$item = new \Aimeos\MShop\Product\Item\Standard();
 		$item->setId( '-1' );
@@ -522,7 +522,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
-		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
+		$productManagerStub->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 
 
@@ -549,13 +549,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostBulk()
 	{
-		$productManagerStub = $this->getProductMock( array( 'get', 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'get', 'save' ) );
 
 		$item = $productManagerStub->create();
 		$item->setLabel( 'test' );
 		$item->setId( '-1' );
 
-		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'saveItem' )
+		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'get' )
 			->will( $this->returnValue( $item ) );
@@ -585,8 +585,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostRelationships()
 	{
-		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'create', 'get', 'saveItem' ) );
-		$productManagerListsStub = $this->getProductListsMock( array( 'saveItem' ) );
+		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'create', 'get', 'save' ) );
+		$productManagerListsStub = $this->getProductListsMock( array( 'save' ) );
 
 		$product = $productManagerStub->find( 'CNE' );
 		$item = new \Aimeos\MShop\Product\Item\Standard();
@@ -598,10 +598,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->will( $this->returnValue( $item ) );
 		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )
 			->will( $this->returnValue( $productManagerListsStub ) );
-		$productManagerStub->expects( $this->once() )->method( 'saveItem' )
+		$productManagerStub->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 
-		$productManagerListsStub->expects( $this->exactly( 2 ) )->method( 'saveItem' );
+		$productManagerListsStub->expects( $this->exactly( 2 ) )->method( 'save' );
 
 		$body = '{"data": {"type": "product",
 			"attributes": {"product.label": "test"},
@@ -667,7 +667,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostException()
 	{
-		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
+		$this->getProductMock( array( 'save' ) )->expects( $this->once() )->method( 'save' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$body = '{"data":{}}';
@@ -685,7 +685,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPostMShopException()
 	{
-		$this->getProductMock( array( 'saveItem' ) )->expects( $this->once() )->method( 'saveItem' )
+		$this->getProductMock( array( 'save' ) )->expects( $this->once() )->method( 'save' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
 		$body = '{"data":{}}';

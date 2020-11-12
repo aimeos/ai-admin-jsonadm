@@ -179,7 +179,7 @@ class Standard
 				$item = $item->fromArray( $attr, true );
 			}
 
-			$item = $manager->saveItem( $item );
+			$item = $manager->save( $item );
 		}
 		else
 		{

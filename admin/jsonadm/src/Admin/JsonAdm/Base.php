@@ -400,7 +400,7 @@ abstract class Base
 			$item = $item->fromArray( $attr, true );
 		}
 
-		$item = $manager->saveItem( $item );
+		$item = $manager->save( $item );
 
 		if( isset( $entry->relationships ) ) {
 			$this->saveRelationships( $manager, $item, $entry->relationships );
@@ -442,7 +442,7 @@ abstract class Base
 					}
 
 					$listItem->setParentId( $id )->setDomain( $domain );
-					$listManager->saveItem( $listItem, false );
+					$listManager->save( $listItem, false );
 				}
 			}
 		}

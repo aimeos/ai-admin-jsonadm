@@ -244,7 +244,7 @@ class Standard
 				$item = $item->fromArray( $attr, true );
 			}
 
-			$item = $manager->saveItem( $item );
+			$item = $manager->save( $item );
 
 			if( isset( $entry->parentid ) && $targetId !== null ) {
 				$manager->moveItem( $item->getId(), $entry->parentid, $targetId, $refId );
