@@ -65,7 +65,7 @@ class Standard
 			) );
 		}
 
-		/** admin/jsonadm/standard/template-delete
+		/** admin/jsonadm/template-delete
 		 * Relative path to the JSON API template for DELETE requests
 		 *
 		 * The template file contains the code and processing instructions
@@ -83,14 +83,14 @@ class Standard
 		 * @param string Relative path to the template creating the body for the DELETE method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
-		 * @see admin/jsonadm/standard/template-aggregate
-		 * @see admin/jsonadm/standard/template-get
-		 * @see admin/jsonadm/standard/template-patch
-		 * @see admin/jsonadm/standard/template-post
-		 * @see admin/jsonadm/standard/template-put
-		 * @see admin/jsonadm/standard/template-options
+		 * @see admin/jsonadm/template-aggregate
+		 * @see admin/jsonadm/template-get
+		 * @see admin/jsonadm/template-patch
+		 * @see admin/jsonadm/template-post
+		 * @see admin/jsonadm/template-put
+		 * @see admin/jsonadm/template-options
 		 */
-		$tplconf = 'admin/jsonadm/standard/template-delete';
+		$tplconf = 'admin/jsonadm/template-delete';
 		$default = 'delete-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -136,7 +136,7 @@ class Standard
 
 		if( $view->param( 'aggregate' ) !== null )
 		{
-			/** admin/jsonadm/standard/template-aggregate
+			/** admin/jsonadm/template-aggregate
 			 * Relative path to the JSON API template for GET aggregate requests
 			 *
 			 * The template file contains the code and processing instructions
@@ -154,19 +154,19 @@ class Standard
 			 * @param string Relative path to the template creating the body for the GET aggregate request of the JSON API
 			 * @since 2016.07
 			 * @category Developer
-			 * @see admin/jsonadm/standard/template-delete
-			 * @see admin/jsonadm/standard/template-get
-			 * @see admin/jsonadm/standard/template-patch
-			 * @see admin/jsonadm/standard/template-post
-			 * @see admin/jsonadm/standard/template-put
-			 * @see admin/jsonadm/standard/template-options
+			 * @see admin/jsonadm/template-delete
+			 * @see admin/jsonadm/template-get
+			 * @see admin/jsonadm/template-patch
+			 * @see admin/jsonadm/template-post
+			 * @see admin/jsonadm/template-put
+			 * @see admin/jsonadm/template-options
 			 */
-			$tplconf = 'admin/jsonadm/standard/template-aggregate';
+			$tplconf = 'admin/jsonadm/template-aggregate';
 			$default = 'aggregate-standard';
 		}
 		else
 		{
-			/** admin/jsonadm/standard/template-get
+			/** admin/jsonadm/template-get
 			 * Relative path to the JSON API template for GET requests
 			 *
 			 * The template file contains the code and processing instructions
@@ -184,14 +184,14 @@ class Standard
 			 * @param string Relative path to the template creating the body for the GET method of the JSON API
 			 * @since 2015.12
 			 * @category Developer
-			 * @see admin/jsonadm/standard/template-aggregate
-			 * @see admin/jsonadm/standard/template-delete
-			 * @see admin/jsonadm/standard/template-patch
-			 * @see admin/jsonadm/standard/template-post
-			 * @see admin/jsonadm/standard/template-put
-			 * @see admin/jsonadm/standard/template-options
+			 * @see admin/jsonadm/template-aggregate
+			 * @see admin/jsonadm/template-delete
+			 * @see admin/jsonadm/template-patch
+			 * @see admin/jsonadm/template-post
+			 * @see admin/jsonadm/template-put
+			 * @see admin/jsonadm/template-options
 			 */
-			$tplconf = 'admin/jsonadm/standard/template-get';
+			$tplconf = 'admin/jsonadm/template-get';
 			$default = 'get-standard';
 		}
 
@@ -244,7 +244,7 @@ class Standard
 			) );
 		}
 
-		/** admin/jsonadm/standard/template-patch
+		/** admin/jsonadm/template-patch
 		 * Relative path to the JSON API template for PATCH requests
 		 *
 		 * The template file contains the code and processing instructions
@@ -262,14 +262,14 @@ class Standard
 		 * @param string Relative path to the template creating the body for the PATCH method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
-		 * @see admin/jsonadm/standard/template-aggregate
-		 * @see admin/jsonadm/standard/template-get
-		 * @see admin/jsonadm/standard/template-post
-		 * @see admin/jsonadm/standard/template-delete
-		 * @see admin/jsonadm/standard/template-put
-		 * @see admin/jsonadm/standard/template-options
+		 * @see admin/jsonadm/template-aggregate
+		 * @see admin/jsonadm/template-get
+		 * @see admin/jsonadm/template-post
+		 * @see admin/jsonadm/template-delete
+		 * @see admin/jsonadm/template-put
+		 * @see admin/jsonadm/template-options
 		 */
-		$tplconf = 'admin/jsonadm/standard/template-patch';
+		$tplconf = 'admin/jsonadm/template-patch';
 		$default = 'patch-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -321,7 +321,7 @@ class Standard
 			) );
 		}
 
-		/** admin/jsonadm/standard/template-post
+		/** admin/jsonadm/template-post
 		 * Relative path to the JSON API template for POST requests
 		 *
 		 * The template file contains the code and processing instructions
@@ -339,14 +339,14 @@ class Standard
 		 * @param string Relative path to the template creating the body for the POST method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
-		 * @see admin/jsonadm/standard/template-aggregate
-		 * @see admin/jsonadm/standard/template-get
-		 * @see admin/jsonadm/standard/template-patch
-		 * @see admin/jsonadm/standard/template-delete
-		 * @see admin/jsonadm/standard/template-put
-		 * @see admin/jsonadm/standard/template-options
+		 * @see admin/jsonadm/template-aggregate
+		 * @see admin/jsonadm/template-get
+		 * @see admin/jsonadm/template-patch
+		 * @see admin/jsonadm/template-delete
+		 * @see admin/jsonadm/template-put
+		 * @see admin/jsonadm/template-options
 		 */
-		$tplconf = 'admin/jsonadm/standard/template-post';
+		$tplconf = 'admin/jsonadm/template-post';
 		$default = 'post-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -373,7 +373,7 @@ class Standard
 			'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', 'Not implemented, use PATCH instead' ),
 		) );
 
-		/** admin/jsonadm/standard/template-put
+		/** admin/jsonadm/template-put
 		 * Relative path to the JSON API template for PUT requests
 		 *
 		 * The template file contains the code and processing instructions
@@ -391,14 +391,14 @@ class Standard
 		 * @param string Relative path to the template creating the body for the PUT method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
-		 * @see admin/jsonadm/standard/template-aggregate
-		 * @see admin/jsonadm/standard/template-delete
-		 * @see admin/jsonadm/standard/template-patch
-		 * @see admin/jsonadm/standard/template-post
-		 * @see admin/jsonadm/standard/template-get
-		 * @see admin/jsonadm/standard/template-options
+		 * @see admin/jsonadm/template-aggregate
+		 * @see admin/jsonadm/template-delete
+		 * @see admin/jsonadm/template-patch
+		 * @see admin/jsonadm/template-post
+		 * @see admin/jsonadm/template-get
+		 * @see admin/jsonadm/template-options
 		 */
-		$tplconf = 'admin/jsonadm/standard/template-put';
+		$tplconf = 'admin/jsonadm/template-put';
 		$default = 'put-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
@@ -458,7 +458,7 @@ class Standard
 			) );
 		}
 
-		/** admin/jsonadm/standard/template-options
+		/** admin/jsonadm/template-options
 		 * Relative path to the JSON API template for OPTIONS requests
 		 *
 		 * The template file contains the code and processing instructions
@@ -476,14 +476,14 @@ class Standard
 		 * @param string Relative path to the template creating the body for the OPTIONS method of the JSON API
 		 * @since 2015.12
 		 * @category Developer
-		 * @see admin/jsonadm/standard/template-aggregate
-		 * @see admin/jsonadm/standard/template-delete
-		 * @see admin/jsonadm/standard/template-patch
-		 * @see admin/jsonadm/standard/template-post
-		 * @see admin/jsonadm/standard/template-get
-		 * @see admin/jsonadm/standard/template-put
+		 * @see admin/jsonadm/template-aggregate
+		 * @see admin/jsonadm/template-delete
+		 * @see admin/jsonadm/template-patch
+		 * @see admin/jsonadm/template-post
+		 * @see admin/jsonadm/template-get
+		 * @see admin/jsonadm/template-put
 		 */
-		$tplconf = 'admin/jsonadm/standard/template-options';
+		$tplconf = 'admin/jsonadm/template-options';
 		$default = 'options-standard';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
