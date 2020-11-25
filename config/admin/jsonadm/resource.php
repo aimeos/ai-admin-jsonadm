@@ -24,7 +24,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'property' => [
@@ -34,7 +34,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2018.07
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 			'type' => [
 				/** admin/jsonadm/resource/attribute/property/type/groups
 				 * List of user groups that are allowed to manage attribute property type items
@@ -42,7 +42,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2018.07
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'type' => [
@@ -52,7 +52,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
 	'catalog' => [
@@ -78,7 +78,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 	],
@@ -150,7 +150,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'property' => [
@@ -160,7 +160,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2018.07
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 			'type' => [
 				/** admin/jsonadm/resource/customer/property/type/groups
 				 * List of user groups that are allowed to manage customer property type items
@@ -168,7 +168,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2018.07
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 	],
@@ -294,7 +294,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'type' => [
@@ -304,7 +304,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 		'property' => [
 			/** admin/jsonadm/resource/media/property/groups
@@ -313,7 +313,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2018.07
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 			'type' => [
 				/** admin/jsonadm/resource/media/property/type/groups
 				 * List of user groups that are allowed to manage media property type items
@@ -321,7 +321,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2018.07
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 	],
@@ -456,7 +456,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'property' => [
@@ -474,7 +474,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2019.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'type' => [
@@ -484,7 +484,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
 	'product' => [
@@ -510,7 +510,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'property' => [
@@ -528,7 +528,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'type' => [
@@ -538,7 +538,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
 	'service' => [
@@ -601,7 +601,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
 	'supplier' => [
@@ -619,7 +619,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 		'lists' => [
 			/** admin/jsonadm/resource/supplier/lists/groups
@@ -636,7 +636,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'type' => [
@@ -646,7 +646,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
 	'tag' => [
@@ -664,7 +664,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
 	'text' => [
@@ -690,7 +690,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'super'],
+				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
 		'type' => [
@@ -700,7 +700,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
 ];
