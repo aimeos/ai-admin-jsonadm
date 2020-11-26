@@ -258,7 +258,7 @@ class Standard
 				$item = $item->fromArray( $attr, true );
 			}
 
-			$item = $manager->insertItem( $item, $targetId, $refId );
+			$item = $manager->insert( $item, $targetId, $refId );
 		}
 
 		if( isset( $entry->relationships ) ) {

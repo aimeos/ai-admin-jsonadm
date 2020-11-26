@@ -121,12 +121,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPost()
 	{
-		$stub = $this->getSiteMock( array( 'get', 'insertItem' ) );
+		$stub = $this->getSiteMock( array( 'get', 'insert' ) );
 		$item = $stub->create();
 
 		$stub->expects( $this->any() )->method( 'get' )
 			->will( $this->returnValue( $item ) );
-		$stub->expects( $this->once() )->method( 'insertItem' )
+		$stub->expects( $this->once() )->method( 'insert' )
 			->will( $this->returnValue( $item->setId( '-1' ) ) );
 
 

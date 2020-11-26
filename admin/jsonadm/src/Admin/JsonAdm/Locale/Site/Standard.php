@@ -189,7 +189,7 @@ class Standard
 				$item = $item->fromArray( $attr, true );
 			}
 
-			$item = $manager->insertItem( $item );
+			$item = $manager->insert( $item );
 		}
 
 		if( isset( $entry->relationships ) ) {
