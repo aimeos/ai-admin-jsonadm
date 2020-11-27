@@ -89,10 +89,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$stub = $this->getCatalogMock( array( 'get', 'moveItem', 'save' ) );
+		$stub = $this->getCatalogMock( array( 'get', 'move', 'save' ) );
 		$item = $stub->create()->setId( '-1' );
 
-		$stub->expects( $this->once() )->method( 'moveItem' );
+		$stub->expects( $this->once() )->method( 'move' );
 		$stub->expects( $this->once() )->method( 'save' )
 			->will( $this->returnValue( $item ) );
 		$stub->expects( $this->exactly( 2 ) )->method( 'get' ) // 2x due to decorator

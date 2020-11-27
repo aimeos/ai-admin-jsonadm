@@ -87,7 +87,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$stub = $this->getSiteMock( array( 'get', 'moveItem', 'save' ) );
+		$stub = $this->getSiteMock( array( 'get', 'move', 'save' ) );
 		$item = $stub->create()->setId( '-1' );
 
 		$stub->expects( $this->once() )->method( 'save' )
