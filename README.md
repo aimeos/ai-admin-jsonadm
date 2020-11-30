@@ -4,7 +4,7 @@
 
 # Aimeos JSON API admin interface
 
-[![Build Status](https://travis-ci.org/aimeos/ai-admin-jsonadm.png?branch=master)](https://travis-ci.org/aimeos/ai-admin-jsonadm)
+[![Build Status](https://circleci.com/gh/aimeos/ai-admin-jsonadm.svg?style=shield)](https://circleci.com/gh/aimeos/ai-admin-jsonadm)
 [![Coverage Status](https://coveralls.io/repos/aimeos/ai-admin-jsonadm/badge.svg?branch=master)](https://coveralls.io/r/aimeos/ai-admin-jsonadm?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aimeos/ai-admin-jsonadm/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aimeos/ai-admin-jsonadm/?branch=master)
 [![License](https://poser.pugx.org/aimeos/ai-admin-jsonadm/license.svg)](https://packagist.org/packages/aimeos/ai-admin-jsonadm)
