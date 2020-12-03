@@ -205,7 +205,7 @@ class Standard
 		{
 			$manager = \Aimeos\MShop::create( $context, $type );
 
-			$search = $manager->createSearch();
+			$search = $manager->createSearch()->setSlice( 0, 10000 );
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ) );
 
 			if( $type === 'order/base/product' )
