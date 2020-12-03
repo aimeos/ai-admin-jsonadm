@@ -193,7 +193,7 @@ class Standard
 		{
 			$manager = \Aimeos\MShop::create( $context, $type );
 
-			$search = $manager->filter( false, true );
+			$search = $manager->filter( false, true )->slice( 0, 10000 );
 			$search->setConditions( $search->combine( '&&', [
 				$search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ),
 				$search->getConditions(),
