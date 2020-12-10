@@ -116,7 +116,7 @@ class Standard
 			$search->compare( '==', 'price.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'price.lists.domain', $include ),
 		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setConditions( $search->and( $expr ) );
 
 		return $manager->search( $search );
 	}

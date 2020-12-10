@@ -190,7 +190,7 @@ class Standard
 			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
 
 			$search = $manager->filter( false, true );
-			$search->setConditions( $search->combine( '&&', [
+			$search->setConditions( $search->and( [
 				$search->compare( '==', 'order.base.id', $ids ),
 				$search->getConditions()
 			] ) );

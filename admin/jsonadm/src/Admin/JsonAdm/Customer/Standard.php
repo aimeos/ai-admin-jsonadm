@@ -143,7 +143,7 @@ class Standard
 			$search->compare( '==', 'customer.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'customer.lists.domain', $include ),
 		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setConditions( $search->and( $expr ) );
 
 		return $manager->search( $search );
 	}

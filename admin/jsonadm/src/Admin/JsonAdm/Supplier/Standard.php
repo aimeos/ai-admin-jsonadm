@@ -143,7 +143,7 @@ class Standard
 			$search->compare( '==', 'supplier.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'supplier.lists.domain', $include ),
 		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setConditions( $search->and( $expr ) );
 
 		return $manager->search( $search );
 	}

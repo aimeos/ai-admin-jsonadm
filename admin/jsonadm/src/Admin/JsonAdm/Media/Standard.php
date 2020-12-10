@@ -116,7 +116,7 @@ class Standard
 			$search->compare( '==', 'media.lists.parentid', $items->keys()->toArray() ),
 			$search->compare( '==', 'media.lists.domain', $include ),
 		);
-		$search->setConditions( $search->combine( '&&', $expr ) );
+		$search->setConditions( $search->and( $expr ) );
 
 		return $manager->search( $search );
 	}
