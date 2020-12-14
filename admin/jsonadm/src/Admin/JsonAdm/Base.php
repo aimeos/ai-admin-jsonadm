@@ -434,7 +434,7 @@ abstract class Base
 					if( isset( $data->attributes ) && ( $attr = (array) $data->attributes ) ) {
 						$key = str_replace( '/', '.', $this->path ) . '.config';
 						$attr[$key] = (array) ( $attr[$key] ?? [] );
-						$item = $item->fromArray( $attr, true );
+						$listItem = $listItem->fromArray( $attr, true );
 					}
 
 					if( isset( $data->id ) ) {
