@@ -56,6 +56,14 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, \Aimeos\Map $childItem
 		}
 	}
 
+	if( $item instanceof \Aimeos\MShop\Common\Item\Lists\Iface )
+	{
+		$result['relationships'][$item->getDomain()][] = ['data' => [
+			'type' => $item->getDomain(),
+			'id' => $item->getRefId()
+		]];
+	}
+
 	foreach( $listItems as $listId => $listItem )
 	{
 		if( $listItem->getParentId() == $id )

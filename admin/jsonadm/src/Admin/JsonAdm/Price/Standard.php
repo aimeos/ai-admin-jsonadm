@@ -109,15 +109,6 @@ class Standard
 	 */
 	protected function getListItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'price/lists' );
-
-		$search = $manager->filter();
-		$expr = array(
-			$search->compare( '==', 'price.lists.parentid', $items->keys()->toArray() ),
-			$search->compare( '==', 'price.lists.domain', $include ),
-		);
-		$search->setConditions( $search->and( $expr ) );
-
-		return $manager->search( $search );
+		return $items->getListItems()->collapse();
 	}
 }

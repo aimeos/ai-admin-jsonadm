@@ -555,13 +555,13 @@ class Standard
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
 			$search = $this->initCriteria( $manager->filter(), $view->param() );
-			$view->data = $manager->search( $search, [], $total );
+			$view->data = $manager->search( $search, $include, $total );
 			$view->childItems = $this->getChildItems( $view->data, $include );
 			$view->listItems = $this->getListItems( $view->data, $include );
 		}
 		else
 		{
-			$view->data = $manager->get( $id, [] );
+			$view->data = $manager->get( $id, $include );
 			$view->childItems = $this->getChildItems( map( [$id => $view->data] ), $include );
 			$view->listItems = $this->getListItems( map( [$id => $view->data] ), $include );
 		}

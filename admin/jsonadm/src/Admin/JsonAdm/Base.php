@@ -174,7 +174,9 @@ abstract class Base
 	 */
 	protected function getListItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
-		return map();
+		return $items->filter( function( $item ) {
+			return $item instanceof \Aimeos\MShop\Common\Item\Lists\Iface;
+		} );
 	}
 
 
@@ -197,25 +199,16 @@ abstract class Base
 	 */
 	protected function getRefItems( \Aimeos\Map $listItems ) : \Aimeos\Map
 	{
-		$map = [];
-		$list = map();
-		$context = $this->getContext();
+		$list = [];
 
-		foreach( $listItems as $listItem ) {
-			$map[$listItem->getDomain()][] = $listItem->getRefId();
-		}
-
-		foreach( $map as $domain => $ids )
+		foreach( $listItems as $listItem )
 		{
-			$manager = \Aimeos\MShop::create( $context, $domain );
-
-			$search = $manager->filter();
-			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $domain ) . '.id', $ids ) );
-
-			$list = $list->merge( $manager->search( $search ) );
+			if( $refItem = $listItem->getRefItem() ) {
+				$list[$refItem->getId()] = $refItem;
+			}
 		}
 
-		return $list;
+		return map( $list );
 	}
 
 
