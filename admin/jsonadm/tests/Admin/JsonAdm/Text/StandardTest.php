@@ -31,9 +31,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'text.label' => 'misc_long_desc' )
+				'==' => array( 'text.label' => 'service_text3.1' )
 			),
-			'include' => 'media'
+			'include' => 'customer'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -48,8 +48,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'text', $result['data'][0]['type'] );
-		$this->assertEquals( 4, count( $result['data'][0]['relationships']['media'] ) );
-		$this->assertEquals( 4, count( $result['included'] ) );
+		$this->assertEquals( 3, count( $result['data'][0]['relationships']['customer'] ) );
+		$this->assertEquals( 3, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
