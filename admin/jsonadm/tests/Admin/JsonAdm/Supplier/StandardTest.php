@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'supplier.code' => 'unitCode001' )
+				'==' => array( 'supplier.code' => 'unitSupplier001' )
 			),
 			'include' => 'text,supplier/address'
 		);
@@ -60,7 +60,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'=~' => array( 'supplier.code' => 'unitCode00' )
+				'=~' => array( 'supplier.code' => 'unitSupplier00' )
 			),
 			'fields' => array(
 				'supplier' => 'supplier.id,supplier.label'
