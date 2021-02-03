@@ -53,6 +53,34 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGetAggregateMultiple()
+	{
+		$params = array(
+			'filter' => array(
+				'==' => array( 'order.editor' => 'core:lib/mshoplib' )
+			),
+			'aggregate' => 'order.statuspayment,order.cdate',
+		);
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
+
+		$this->assertEquals( 2, $result['meta']['total'] );
+		$this->assertEquals( 2, count( $result['data'] ) );
+		$this->assertEquals( 'aggregate', $result['data'][0]['type'] );
+		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 'aggregate', $result['data'][1]['type'] );
+		$this->assertEquals( 3, count( $result['data'][1]['attributes'] ) );
+
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
 	public function testGetIncluded()
 	{
 		$params = array(

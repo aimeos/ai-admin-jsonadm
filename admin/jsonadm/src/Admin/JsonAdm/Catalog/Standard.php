@@ -169,7 +169,7 @@ class Standard
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
 			$search = $this->initCriteria( $manager->filter(), $view->param() );
-			$view->data = $manager->aggregate( $search, $key );
+			$view->data = $manager->aggregate( $search, explode( ',', $key ) );
 			return $response;
 		}
 
