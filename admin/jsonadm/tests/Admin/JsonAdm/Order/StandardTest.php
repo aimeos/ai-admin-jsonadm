@@ -73,9 +73,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertEquals( 2, count( $result['data'] ) );
 		$this->assertEquals( 'aggregate', $result['data'][0]['type'] );
-		$this->assertEquals( 3, count( $result['data'][0]['attributes'] ) );
+		$this->assertEquals( 1, count( $result['data'][0]['attributes'] ) );
 		$this->assertEquals( 'aggregate', $result['data'][1]['type'] );
-		$this->assertEquals( 3, count( $result['data'][1]['attributes'] ) );
+		$this->assertEquals( 1, count( $result['data'][1]['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
