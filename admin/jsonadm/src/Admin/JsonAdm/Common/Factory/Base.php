@@ -74,7 +74,7 @@ class Base
 		 */
 		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', [] );
 
-		if( $path !== null && is_string( $path ) )
+		if( $path !== '' && is_string( $path ) )
 		{
 			$dpath = trim( $path, '/' );
 			$dpath = ( $dpath !== '' ? $dpath . '/' : $dpath );
