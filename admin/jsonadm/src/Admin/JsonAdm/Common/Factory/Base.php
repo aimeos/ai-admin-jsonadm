@@ -46,7 +46,7 @@ class Base
 	 * @return \Aimeos\Admin\JsonAdm\Common\Iface Client object
 	 */
 	protected static function addClientDecorators( \Aimeos\Admin\JsonAdm\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Common\Iface
+		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Common\Decorator\Iface
 	{
 		$config = $context->getConfig();
 
