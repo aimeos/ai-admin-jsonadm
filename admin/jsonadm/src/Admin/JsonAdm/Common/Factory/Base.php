@@ -72,7 +72,7 @@ class Base
 		 * @since 2015.12
 		 * @category Developer
 		 */
-		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', [] );
+		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', ['Standard'] );
 
 		if( $path !== '' && is_string( $path ) )
 		{
