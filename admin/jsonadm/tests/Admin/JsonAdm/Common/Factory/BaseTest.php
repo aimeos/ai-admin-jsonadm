@@ -29,17 +29,29 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	public function testinjectClient()
+	public function testInjectClient()
 	{
 		$this->object->injectClient( 'test', $this->client );
+	}
+
+
+	public function testClientDecorator()
+	{
+		$this->context->getConfig()->set( 'admin/jsonadm/common/decorators/default', ['Example'] );
+
+		$result = \Aimeos\Admin\JsonAdm::create( $this->context, \TestHelperJadm::getAimeos(), 'product' );
+
+		$this->assertInstanceOf( '\Aimeos\Admin\JsonAdm\Iface', $result );
+		$this->assertInstanceOf( '\Aimeos\Admin\JsonAdm\Common\Decorator\Iface', $result );
+		$this->assertEquals( 'Aimeos\Admin\JsonAdm\Common\Decorator\Example', get_class( $result ) );
 	}
 
 
 	public function testAddClientDecorators()
 	{
 		$config = $this->context->getConfig();
-		$config->set( 'client/jsonapi/common/decorators/default', ['Test'] );
-		$config->set( 'client/jsonapi/product/decorators/excludes', ['Test'] );
+		$config->set( 'admin/jsonadm/common/decorators/default', ['Test'] );
+		$config->set( 'admin/jsonadm/product/decorators/excludes', ['Test'] );
 
 		$params = [$this->client, $this->context, 'product'];
 		$result = $this->access( 'addClientDecorators' )->invokeArgs( $this->object, $params );

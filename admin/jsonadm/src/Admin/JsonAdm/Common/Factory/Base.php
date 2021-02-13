@@ -43,10 +43,10 @@ class Base
 	 * @param \Aimeos\Admin\JsonAdm\Common\Iface $client Client object
 	 * @param \Aimeos\MShop\Context\Item\Iface $context Context instance with necessary objects
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
-	 * @return \Aimeos\Admin\JsonAdm\Common\Iface Client object
+	 * @return \Aimeos\Admin\JsonAdm\Iface Client object
 	 */
 	protected static function addClientDecorators( \Aimeos\Admin\JsonAdm\Iface $client,
-		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Common\Iface
+		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$config = $context->getConfig();
 
@@ -74,39 +74,35 @@ class Base
 		 */
 		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', [] );
 
-		if( $path !== null && is_string( $path ) )
-		{
-			$dpath = trim( $path, '/' );
-			$dpath = ( $dpath !== '' ? $dpath . '/' : $dpath );
-
-			$excludes = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/excludes', [] );
-			$localClass = str_replace( '/', '\\', ucwords( $path, '/' ) );
-
-			foreach( $decorators as $key => $name )
-			{
-				if( in_array( $name, $excludes ) ) {
-					unset( $decorators[$key] );
-				}
-			}
-
-			$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-			$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/global', [] );
-			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
-
-			if( !empty( $path ) )
-			{
-				$classprefix = '\\Aimeos\\Admin\\JsonAdm\\' . ucfirst( $localClass ) . '\\Decorator\\';
-				$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/local', [] );
-				$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
-			}
-		}
-		else
+		if( empty( $path ) )
 		{
 			$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-			$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
+			return self::addDecorators( $client, $decorators, $classprefix, $context, $path );
 		}
 
-		return $client;
+		$dpath = trim( $path, '/' );
+		$dpath = ( $dpath !== '' ? $dpath . '/' : $dpath );
+
+		$excludes = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/excludes', [] );
+		$localClass = str_replace( '/', '\\', ucwords( $path, '/' ) );
+
+		foreach( $decorators as $key => $name )
+		{
+			if( in_array( $name, $excludes ) ) {
+				unset( $decorators[$key] );
+			}
+		}
+
+		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
+		$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
+
+		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
+		$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/global', [] );
+		$client = self::addDecorators( $client, $decorators, $classprefix, $context, $path );
+
+		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\' . ucfirst( $localClass ) . '\\Decorator\\';
+		$decorators = $config->get( 'admin/jsonadm/' . $dpath . 'decorators/local', [] );
+		return self::addDecorators( $client, $decorators, $classprefix, $context, $path );
 	}
 
 
