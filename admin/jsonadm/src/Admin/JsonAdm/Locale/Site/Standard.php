@@ -143,14 +143,27 @@ class Standard
 	 */
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'locale/site' );
-		$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+		$context = $this->getContext();
+		$manager = \Aimeos\MShop::create( $context, 'locale/site' );
+		$search = $this->initCriteria( $manager->filter(), $view->param() );
 		$total = 1;
 
-		if( ( $id = $view->param( 'id' ) ) == null ) {
-			$view->data = $manager->searchItems( $search, [], $total );
-		} else {
-			$view->data = $manager->getTree( $id, [], \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE, $search );
+		if( !$view->access( ['super'] ) )
+		{
+			$customerManager = \Aimeos\MShop::create( $context, 'customer' );
+			$siteid = $customerManager->get( $context->getUserId() )->getSiteId();
+			$search->add( $search->is( 'locale.site.siteid', $view->access( ['admin'] ) ? '=~' : '==', $siteid ) );
+		}
+
+		if( $id = $view->param( 'id' ) )
+		{
+			$search->add( $search->is( 'locale.site.id', '==', $id ) )->slice( 0, 1 );
+			$view->data = $manager->search( $search, [], $total )
+				->first( new \Aimeos\MShop\Exception( $view->translate( 'admin', 'Item not available' ) ) );
+		}
+		else
+		{
+			$view->data = $manager->search( $search, [], $total );
 		}
 
 		$view->childItems = map();

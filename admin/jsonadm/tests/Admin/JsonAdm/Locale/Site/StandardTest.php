@@ -40,7 +40,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$params = array(
 			'id' => $this->getSiteItem( 'unittest' )->getId(),
 			'filter' => array(
-				'==' => array( 'locale.status' => 0 )
+				'==' => array( 'locale.site.status' => 1 )
 			),
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
@@ -48,7 +48,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
