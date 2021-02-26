@@ -129,6 +129,23 @@ class Standard
 		 */
 		$this->getView()->assign( array( 'partial-data' => 'admin/jsonadm/partials/locale/site/template-data' ) );
 
+		/** admin/jsonadm/partials/locale/site/template-included
+		 * Relative path to the included partial template file for the locale site  client
+		 *
+		 * Partials are templates which are reused in other templates and generate
+		 * reoccuring blocks filled with data from the assigned values. The included
+		 * partial creates the "included" part for the JSON API response.
+		 *
+		 * The partial template files are usually stored in the templates/partials/ folder
+		 * of the core or the extensions. The configured path to the partial file must
+		 * be relative to the templates/ folder, e.g. "partials/included-standard".
+		 *
+		 * @param string Relative path to the template file
+		 * @since 2021.04
+		 * @category Developer
+		 */
+		$this->getView()->assign( array( 'partial-included' => 'admin/jsonadm/partials/locale/site/template-included' ) );
+
 		return parent::get( $request, $response );
 	}
 
