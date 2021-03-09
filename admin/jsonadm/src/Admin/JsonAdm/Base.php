@@ -204,7 +204,7 @@ abstract class Base
 		foreach( $listItems as $listItem )
 		{
 			if( $refItem = $listItem->getRefItem() ) {
-				$list[] = $refItem;
+				$list[$refItem->getResourceType() . '-' . $refItem->getId()] = $refItem;
 			}
 		}
 
