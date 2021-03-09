@@ -52,16 +52,16 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, \Aimeos\Map $childItem
 		if( $childItem->getParentId() == $id )
 		{
 			$type = $childItem->getResourceType();
-			$result['relationships'][$type][] = array( 'data' => array( 'id' => $childItem->getId(), 'type' => $type ) );
+			$result['relationships'][$type]['data'][] = ['id' => $childItem->getId(), 'type' => $type];
 		}
 	}
 
 	if( $item instanceof \Aimeos\MShop\Common\Item\Lists\Iface )
 	{
-		$result['relationships'][$item->getDomain()][] = ['data' => [
+		$result['relationships'][$item->getDomain()]['data'][] = [
 			'type' => $item->getDomain(),
 			'id' => $item->getRefId()
-		]];
+		];
 	}
 
 	foreach( $listItems as $listId => $listItem )
@@ -71,14 +71,14 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, \Aimeos\Map $childItem
 			$type = $listItem->getDomain();
 			$params = array( 'resource' => $listItem->getResourceType(), 'id' => $listId );
 
-			$result['relationships'][$type][] = array( 'data' => array(
+			$result['relationships'][$type]['data'][] = [
 				'id' => $listItem->getRefId(),
 				'type' => $type,
 				'attributes' => $listItem->toArray( true ),
 				'links' => array(
 					'self' => $this->url( $target, $cntl, $action, $params, [], $config )
 				)
-			) );
+            ];
 		}
 	}
 
