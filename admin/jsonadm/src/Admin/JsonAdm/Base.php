@@ -207,12 +207,9 @@ abstract class Base
 
 		foreach( $map as $domain => $ids )
 		{
-			$manager = \Aimeos\MShop::create( $context, $domain );
-
-			$search = $manager->createSearch();
-			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $domain ) . '.id', $ids ) );
-
-			$list = $list->merge( $manager->searchItems( $search ) );
+			if( $refItem = $listItem->getRefItem() ) {
+				$list[$refItem->getResourceType() . '-' . $refItem->getId()] = $refItem;
+			}
 		}
 
 		return $list;
