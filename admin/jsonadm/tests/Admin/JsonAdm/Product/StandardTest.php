@@ -47,11 +47,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'product', $result['data'][0]['type'] );
-		$this->assertEquals( 7, count( $result['data'][0]['relationships']['text'] ) );
-		$this->assertArrayHaskey( 'self', $result['data'][0]['relationships']['text'][0]['data']['links'] );
-		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product'] ) );
-		$this->assertArrayHaskey( 'self', $result['data'][0]['relationships']['product'][0]['data']['links'] );
-		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property'] ) );
+		$this->assertEquals( 7, count( $result['data'][0]['relationships']['text']['data'] ) );
+		$this->assertArrayHaskey( 'self', $result['data'][0]['relationships']['text']['data'][0]['links'] );
+		$this->assertEquals( 5, count( $result['data'][0]['relationships']['product']['data'] ) );
+		$this->assertArrayHaskey( 'self', $result['data'][0]['relationships']['product']['data'][0]['links'] );
+		$this->assertEquals( 4, count( $result['data'][0]['relationships']['product/property']['data'] ) );
 		$this->assertEquals( 15, count( $result['included'] ) );
 		$this->assertEquals( 'product/property', $result['included'][0]['type'] );
 		$this->assertArrayHaskey( 'self', $result['included'][0]['links'] );
