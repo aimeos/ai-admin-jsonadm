@@ -216,7 +216,7 @@ abstract class Base
 	 * Returns the list of allowed resources
 	 *
 	 * @param \Aimeos\MW\View\Iface $view View object with "access" helper
-	 * @param array List of all available resources
+	 * @param array $resources List of all available resources
 	 * @return array List of allowed resources
 	 */
 	protected function getAllowedResources( \Aimeos\MW\View\Iface $view, array $resources ) : array
