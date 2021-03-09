@@ -78,7 +78,7 @@ $build = function( \Aimeos\MShop\Common\Item\Iface $item, \Aimeos\Map $childItem
 				'links' => array(
 					'self' => $this->url( $target, $cntl, $action, $params, [], $config )
 				)
-            ];
+			];
 		}
 	}
 
