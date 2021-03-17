@@ -197,8 +197,7 @@ abstract class Base
 	 */
 	protected function getRefItems( \Aimeos\Map $listItems ) : \Aimeos\Map
 	{
-		$map = [];
-		$list = map();
+		$map = $list = [];
 		$context = $this->getContext();
 
 		foreach( $listItems as $listItem ) {
@@ -207,12 +206,17 @@ abstract class Base
 
 		foreach( $map as $domain => $ids )
 		{
-			if( $refItem = $listItem->getRefItem() ) {
-				$list[$refItem->getResourceType() . '-' . $refItem->getId()] = $refItem;
+			$manager = \Aimeos\MShop::create( $context, $domain );
+
+			$search = $manager->createSearch();
+			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $domain ) . '.id', $ids ) );
+
+			foreach( $manager->searchItems( $search ) as $refItem ) {
+				$list[$domain . '-' . $refItem->getId()] = $refItem;
 			}
 		}
 
-		return $list;
+		return map( $list );
 	}
 
 
