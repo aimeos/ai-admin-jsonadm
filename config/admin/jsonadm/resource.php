@@ -541,6 +541,33 @@ return [
 			'groups' => ['admin', 'editor', 'super'],
 		],
 	],
+	'rule' => [
+		/** admin/jsonadm/resource/rule/groups
+		 * List of user groups that are allowed to manage rule items
+		 *
+		 * @param array List of user group names
+		 * @since 2021.04
+		 */
+		'groups' => ['admin', 'editor', 'super'],
+		'config' => [
+			/** admin/jsonadm/resource/rule/config/groups
+			 * List of user groups that are allowed to fetch available rule configuration
+			 *
+			 * @param array List of user group names
+			 * @since 2021.04
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+		'type' => [
+			/** admin/jsonadm/resource/rule/type/groups
+			 * List of user groups that are allowed to manage rule type items
+			 *
+			 * @param array List of user group names
+			 * @since 2021.04
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+	],
 	'service' => [
 		/** admin/jsonadm/resource/service/groups
 		 * List of user groups that are allowed to manage service items
