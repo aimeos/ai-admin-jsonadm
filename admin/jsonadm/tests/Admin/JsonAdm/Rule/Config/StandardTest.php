@@ -42,9 +42,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertEquals( 3, $result['meta']['total'] );
 		$this->assertIsArray( $result['data'] );
-		$this->assertEquals( 'category.code', $result['data'][0]['id'] );
+		$this->assertEquals( 'last-rule', $result['data'][0]['id'] );
+		$this->assertEquals( 'percent', $result['data'][1]['id'] );
+		$this->assertEquals( 'category.code', $result['data'][2]['id'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
