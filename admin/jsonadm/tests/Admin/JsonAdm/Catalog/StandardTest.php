@@ -53,7 +53,6 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		error_log(print_r($result, true));
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
 		$this->assertEquals( 'catalog', $result['data'][0]['type'] );
