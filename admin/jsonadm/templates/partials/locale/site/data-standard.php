@@ -50,7 +50,7 @@ $build = function( \Aimeos\MShop\Locale\Item\Site\Iface $item ) use ( $fields )
 	foreach( $item->getChildren() as $childItem )
 	{
 		$type = $childItem->getResourceType();
-		$result['relationships'][$type][] = array( 'data' => array( 'id' => $childItem->getId(), 'type' => $type ) );
+		$result['relationships'][$type]['data'][] = ['id' => $childItem->getId(), 'type' => $type];
 	}
 
 	return $result;
