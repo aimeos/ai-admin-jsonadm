@@ -50,7 +50,7 @@ $build = function( \Aimeos\MShop\Catalog\Item\Iface $item, \Aimeos\Map $listItem
 	foreach( $item->getChildren() as $childItem )
 	{
 		$type = $childItem->getResourceType();
-		$result['relationships'][$type][] = array( 'data' => array( 'id' => $childItem->getId(), 'type' => $type ) );
+		$result['relationships'][$type]['data'][] = ['id' => $childItem->getId(), 'type' => $type];
 	}
 
 	foreach( $listItems as $listId => $listItem )
@@ -60,14 +60,14 @@ $build = function( \Aimeos\MShop\Catalog\Item\Iface $item, \Aimeos\Map $listItem
 			$type = $listItem->getDomain();
 			$params = array( 'resource' => $listItem->getResourceType(), 'id' => $listId );
 
-			$result['relationships'][$type][] = array( 'data' => array(
+			$result['relationships'][$type]['data'][] = [
 				'id' => $listItem->getRefId(),
 				'type' => $type,
 				'attributes' => $listItem->toArray( true ),
 				'links' => array(
 					'self' => $this->url( $target, $cntl, $action, $params, [], $config )
 				)
-			) );
+			];
 		}
 	}
 

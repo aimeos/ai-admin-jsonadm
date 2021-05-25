@@ -54,11 +54,11 @@ $build = function( \Aimeos\MShop\Order\Item\Base\Iface $item, \Aimeos\Map $child
 			$type = $childItem->getResourceType();
 			$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childItem->getId() );
 
-			$result['relationships'][$type][] = array( 'data' => array(
+			$result['relationships'][$type]['data'][] = [
 				'id' => $childItem->getId(), 'type' => $type, 'links' => array(
 					'self' => $this->url( $target, $cntl, $action, $params, [], $config )
 				)
-			) );
+			];
 		}
 	}
 
