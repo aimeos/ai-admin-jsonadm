@@ -30,7 +30,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$params = array(
-			'id' => 'Example,Required,BasketValues',
+			'id' => 'Example,Required,Basket',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -43,8 +43,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 2, $result['meta']['total'] );
 		$this->assertIsArray( $result['data'] );
-		$this->assertEquals( 'basketvalues.total-value-min', $result['data'][0]['id'] );
-		$this->assertEquals( 'basketvalues.total-value-max', $result['data'][1]['id'] );
+		$this->assertEquals( 'basket.total-value-min', $result['data'][0]['id'] );
+		$this->assertEquals( 'basket.total-value-max', $result['data'][1]['id'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
