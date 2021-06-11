@@ -13,6 +13,7 @@ return [
 			],
 			'order' => [
 				'template-data' => 'partials/order/data-standard',
+				'template-included' => 'partials/order/included-standard',
 				'base' => [
 					'template-data' => 'partials/order/base/data-standard',
 				],
