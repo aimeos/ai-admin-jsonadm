@@ -87,14 +87,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'filter' => array(
 				'==' => array( 'order.datepayment' => '2008-02-15 12:34:56' )
 			),
-			'include' => 'order/base,order/status'
+			'include' => 'order/base,order/status,order/base/address,order/base/product,order/base/service,order/base/coupon'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
-
 
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
@@ -104,7 +103,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'order', $result['data'][0]['type'] );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/status'] ) );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/base'] ) );
-		$this->assertEquals( 2, count( $result['included'] ) );
+		$this->assertEquals( 12, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}

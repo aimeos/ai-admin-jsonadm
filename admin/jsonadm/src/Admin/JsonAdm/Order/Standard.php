@@ -127,7 +127,10 @@ class Standard
 		 * @since 2016.01
 		 * @category Developer
 		 */
-		$this->getView()->assign( array( 'partial-data' => 'admin/jsonadm/partials/order/template-data' ) );
+		$this->getView()->assign( [
+			'partial-data' => 'admin/jsonadm/partials/order/template-data',
+			'partial-included' => 'admin/jsonadm/partials/order/template-included'
+		] );
 
 		return parent::get( $request, $response );
 	}
@@ -195,7 +198,11 @@ class Standard
 				$search->getConditions()
 			] ) );
 
-			$list = $list->merge( $manager->search( $search ) );
+			$baseItems = $manager->search( $search, $include );
+
+			$list = $list->merge( $baseItems )
+				->merge( $baseItems->getAddresses()->flat() )->merge( $baseItems->getCoupons()->flat() )
+				->merge( $baseItems->getProducts()->flat() )->merge( $baseItems->getServices()->flat() );
 		}
 
 		if( in_array( 'order/status', $include ) )
