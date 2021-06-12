@@ -1,22 +1,22 @@
 <?php
 
-return array(
+return [
 	'name' => 'ai-admin-jsonadm',
-	'depends' => array(
+	'depends' => [
 		'aimeos-core',
-	),
-	'config' => array(
+	],
+	'config' => [
 		'config',
-	),
-	'include' => array(
+	],
+	'include' => [
 		'admin/jsonadm/src',
-	),
-	'i18n' => array(
+	],
+	'i18n' => [
 		'admin/jsonadm' => 'admin/jsonadm/i18n',
-	),
-	'custom' => array(
-		'admin/jsonadm/templates' => array(
+	],
+	'template' => [
+		'admin/jsonadm/templates' => [
 			'admin/jsonadm/templates',
-		),
-	),
-);
+		]
+	]
+];

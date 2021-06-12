@@ -45,7 +45,7 @@ class TestHelperJadm
 
 	public static function getJsonadmPaths()
 	{
-		return self::getAimeos()->getCustomPaths( 'admin/jsonadm/templates' );
+		return self::getAimeos()->getTemplatePaths( 'admin/jsonadm/templates' );
 	}
 
 
@@ -98,7 +98,7 @@ class TestHelperJadm
 
 	protected static function createView( \Aimeos\MW\Config\Iface $config )
 	{
-		$tmplpaths = self::getAimeos()->getCustomPaths( 'admin/jsonadm/templates' );
+		$tmplpaths = self::getAimeos()->getTemplatePaths( 'admin/jsonadm/templates' );
 
 		$view = new \Aimeos\MW\View\Standard( $tmplpaths );
 
