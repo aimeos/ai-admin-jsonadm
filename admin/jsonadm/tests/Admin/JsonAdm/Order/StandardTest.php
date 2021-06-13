@@ -87,7 +87,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'filter' => array(
 				'==' => array( 'order.datepayment' => '2008-02-15 12:34:56' )
 			),
-			'include' => 'order/base,order/status,order/base/address,order/base/product,order/base/service,order/base/coupon'
+			'include' => 'order/base,order/status,order/base/address,order/base/product,order/base/service,order/base/coupon,order/base/product/attribute,order/base/service/attribute'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );

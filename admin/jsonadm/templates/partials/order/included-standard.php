@@ -78,6 +78,13 @@ $build = function( \Aimeos\Map $items ) use ( $fields )
 			}
 		}
 
+		if( $item instanceof \Aimeos\MShop\Order\Item\Base\Product\Iface )
+		{
+			foreach( $item->getAttributeItems()->flat() as $serv ) {
+				$entry['relationships']['order/base/product/attribute']['data'][] = ['id' => $serv->getId(), 'type' => 'order/base/service/attribute'];
+			}
+		}
+
 		$list[] = $entry;
 	}
 
