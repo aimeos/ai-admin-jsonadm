@@ -205,11 +205,11 @@ class Standard
 				->merge( $baseItems->getProducts()->flat() )->merge( $baseItems->getServices()->flat() );
 
 			foreach($baseItems->getProducts()->flat() as $row) {
-				$list->merge( $row->getAttributeItems()->flat() );
+				$list->merge( $row->getAttributeItems() );
 			}
 			
 			foreach($baseItems->getServices()->flat() as $row) {
-				$list->merge( $row->getAttributeItems()->flat() );
+				$list->merge( $row->getAttributeItems() );
 			}
 		}
 
