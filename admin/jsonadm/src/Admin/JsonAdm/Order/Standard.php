@@ -204,11 +204,11 @@ class Standard
 				->merge( $baseItems->getAddresses()->flat() )->merge( $baseItems->getCoupons()->flat() )
 				->merge( $baseItems->getProducts()->flat() )->merge( $baseItems->getServices()->flat() );
 
-			foreach($baseItems->getProducts()->flat() as $row) {
+			foreach( $baseItems->getProducts()->flat() as $row ) {
 				$list->merge( $row->getAttributeItems() );
 			}
 			
-			foreach($baseItems->getServices()->flat() as $row) {
+			foreach( $baseItems->getServices()->flat() as $row ) {
 				$list->merge( $row->getAttributeItems() );
 			}
 		}
