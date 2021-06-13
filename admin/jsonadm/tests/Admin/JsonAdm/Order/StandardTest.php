@@ -87,7 +87,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'filter' => array(
 				'==' => array( 'order.datepayment' => '2008-02-15 12:34:56' )
 			),
-			'include' => 'order/base,order/status,order/base/address,order/base/product,order/base/service,order/base/coupon'
+			'include' => 'order/base,order/status,order/base/address,order/base/product,order/base/service,order/base/coupon,order/base/product/attribute,order/base/service/attribute'
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -103,7 +103,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 'order', $result['data'][0]['type'] );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/status'] ) );
 		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/base'] ) );
-		$this->assertEquals( 12, count( $result['included'] ) );
+		$this->assertEquals( 31, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
