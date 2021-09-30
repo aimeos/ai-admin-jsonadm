@@ -143,7 +143,7 @@ class Standard
 		 {
 			 $status = $e->getCode();
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				 'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }
@@ -151,7 +151,7 @@ class Standard
 		 {
 			 $status = 404;
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				 'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }
@@ -244,7 +244,7 @@ class Standard
 		 {
 			 $status = $e->getCode();
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				 'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }
@@ -252,7 +252,7 @@ class Standard
 		 {
 			 $status = 404;
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				 'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }

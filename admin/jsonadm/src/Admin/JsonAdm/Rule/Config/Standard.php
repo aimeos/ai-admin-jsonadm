@@ -123,7 +123,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}

@@ -44,7 +44,7 @@ class Standard
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -52,7 +52,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -121,7 +121,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -223,7 +223,7 @@ class Standard
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -231,7 +231,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -300,7 +300,7 @@ class Standard
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -308,7 +308,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -370,7 +370,7 @@ class Standard
 		$view = $this->getView();
 
 		$view->errors = array( array(
-			'title' => $this->getContext()->getI18n()->dt( 'admin/jsonadm', 'Not implemented, use PATCH instead' ),
+			'title' => $this->getContext()->translate( 'admin/jsonadm', 'Not implemented, use PATCH instead' ),
 		) );
 
 		/** admin/jsonadm/template-put
@@ -445,7 +445,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $context->getI18n()->dt( 'mshop', $e->getMessage() ),
+				'title' => $context->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
