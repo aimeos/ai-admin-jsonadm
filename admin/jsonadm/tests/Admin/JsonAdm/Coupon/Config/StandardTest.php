@@ -30,7 +30,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	public function testGet()
 	{
 		$params = array(
-			'id' => 'Example,Required,Basket',
+			'id' => 'None,Required,Basket',
 		);
 		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
