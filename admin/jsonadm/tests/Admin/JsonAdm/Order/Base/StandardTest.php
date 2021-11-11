@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'order.base.price' => '4800.00' )
+				'==' => array( 'order.base.price' => '2400.00' )
 			),
 			'include' => 'order/base/address,order/base/product'
 		);
