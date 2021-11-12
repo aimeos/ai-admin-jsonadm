@@ -127,7 +127,7 @@ class Standard
 		 * @since 2016.01
 		 * @category Developer
 		 */
-		$this->getView()->assign( array( 'partial-data' => 'admin/jsonadm/partials/order/base/template-data' ) );
+		$this->view()->assign( array( 'partial-data' => 'admin/jsonadm/partials/order/base/template-data' ) );
 
 		return parent::get( $request, $response );
 	}

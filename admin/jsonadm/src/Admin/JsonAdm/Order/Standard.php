@@ -127,7 +127,7 @@ class Standard
 		 * @since 2016.01
 		 * @category Developer
 		 */
-		$this->getView()->assign( [
+		$this->view()->assign( [
 			'partial-data' => 'admin/jsonadm/partials/order/template-data',
 			'partial-included' => 'admin/jsonadm/partials/order/template-included'
 		] );
@@ -207,7 +207,7 @@ class Standard
 			foreach( $baseItems->getProducts()->flat() as $row ) {
 				$list->merge( $row->getAttributeItems() );
 			}
-			
+
 			foreach( $baseItems->getServices()->flat() as $row ) {
 				$list->merge( $row->getAttributeItems() );
 			}

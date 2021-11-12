@@ -78,7 +78,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 			$pname = $context->getConfig()->get( 'admin/jsonadm/' . $path . '/name', 'Standard' );
 		}
 
-		$view = $context->getView();
+		$view = $context->view();
 		$config = $context->getConfig();
 
 		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . '/groups', [] ) ) !== true ) {
@@ -86,7 +86,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		}
 
 
-		$view = $context->getView();
+		$view = $context->view();
 		$iface = \Aimeos\Admin\JsonAdm\Iface::class;
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $pname;
 
@@ -155,7 +155,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 			$name = $context->getConfig()->get( 'admin/jsonadm/name', 'Standard' );
 		}
 
-		$view = $context->getView();
+		$view = $context->view();
 		$iface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
 

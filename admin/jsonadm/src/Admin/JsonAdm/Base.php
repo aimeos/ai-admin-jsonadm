@@ -88,7 +88,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
 	 */
-	public function getView() : \Aimeos\MW\View\Iface
+	public function view() : \Aimeos\MW\View\Iface
 	{
 		if( !isset( $this->view ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );

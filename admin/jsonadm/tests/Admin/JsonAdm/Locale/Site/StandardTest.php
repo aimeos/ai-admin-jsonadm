@@ -21,7 +21,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		\Aimeos\MShop::cache( true );
 
 		$this->context = \TestHelperJadm::getContext();
-		$this->view = $this->context->getView();
+		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Admin\JsonAdm\Locale\Site\Standard( $this->context, 'locale/site' );
 		$this->object->setAimeos( \TestHelperJadm::getAimeos() );

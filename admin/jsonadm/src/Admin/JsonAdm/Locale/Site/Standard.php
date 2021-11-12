@@ -127,7 +127,7 @@ class Standard
 		 * @since 2016.07
 		 * @category Developer
 		 */
-		$this->getView()->assign( array( 'partial-data' => 'admin/jsonadm/partials/locale/site/template-data' ) );
+		$this->view()->assign( array( 'partial-data' => 'admin/jsonadm/partials/locale/site/template-data' ) );
 
 		/** admin/jsonadm/partials/locale/site/template-included
 		 * Relative path to the included partial template file for the locale site  client
@@ -144,7 +144,7 @@ class Standard
 		 * @since 2021.04
 		 * @category Developer
 		 */
-		$this->getView()->assign( array( 'partial-included' => 'admin/jsonadm/partials/locale/site/template-included' ) );
+		$this->view()->assign( array( 'partial-included' => 'admin/jsonadm/partials/locale/site/template-included' ) );
 
 		return parent::get( $request, $response );
 	}

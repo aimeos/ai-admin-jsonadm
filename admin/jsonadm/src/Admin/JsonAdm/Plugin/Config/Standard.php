@@ -112,7 +112,7 @@ class Standard
 	 */
 	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$view = $this->getView();
+		$view = $this->view();
 
 		try
 		{

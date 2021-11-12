@@ -19,7 +19,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function setUp() : void
 	{
 		$this->context = \TestHelperJadm::getContext();
-		$this->view = $this->context->getView();
+		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Admin\JsonAdm\Index\Standard( $this->context, 'index' );
 		$this->object->setAimeos( \TestHelperJadm::getAimeos() );
