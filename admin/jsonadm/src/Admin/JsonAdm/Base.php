@@ -47,7 +47,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\Bootstrap The Aimeos bootstrap object
 	 */
-	public function getAimeos() : \Aimeos\Bootstrap
+	protected function getAimeos() : \Aimeos\Bootstrap
 	{
 		if( !isset( $this->aimeos ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Aimeos object not available' ) );
@@ -75,7 +75,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
 	 */
-	public function view() : \Aimeos\MW\View\Iface
+	protected function view() : \Aimeos\MW\View\Iface
 	{
 		if( !isset( $this->view ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
