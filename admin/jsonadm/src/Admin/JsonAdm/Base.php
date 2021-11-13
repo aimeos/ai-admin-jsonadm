@@ -43,19 +43,6 @@ abstract class Base
 
 
 	/**
-	 * Catch unknown methods
-	 *
-	 * @param string $name Name of the method
-	 * @param array $param List of method parameter
-	 * @throws \Aimeos\Admin\JsonAdm\Exception If method call failed
-	 */
-	public function __call( string $name, array $param )
-	{
-		throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Unable to call method "%1$s"', $name ) );
-	}
-
-
-	/**
 	 * Returns the Aimeos bootstrap object
 	 *
 	 * @return \Aimeos\Bootstrap The Aimeos bootstrap object
