@@ -115,7 +115,7 @@ class Standard
 
 		foreach( $include as $type )
 		{
-			$manager = \Aimeos\MShop::create( $this->getContext(), $type );
+			$manager = \Aimeos\MShop::create( $this->context(), $type );
 
 			$search = $manager->filter();
 			$search->setConditions( $search->compare( '==', str_replace( '/', '.', $type ) . '.parentid', $ids ) );

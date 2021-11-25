@@ -13,7 +13,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 {
 	public function testCreateClient()
 	{
-		$context = \TestHelperJadm::getContext();
+		$context = \TestHelperJadm::context();
 		$aimeos = \TestHelperJadm::getAimeos();
 
 		$client = \Aimeos\Admin\JsonAdm::create( $context, $aimeos, 'order' );
@@ -24,7 +24,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateSubClient()
 	{
-		$context = \TestHelperJadm::getContext();
+		$context = \TestHelperJadm::context();
 		$aimeos = \TestHelperJadm::getAimeos();
 
 		$client = \Aimeos\Admin\JsonAdm::create( $context, $aimeos, 'order/base' );
@@ -35,7 +35,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateStandard()
 	{
-		$context = \TestHelperJadm::getContext();
+		$context = \TestHelperJadm::context();
 		$aimeos = \TestHelperJadm::getAimeos();
 
 		$client = \Aimeos\Admin\JsonAdm::create( $context, $aimeos, 'stock/type' );
@@ -46,7 +46,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateClientEmpty()
 	{
-		$context = \TestHelperJadm::getContext();
+		$context = \TestHelperJadm::context();
 		$aimeos = \TestHelperJadm::getAimeos();
 
 		$client = \Aimeos\Admin\JsonAdm::create( $context, $aimeos, '/' );
@@ -57,7 +57,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateClientInvalidPath()
 	{
-		$context = \TestHelperJadm::getContext();
+		$context = \TestHelperJadm::context();
 		$aimeos = \TestHelperJadm::getAimeos();
 
 		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
@@ -67,7 +67,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 
 	public function testCreateClientInvalidName()
 	{
-		$context = \TestHelperJadm::getContext();
+		$context = \TestHelperJadm::context();
 		$aimeos = \TestHelperJadm::getAimeos();
 
 		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );

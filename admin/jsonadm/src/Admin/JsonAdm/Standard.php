@@ -44,7 +44,7 @@ class Standard
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->context()->translate( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -52,7 +52,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
+				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -121,7 +121,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
+				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -223,7 +223,7 @@ class Standard
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->context()->translate( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -231,7 +231,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
+				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -300,7 +300,7 @@ class Standard
 		{
 			$status = $e->getCode();
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
+				'title' => $this->context()->translate( 'admin/jsonadm', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -308,7 +308,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
+				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -370,7 +370,7 @@ class Standard
 		$view = $this->view();
 
 		$view->errors = array( array(
-			'title' => $this->getContext()->translate( 'admin/jsonadm', 'Not implemented, use PATCH instead' ),
+			'title' => $this->context()->translate( 'admin/jsonadm', 'Not implemented, use PATCH instead' ),
 		) );
 
 		/** admin/jsonadm/template-put
@@ -418,7 +418,7 @@ class Standard
 	 */
 	public function options( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$view = $this->view();
 
 		try
@@ -506,7 +506,7 @@ class Standard
 	 */
 	protected function deleteItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), $this->getPath() );
+		$manager = \Aimeos\MShop::create( $this->context(), $this->getPath() );
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
@@ -540,7 +540,7 @@ class Standard
 	 */
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), $this->getPath() );
+		$manager = \Aimeos\MShop::create( $this->context(), $this->getPath() );
 
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
@@ -590,7 +590,7 @@ class Standard
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
 		}
 
-		$manager = \Aimeos\MShop::create( $this->getContext(), $this->getPath() );
+		$manager = \Aimeos\MShop::create( $this->context(), $this->getPath() );
 
 		if( is_array( $payload->data ) )
 		{
@@ -638,7 +638,7 @@ class Standard
 		}
 
 
-		$manager = \Aimeos\MShop::create( $this->getContext(), $this->getPath() );
+		$manager = \Aimeos\MShop::create( $this->context(), $this->getPath() );
 
 		if( is_array( $payload->data ) )
 		{

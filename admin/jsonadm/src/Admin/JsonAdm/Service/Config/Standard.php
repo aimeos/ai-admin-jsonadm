@@ -123,7 +123,7 @@ class Standard
 		{
 			$status = 404;
 			$view->errors = array( array(
-				'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
+				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
 			) );
 		}
@@ -180,7 +180,7 @@ class Standard
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
 		}
 
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'service' );
+		$manager = \Aimeos\MShop::create( $this->context(), 'service' );
 		$item = $manager->create()->setProvider( $id );
 
 		$view->configItems = $manager->getProvider( $item, $view->param( 'type', 'payment' ) )->getConfigBE();

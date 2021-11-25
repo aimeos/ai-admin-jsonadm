@@ -116,7 +116,7 @@ abstract class Base
 	 *
 	 * @return \Aimeos\MShop\Context\Item\Iface Context object
 	 */
-	protected function getContext() : \Aimeos\MShop\Context\Item\Iface
+	protected function context() : \Aimeos\MShop\Context\Item\Iface
 	{
 		return $this->context;
 	}
@@ -149,7 +149,7 @@ abstract class Base
 			 * @category Developer
 			 * @see admin/jsonadm/resources
 			 */
-			$domains = $this->getContext()->getConfig()->get( 'admin/jsonadm/domains', [] );
+			$domains = $this->context()->getConfig()->get( 'admin/jsonadm/domains', [] );
 		}
 
 		return (array) $domains;
@@ -212,7 +212,7 @@ abstract class Base
 	 */
 	protected function getAllowedResources( \Aimeos\MW\View\Iface $view, array $resources ) : array
 	{
-		$config = $this->getContext()->getConfig();
+		$config = $this->context()->getConfig();
 		$allowed = [];
 
 		foreach( $resources as $resource )

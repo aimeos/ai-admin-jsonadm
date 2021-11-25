@@ -164,7 +164,7 @@ class Standard
 	 */
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$manager = \Aimeos\MShop::create( $this->getContext(), 'catalog' );
+		$manager = \Aimeos\MShop::create( $this->context(), 'catalog' );
 
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{

@@ -146,7 +146,7 @@ class Standard
 	 */
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
 		$search = $manager->filter( false, true );
 
@@ -190,7 +190,7 @@ class Standard
 		if( in_array( 'order/base', $include ) )
 		{
 			$ids = map( $items )->getBaseId()->toArray();
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/base' );
+			$manager = \Aimeos\MShop::create( $this->context(), 'order/base' );
 
 			$search = $manager->filter( false, true );
 			$search->setConditions( $search->and( [
@@ -216,7 +216,7 @@ class Standard
 		if( in_array( 'order/status', $include ) )
 		{
 			$ids = $items->keys()->toArray();
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'order/status' );
+			$manager = \Aimeos\MShop::create( $this->context(), 'order/status' );
 
 			$search = $manager->filter();
 			$search->setConditions( $search->compare( '==', 'order.status.parentid', $ids ) );

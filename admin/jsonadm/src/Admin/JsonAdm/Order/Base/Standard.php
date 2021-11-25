@@ -143,7 +143,7 @@ class Standard
 	 */
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$context = $this->getContext();
+		$context = $this->context();
 		$manager = \Aimeos\MShop::create( $context, $this->getPath() );
 		$search = $manager->filter( false, true );
 
@@ -183,7 +183,7 @@ class Standard
 	protected function getChildItems( \Aimeos\Map $items, array $include ) : \Aimeos\Map
 	{
 		$list = map();
-		$context = $this->getContext();
+		$context = $this->context();
 		$ids = $items->keys()->toArray();
 
 		$domains = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'];

@@ -116,7 +116,7 @@ class Standard
 
 		 try
 		 {
-			$manager = \Aimeos\MShop::create( $this->getContext(), 'index' );
+			$manager = \Aimeos\MShop::create( $this->context(), 'index' );
 
 			if( ( $id = $view->param( 'id' ) ) == null )
 			{
@@ -143,7 +143,7 @@ class Standard
 		 {
 			 $status = $e->getCode();
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
+				 'title' => $this->context()->translate( 'admin/jsonadm', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }
@@ -151,7 +151,7 @@ class Standard
 		 {
 			 $status = 404;
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
+				 'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }
@@ -229,7 +229,7 @@ class Standard
 				$ids = [$payload->data];
 			}
 
-			$context = $this->getContext();
+			$context = $this->context();
 			$domains = $context->getConfig()->get( 'mshop/index/manager/domains', [] );
 
 			$manager = \Aimeos\MShop::create( $context, 'product' );
@@ -244,7 +244,7 @@ class Standard
 		 {
 			 $status = $e->getCode();
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->translate( 'admin/jsonadm', $e->getMessage() ),
+				 'title' => $this->context()->translate( 'admin/jsonadm', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }
@@ -252,7 +252,7 @@ class Standard
 		 {
 			 $status = 404;
 			 $view->errors = array( array(
-				 'title' => $this->getContext()->translate( 'mshop', $e->getMessage() ),
+				 'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
 			 ) );
 		 }

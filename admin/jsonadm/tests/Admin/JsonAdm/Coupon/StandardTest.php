@@ -18,7 +18,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
-		$this->context = \TestHelperJadm::getContext();
+		$this->context = \TestHelperJadm::context();
 		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Admin\JsonAdm\Coupon\Standard( $this->context, 'coupon' );
