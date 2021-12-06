@@ -48,7 +48,7 @@ class Base
 	protected static function addClientDecorators( \Aimeos\Admin\JsonAdm\Iface $client,
 		\Aimeos\MShop\Context\Item\Iface $context, string $path ) : \Aimeos\Admin\JsonAdm\Iface
 	{
-		$config = $context->getConfig();
+		$config = $context->config();
 
 		/** admin/jsonadm/common/decorators/default
 		 * Configures the list of decorators applied to all JSON API clients

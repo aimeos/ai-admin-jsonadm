@@ -114,7 +114,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getIndexMock( array $methods )
 	{
 		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/index/manager/name', $name );
+		$this->context->config()->set( 'mshop/index/manager/name', $name );
 
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Index\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )

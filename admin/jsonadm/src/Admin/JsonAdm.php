@@ -75,11 +75,11 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		}
 
 		if( $pname === null ) {
-			$pname = $context->getConfig()->get( 'admin/jsonadm/' . $path . '/name', 'Standard' );
+			$pname = $context->config()->get( 'admin/jsonadm/' . $path . '/name', 'Standard' );
 		}
 
 		$view = $context->view();
-		$config = $context->getConfig();
+		$config = $context->config();
 
 		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . '/groups', [] ) ) !== true ) {
 			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $path ) );
@@ -152,7 +152,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		 * @category Developer
 		 */
 		if( $name === null ) {
-			$name = $context->getConfig()->get( 'admin/jsonadm/name', 'Standard' );
+			$name = $context->config()->get( 'admin/jsonadm/name', 'Standard' );
 		}
 
 		$view = $context->view();

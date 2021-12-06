@@ -37,7 +37,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testClientDecorator()
 	{
-		$this->context->getConfig()->set( 'admin/jsonadm/common/decorators/default', ['Example'] );
+		$this->context->config()->set( 'admin/jsonadm/common/decorators/default', ['Example'] );
 
 		$result = \Aimeos\Admin\JsonAdm::create( $this->context, \TestHelperJadm::getAimeos(), 'product' );
 
@@ -49,7 +49,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 
 	public function testAddClientDecorators()
 	{
-		$config = $this->context->getConfig();
+		$config = $this->context->config();
 		$config->set( 'admin/jsonadm/common/decorators/default', ['Test'] );
 		$config->set( 'admin/jsonadm/product/decorators/excludes', ['Test'] );
 

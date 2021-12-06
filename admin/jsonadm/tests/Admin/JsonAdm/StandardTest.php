@@ -778,7 +778,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getProductMock( array $methods )
 	{
 		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/name', $name );
+		$this->context->config()->set( 'mshop/product/manager/name', $name );
 
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
@@ -794,7 +794,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getProductListsMock( array $methods )
 	{
 		$name = 'ClientJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/product/manager/lists/name', $name );
+		$this->context->config()->set( 'mshop/product/manager/lists/name', $name );
 
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\Standard' )
 			->setConstructorArgs( array( $this->context ) )

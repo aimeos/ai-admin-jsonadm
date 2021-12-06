@@ -165,7 +165,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function getSiteMock( array $methods )
 	{
 		$name = 'AdminJsonAdmStandard';
-		$this->context->getConfig()->set( 'mshop/locale/manager/name', $name );
+		$this->context->config()->set( 'mshop/locale/manager/name', $name );
 
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Locale\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )

@@ -230,7 +230,7 @@ class Standard
 			}
 
 			$context = $this->context();
-			$domains = $context->getConfig()->get( 'mshop/index/manager/domains', [] );
+			$domains = $context->config()->get( 'mshop/index/manager/domains', [] );
 
 			$manager = \Aimeos\MShop::create( $context, 'product' );
 			$items = $manager->search( $manager->filter()->add( 'product.id', '==', $ids ), $domains );

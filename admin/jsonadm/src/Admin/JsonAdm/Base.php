@@ -149,7 +149,7 @@ abstract class Base
 			 * @category Developer
 			 * @see admin/jsonadm/resources
 			 */
-			$domains = $this->context()->getConfig()->get( 'admin/jsonadm/domains', [] );
+			$domains = $this->context()->config()->get( 'admin/jsonadm/domains', [] );
 		}
 
 		return (array) $domains;
@@ -212,7 +212,7 @@ abstract class Base
 	 */
 	protected function getAllowedResources( \Aimeos\MW\View\Iface $view, array $resources ) : array
 	{
-		$config = $this->context()->getConfig();
+		$config = $this->context()->config();
 		$allowed = [];
 
 		foreach( $resources as $resource )
