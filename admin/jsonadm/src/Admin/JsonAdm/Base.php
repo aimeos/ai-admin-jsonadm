@@ -18,9 +18,9 @@ namespace Aimeos\Admin\JsonAdm;
  * @subpackage JsonAdm
  */
 abstract class Base
-	implements \Aimeos\MW\Macro\Iface
+	implements \Aimeos\Macro\Iface
 {
-	use \Aimeos\MW\Macro\Traits;
+	use \Aimeos\Macro\Macroable;
 
 
 	private $context;
