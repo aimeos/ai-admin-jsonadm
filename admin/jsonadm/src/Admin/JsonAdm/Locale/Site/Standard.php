@@ -168,7 +168,7 @@ class Standard
 		if( !$view->access( ['super'] ) )
 		{
 			$customerManager = \Aimeos\MShop::create( $context, 'customer' );
-			$siteid = $customerManager->get( $context->getUserId() )->getSiteId();
+			$siteid = $customerManager->get( $context->user() )->getSiteId();
 			$search->add( $search->is( 'locale.site.siteid', $view->access( ['admin'] ) ? '=~' : '==', $siteid ) );
 		}
 
