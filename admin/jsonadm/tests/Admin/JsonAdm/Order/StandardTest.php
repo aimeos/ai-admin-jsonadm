@@ -113,7 +113,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'fields' => array(
-				'order' => 'order.id,order.type'
+				'order' => 'order.id,order.channel'
 			),
 			'sort' => 'order.id',
 			'include' => 'order/status'
