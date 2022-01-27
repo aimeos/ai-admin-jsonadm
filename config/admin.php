@@ -4,18 +4,18 @@ return [
 	'jsonadm' => [
 		'partials' => [
 			'catalog' => [
-				'template-data' => 'partials/catalog/data-standard',
+				'template-data' => 'partials/catalog/data',
 			],
 			'locale' => [
 				'site' => [
-					'template-data' => 'partials/locale/site/data-standard',
+					'template-data' => 'partials/locale/site/data',
 				],
 			],
 			'order' => [
-				'template-data' => 'partials/order/data-standard',
-				'template-included' => 'partials/order/included-standard',
+				'template-data' => 'partials/order/data',
+				'template-included' => 'partials/order/included',
 				'base' => [
-					'template-data' => 'partials/order/base/data-standard',
+					'template-data' => 'partials/order/base/data',
 				],
 			],
 		],

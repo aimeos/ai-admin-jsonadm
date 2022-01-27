@@ -121,7 +121,7 @@ class Standard
 		 *
 		 * The partial template files are usually stored in the templates/partials/ folder
 		 * of the core or the extensions. The configured path to the partial file must
-		 * be relative to the templates/ folder, e.g. "partials/data-standard".
+		 * be relative to the templates/ folder, e.g. "partials/data".
 		 *
 		 * @param string Relative path to the template file
 		 * @since 2016.07
@@ -138,7 +138,7 @@ class Standard
 		 *
 		 * The partial template files are usually stored in the templates/partials/ folder
 		 * of the core or the extensions. The configured path to the partial file must
-		 * be relative to the templates/ folder, e.g. "partials/included-standard".
+		 * be relative to the templates/ folder, e.g. "partials/included".
 		 *
 		 * @param string Relative path to the template file
 		 * @since 2021.04

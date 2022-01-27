@@ -88,7 +88,7 @@ $config = $this->config( 'admin/jsonadm/url/config', [] );
  *
  * The partial template files are usually stored in the templates/partials/ folder
  * of the core or the extensions. The configured path to the partial file must
- * be relative to the templates/ folder, e.g. "partials/error-standard.php".
+ * be relative to the templates/ folder, e.g. "partials/error.php".
  *
  * @param string Relative path to the template file
  * @since 2016.01
@@ -104,7 +104,7 @@ $config = $this->config( 'admin/jsonadm/url/config', [] );
  *
  * The partial template files are usually stored in the templates/partials/ folder
  * of the core or the extensions. The configured path to the partial file must
- * be relative to the templates/ folder, e.g. "partials/data-standard.php".
+ * be relative to the templates/ folder, e.g. "partials/data.php".
  *
  * @param string Relative path to the template file
  * @since 2016.01
@@ -120,7 +120,7 @@ $config = $this->config( 'admin/jsonadm/url/config', [] );
  *
  * The partial template files are usually stored in the templates/partials/ folder
  * of the core or the extensions. The configured path to the partial file must
- * be relative to the templates/ folder, e.g. "partials/included-standard.php".
+ * be relative to the templates/ folder, e.g. "partials/included.php".
  *
  * @param string Relative path to the template file
  * @since 2016.01
@@ -186,12 +186,12 @@ foreach( (array) $fields as $resource => $list ) {
 	},
 
 	<?php if( isset( $this->errors ) ) : ?>
-		"errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
+		"errors": <?= $this->partial( $this->config( $this->get( 'partial-errors', 'admin/jsonadm/partials/template-errors' ), 'partials/errors' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php elseif( isset( $this->data ) ) : ?>
-		"data": <?= $this->partial( $this->config( $this->get( 'partial-data', 'admin/jsonadm/partials/template-data' ), 'partials/data-standard' ), array( 'data' => $this->get( 'data' ), 'childItems' => $this->get( 'childItems', [] ), 'listItems' => $this->get( 'listItems', [] ) ) ); ?>,
+		"data": <?= $this->partial( $this->config( $this->get( 'partial-data', 'admin/jsonadm/partials/template-data' ), 'partials/data' ), array( 'data' => $this->get( 'data' ), 'childItems' => $this->get( 'childItems', [] ), 'listItems' => $this->get( 'listItems', [] ) ) ); ?>,
 
-		"included": <?= $this->partial( $this->config( $this->get( 'partial-included', 'admin/jsonadm/partials/template-included' ), 'partials/included-standard' ), array( 'childItems' => $this->get( 'childItems', [] ), 'refItems' => $this->get( 'refItems', [] ) ) ); ?>
+		"included": <?= $this->partial( $this->config( $this->get( 'partial-included', 'admin/jsonadm/partials/template-included' ), 'partials/included' ), array( 'childItems' => $this->get( 'childItems', [] ), 'refItems' => $this->get( 'refItems', [] ) ) ); ?>
 
 	<?php endif; ?>
 

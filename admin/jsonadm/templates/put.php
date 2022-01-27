@@ -11,7 +11,7 @@
 ?>
 {
 	<?php if( isset( $this->errors ) ) : ?>
-		"errors": <?= $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors-standard' ), array( 'errors' => $this->errors ) ); ?>
+		"errors": <?= $this->partial( $this->config( 'admin/jsonadm/partials/template-errors', 'partials/errors' ), array( 'errors' => $this->errors ) ); ?>
 
 	<?php endif; ?>
 

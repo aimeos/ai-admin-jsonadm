@@ -156,7 +156,7 @@ class Standard
 		 * @category Developer
 		 */
 		$tplconf = 'admin/jsonadm/service/config/template-get';
-		$default = 'config-standard';
+		$default = 'config';
 
 		$body = $view->render( $view->config( $tplconf, $default ) );
 
