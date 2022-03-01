@@ -59,9 +59,9 @@ class TestHelperJadm
 		$paths[] = __DIR__ . DIRECTORY_SEPARATOR . 'config';
 		$file = __DIR__ . DIRECTORY_SEPARATOR . 'confdoc.ser';
 
-		$conf = new \Aimeos\MW\Config\PHPArray( [], $paths );
-		$conf = new \Aimeos\MW\Config\Decorator\Memory( $conf );
-		$conf = new \Aimeos\MW\Config\Decorator\Documentor( $conf, $file );
+		$conf = new \Aimeos\Base\Config\PHPArray( [], $paths );
+		$conf = new \Aimeos\Base\Config\Decorator\Memory( $conf );
+		$conf = new \Aimeos\Base\Config\Decorator\Documentor( $conf, $file );
 		$ctx->setConfig( $conf );
 
 
@@ -96,7 +96,7 @@ class TestHelperJadm
 	}
 
 
-	protected static function createView( \Aimeos\MW\Config\Iface $config )
+	protected static function createView( \Aimeos\Base\Config\Iface $config )
 	{
 		$tmplpaths = self::getAimeos()->getTemplatePaths( 'admin/jsonadm/templates' );
 
@@ -118,7 +118,7 @@ class TestHelperJadm
 		$helper = new \Aimeos\MW\View\Helper\Date\Standard( $view, 'Y-m-d' );
 		$view->addHelper( 'date', $helper );
 
-		$config = new \Aimeos\MW\Config\Decorator\Protect( $config, array( 'admin/jsonadm' ) );
+		$config = new \Aimeos\Base\Config\Decorator\Protect( $config, array( 'admin/jsonadm' ) );
 		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $view, $config );
 		$view->addHelper( 'config', $helper );
 
