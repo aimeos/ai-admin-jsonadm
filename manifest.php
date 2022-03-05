@@ -16,7 +16,7 @@ return [
 	],
 	'template' => [
 		'admin/jsonadm/templates' => [
-			'templates',
+			'templates/admin/jsonadm',
 		]
 	]
 ];
