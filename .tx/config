@@ -2,7 +2,7 @@
 host = https://www.transifex.com
 
 [aimeos-core.admin-jsonadm]
-file_filter = admin/jsonadm/i18n/<lang>.po
-source_file = admin/jsonadm/i18n/core-admin-jsonadm.pot
+file_filter = i18n/<lang>.po
+source_file = i18n/core-admin-jsonadm.pot
 source_lang = en
 type = PO

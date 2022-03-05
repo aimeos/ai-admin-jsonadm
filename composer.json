@@ -1,6 +1,6 @@
 {
 	"name": "aimeos/ai-admin-jsonadm",
-	"description": "Aimeos ai-admin-jsonadm extension",
+	"description": "Aimeos JSON admin API for backend",
 	"keywords": ["aimeos", "extension", "JSON API", "admin"],
 	"homepage": "https://aimeos.org/",
 	"type": "aimeos-extension",
@@ -23,10 +23,18 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Aimeos\\Admin\\Jsonadm\\": "admin/jsonadm/src/Admin/Jsonadm/"
+			"Aimeos\\": "src"
 		},
 		"classmap": [
-			"admin/jsonadm/src"
+			"src"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Aimeos\\": "tests"
+		},
+		"classmap": [
+			"tests"
 		]
 	}
 }

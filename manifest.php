@@ -9,14 +9,14 @@ return [
 		'config',
 	],
 	'include' => [
-		'admin/jsonadm/src',
+		'src',
 	],
 	'i18n' => [
-		'admin/jsonadm' => 'admin/jsonadm/i18n',
+		'admin/jsonadm' => 'i18n',
 	],
 	'template' => [
 		'admin/jsonadm/templates' => [
-			'admin/jsonadm/templates',
+			'templates',
 		]
 	]
 ];
