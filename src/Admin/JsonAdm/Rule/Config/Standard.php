@@ -177,7 +177,7 @@ class Standard
 	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		if( ( $id = $view->param( 'id' ) ) == null ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'No ID given', 400 );
 		}
 
 		$manager = \Aimeos\MShop::create( $this->context(), 'rule' );

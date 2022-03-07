@@ -123,7 +123,7 @@ class Standard
 				$body = (string) $request->getBody();
 
 				if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) || !is_array( $payload->data ) ) {
-					throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+					throw new \Aimeos\Admin\JsonAdm\Exception( 'Invalid JSON in body', 400 );
 				}
 
 				$view->total = count( $payload->data );
@@ -216,7 +216,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Admin\JsonAdm\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			if( is_array( $payload->data ) )

@@ -513,7 +513,7 @@ class Standard
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) || !is_array( $payload->data ) ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+				throw new \Aimeos\Admin\JsonAdm\Exception( 'Invalid JSON in body', 400 );
 			}
 
 			$ids = map( $payload->data )->col( 'id' );
@@ -587,7 +587,7 @@ class Standard
 		$body = (string) $request->getBody();
 
 		if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Invalid JSON in body', 400 );
 		}
 
 		$manager = \Aimeos\MShop::create( $this->context(), $this->getPath() );
@@ -610,7 +610,7 @@ class Standard
 		}
 		else
 		{
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No ID given' ), 400 );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'No ID given', 400 );
 		}
 
 		return $response;
@@ -630,11 +630,11 @@ class Standard
 		$body = (string) $request->getBody();
 
 		if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid JSON in body' ), 400 );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Invalid JSON in body', 400 );
 		}
 
 		if( isset( $payload->data->id ) || $view->param( 'id' ) != null ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Client generated IDs are not supported' ), 403 );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Client generated IDs are not supported', 403 );
 		}
 
 

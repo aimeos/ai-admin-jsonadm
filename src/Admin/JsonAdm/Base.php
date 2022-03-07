@@ -50,7 +50,7 @@ abstract class Base
 	protected function getAimeos() : \Aimeos\Bootstrap
 	{
 		if( !isset( $this->aimeos ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Aimeos object not available' ) );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Aimeos object not available', 500 );
 		}
 
 		return $this->aimeos;
@@ -78,7 +78,7 @@ abstract class Base
 	protected function view() : \Aimeos\MW\View\Iface
 	{
 		if( !isset( $this->view ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'No view available' ) );
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'No view available', 500 );
 		}
 
 		return $this->view;

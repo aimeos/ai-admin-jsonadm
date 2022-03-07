@@ -65,10 +65,8 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 
 		foreach( $parts as $key => $part )
 		{
-			if( ctype_alnum( $part ) === false )
-			{
-				$msg = sprintf( 'Invalid client "%1$s"', $path );
-				throw new \Aimeos\Admin\JsonAdm\Exception( $msg, 400 );
+			if( ctype_alnum( $part ) === false ) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid client "%1$s"', $path ), 400 );
 			}
 
 			$parts[$key] = ucwords( $part );
@@ -82,7 +80,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		$config = $context->config();
 
 		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . '/groups', [] ) ) !== true ) {
-			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $path ) );
+			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $path ), 403 );
 		}
 
 
@@ -91,7 +89,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . join( '\\', $parts ) . '\\' . $pname;
 
 		if( ctype_alnum( $pname ) === false ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ), 500 );
 		}
 
 		if( class_exists( $classname ) === false ) {
@@ -160,7 +158,7 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $name;
 
 		if( ctype_alnum( $name ) === false ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ) );
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid class name "%1$s"', $classname ), 500 );
 		}
 
 		$client = self::createAdmin( $classname, $iface, $context, $path );
