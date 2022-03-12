@@ -32,7 +32,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->getIndexMock( ['remove'] )->expects( $this->once() )->method( 'remove' );
 		$id = \Aimeos\MShop::create( $this->context, 'product' )->find( 'CNC' )->getId();
 
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, ['id' => $id] );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => $id] );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->delete( $this->view->request(), $this->view->response() );

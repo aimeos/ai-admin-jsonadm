@@ -43,7 +43,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'==' => array( 'locale.site.status' => 1 )
 			),
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -66,7 +66,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 				'==' => array( 'locale.site.code' => 'unittest' )
 			),
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -96,7 +96,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 
 		$params = array( 'id' => '-1' );
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$body = '{"data": {"parentid": "1", "targetid": 2, "type": "locale/site", "attributes": {"locale.site.label": "test"}}}';

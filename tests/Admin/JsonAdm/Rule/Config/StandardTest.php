@@ -33,7 +33,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'id' => 'Percent,Category',
 			'type' => 'catalog',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

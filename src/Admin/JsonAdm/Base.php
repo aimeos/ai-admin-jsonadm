@@ -73,9 +73,9 @@ abstract class Base
 	/**
 	 * Returns the view object that will generate the admin output.
 	 *
-	 * @return \Aimeos\MW\View\Iface The view object which generates the admin output
+	 * @return \Aimeos\Base\View\Iface The view object which generates the admin output
 	 */
-	protected function view() : \Aimeos\MW\View\Iface
+	protected function view() : \Aimeos\Base\View\Iface
 	{
 		if( !isset( $this->view ) ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( 'No view available', 500 );
@@ -88,10 +88,10 @@ abstract class Base
 	/**
 	 * Sets the view object that will generate the admin output.
 	 *
-	 * @param \Aimeos\MW\View\Iface $view The view object which generates the admin output
+	 * @param \Aimeos\Base\View\Iface $view The view object which generates the admin output
 	 * @return \Aimeos\Admin\JsonAdm\Iface Reference to this object for fluent calls
 	 */
-	public function setView( \Aimeos\MW\View\Iface $view ) : \Aimeos\Admin\JsonAdm\Iface
+	public function setView( \Aimeos\Base\View\Iface $view ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$this->view = $view;
 		return $this;
@@ -125,10 +125,10 @@ abstract class Base
 	/**
 	 * Returns the list of domains that are available as resources
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View object with "resource" parameter
+	 * @param \Aimeos\Base\View\Iface $view View object with "resource" parameter
 	 * @return array List of domain names
 	 */
-	protected function getDomains( \Aimeos\MW\View\Iface $view ) : array
+	protected function getDomains( \Aimeos\Base\View\Iface $view ) : array
 	{
 		if( ( $domains = $view->param( 'resource' ) ) == '' )
 		{
@@ -206,11 +206,11 @@ abstract class Base
 	/**
 	 * Returns the list of allowed resources
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View object with "access" helper
+	 * @param \Aimeos\Base\View\Iface $view View object with "access" helper
 	 * @param array $resources List of all available resources
 	 * @return array List of allowed resources
 	 */
-	protected function getAllowedResources( \Aimeos\MW\View\Iface $view, array $resources ) : array
+	protected function getAllowedResources( \Aimeos\Base\View\Iface $view, array $resources ) : array
 	{
 		$config = $this->context()->config();
 		$allowed = [];
@@ -229,10 +229,10 @@ abstract class Base
 	/**
 	 * Returns the list of additional resources
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View object with "resource" parameter
+	 * @param \Aimeos\Base\View\Iface $view View object with "resource" parameter
 	 * @return array List of domain names
 	 */
-	protected function getResources( \Aimeos\MW\View\Iface $view ) : array
+	protected function getResources( \Aimeos\Base\View\Iface $view ) : array
 	{
 		/** admin/jsonadm/resources
 		 * A list of additional resources name whose clients are available for the JSON API

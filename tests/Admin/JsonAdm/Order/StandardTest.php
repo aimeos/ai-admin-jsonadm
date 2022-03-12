@@ -35,7 +35,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			),
 			'aggregate' => 'order.cdate',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -61,7 +61,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			),
 			'aggregate' => 'order.statuspayment,order.cdate',
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -89,7 +89,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			),
 			'include' => 'order/base,order/status,order/base/address,order/base/product,order/base/service,order/base/coupon,order/base/product/attribute,order/base/service/attribute'
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -118,7 +118,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'sort' => 'order.id',
 			'include' => 'order/status'
 		);
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $this->view, $params );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );

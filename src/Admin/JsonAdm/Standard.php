@@ -498,13 +498,13 @@ class Standard
 	/**
 	 * Deletes one or more items
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance with "param" view helper
+	 * @param \Aimeos\Base\View\Iface $view View instance with "param" view helper
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the request body is invalid
 	 */
-	protected function deleteItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function deleteItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$manager = \Aimeos\MShop::create( $this->context(), $this->getPath() );
 
@@ -533,12 +533,12 @@ class Standard
 	/**
 	 * Retrieves the item or items and adds the data to the view
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View instance
+	 * @param \Aimeos\Base\View\Iface $view View instance
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function getItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function getItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$manager = \Aimeos\MShop::create( $this->context(), $this->getPath() );
 
@@ -576,13 +576,13 @@ class Standard
 	/**
 	 * Saves new attributes for one or more items
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View that will contain the "data" and "total" properties afterwards
+	 * @param \Aimeos\Base\View\Iface $view View that will contain the "data" and "total" properties afterwards
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If "id" parameter isn't available or the body is invalid
 	 */
-	protected function patchItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function patchItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$body = (string) $request->getBody();
 
@@ -620,12 +620,12 @@ class Standard
 	/**
 	 * Creates one or more new items
 	 *
-	 * @param \Aimeos\MW\View\Iface $view View that will contain the "data" and "total" properties afterwards
+	 * @param \Aimeos\Base\View\Iface $view View that will contain the "data" and "total" properties afterwards
 	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
 	 * @param \Psr\Http\Message\ResponseInterface $response Response object
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
-	protected function postItems( \Aimeos\MW\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	protected function postItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
 		$body = (string) $request->getBody();
 
