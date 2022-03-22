@@ -31,10 +31,10 @@ abstract class Base
 	 * Initializes the client decorator.
 	 *
 	 * @param \Aimeos\Admin\JsonAdm\Iface $client Client object
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object with required objects
+	 * @param \Aimeos\MShop\ContextIface $context Context object with required objects
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 */
-	public function __construct( \Aimeos\Admin\JsonAdm\Iface $client, \Aimeos\MShop\Context\Item\Iface $context, string $path )
+	public function __construct( \Aimeos\Admin\JsonAdm\Iface $client, \Aimeos\MShop\ContextIface $context, string $path )
 	{
 		parent::__construct( $context, $path );
 

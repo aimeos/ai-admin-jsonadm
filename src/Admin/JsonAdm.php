@@ -27,14 +27,14 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	 * retrieve a specific sub-client, e.g. "product/type" for the
 	 * \Aimeos\Admin\JsonAdm\Product\Type\Standard client.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
+	 * @param \Aimeos\MShop\ContextIface $context Context object required by clients
 	 * @param \Aimeos\Bootstrap $aimeos Aimeos Bootstrap object
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
-	public static function create( \Aimeos\MShop\Context\Item\Iface $context,
+	public static function create( \Aimeos\MShop\ContextIface $context,
 		\Aimeos\Bootstrap $aimeos, string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$path = trim( $path, '/' );
@@ -50,14 +50,14 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	/**
 	 * Creates a new client specified by the given path of client names.
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
+	 * @param \Aimeos\MShop\ContextIface $context Context object required by clients
 	 * @param \Aimeos\Bootstrap $aimeos Aimeos Bootstrap object
 	 * @param string $path Name of the client separated by slashes, e.g "product/stock"
 	 * @param string|null $name Name of the client implementation ("Standard" if null)
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
-	protected static function createNew( \Aimeos\MShop\Context\Item\Iface $context,
+	protected static function createNew( \Aimeos\MShop\ContextIface $context,
 		\Aimeos\Bootstrap $aimeos, string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		$pname = $name;
@@ -106,14 +106,14 @@ class JsonAdm extends \Aimeos\Admin\JsonAdm\Common\Factory\Base
 	/**
 	 * Creates the top level client
 	 *
-	 * @param \Aimeos\MShop\Context\Item\Iface $context Context object required by clients
+	 * @param \Aimeos\MShop\ContextIface $context Context object required by clients
 	 * @param \Aimeos\Bootstrap $aimeos Aimeos Bootstrap object
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
 	 * @param string|null $name Name of the JsonAdm client (default: "Standard")
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the client couldn't be created
 	 */
-	protected static function createRoot( \Aimeos\MShop\Context\Item\Iface $context,
+	protected static function createRoot( \Aimeos\MShop\ContextIface $context,
 		\Aimeos\Bootstrap $aimeos, string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		/** admin/jsonadm/name
