@@ -150,11 +150,11 @@ class JsonAdm
 	 * @return \Aimeos\Admin\JsonAdm\Iface JSON admin instance
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
-	public static function create( \Aimeos\MShop\ContextIface $context,
-		\Aimeos\Bootstrap $aimeos, string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
+	public static function create( \Aimeos\MShop\ContextIface $context, \Aimeos\Bootstrap $aimeos,
+		string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
-		if( preg_match( '/^[a-z0-9\/]+$/', $path ) !== 1 ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid component path "%1$s"', $path, 404 ) );
+		if( preg_match( '/^[a-z0-9\/]*$/', $path ) !== 1 ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid component path "%1$s"', $path, 400 ) );
 		}
 
 		empty( $path = trim( $path, '/' ) ) ?: $path .= '/';
