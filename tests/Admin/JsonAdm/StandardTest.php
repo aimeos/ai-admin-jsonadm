@@ -32,6 +32,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
+		unset( $this->object, $this->view, $this->context );
 	}
 
 
@@ -777,15 +778,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getProductMock( array $methods )
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->config()->set( 'mshop/product/manager/name', $name );
-
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( $methods )
 			->getMock();
 
-		\Aimeos\MShop\Product\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\' . $name, $stub );
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Product\\Manager\\Standard', $stub );
 
 		return $stub;
 	}
@@ -793,15 +791,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getProductListsMock( array $methods )
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->config()->set( 'mshop/product/manager/lists/name', $name );
-
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( $methods )
 			->getMock();
 
-		\Aimeos\MShop\Product\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\' . $name, $stub );
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\Standard', $stub );
 
 		return $stub;
 	}

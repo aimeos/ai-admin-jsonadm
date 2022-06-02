@@ -18,12 +18,21 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function setUp() : void
 	{
+		\Aimeos\MShop::cache( true );
+
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
 		$this->object = new \Aimeos\Admin\JsonAdm\Index\Standard( $this->context, 'index' );
 		$this->object->setAimeos( \TestHelper::getAimeos() );
 		$this->object->setView( $this->view );
+	}
+
+
+	protected function tearDown() : void
+	{
+		\Aimeos\MShop::cache( false );
+		unset( $this->object, $this->view, $this->context );
 	}
 
 
@@ -113,15 +122,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getIndexMock( array $methods )
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->config()->set( 'mshop/index/manager/name', $name );
-
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Index\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( $methods )
 			->getMock();
 
-		\Aimeos\MShop\Index\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Index\\Manager\\' . $name, $stub );
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Index\\Manager\\Standard', $stub );
 
 		return $stub;
 	}

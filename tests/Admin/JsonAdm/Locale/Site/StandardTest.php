@@ -32,6 +32,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
+		unset( $this->object, $this->view, $this->context );
 	}
 
 
@@ -164,23 +165,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getSiteMock( array $methods )
 	{
-		$name = 'AdminJsonAdmStandard';
-		$this->context->config()->set( 'mshop/locale/manager/name', $name );
-
-		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Locale\\Manager\\Standard' )
-			->setConstructorArgs( array( $this->context ) )
-			->setMethods( array( 'getSubManager' ) )
-			->getMock();
+		$this->context->config()->set( 'mshop/locale/manager/site/name', 'Standard' );
 
 		$siteStub = $this->getMockBuilder( '\\Aimeos\\MShop\\Locale\\Manager\\Site\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( $methods )
 			->getMock();
 
-		$stub->expects( $this->once() )->method( 'getSubManager' )
-			->will( $this->returnValue( $siteStub ) );
-
-		\Aimeos\MShop\Locale\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Locale\\Manager\\' . $name, $stub );
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Locale\\Manager\\Site\\Standard', $siteStub );
 
 		return $siteStub;
 	}

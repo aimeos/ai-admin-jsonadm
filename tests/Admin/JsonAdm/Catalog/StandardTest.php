@@ -32,6 +32,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	protected function tearDown() : void
 	{
 		\Aimeos\MShop::cache( false );
+		unset( $this->object, $this->view, $this->context );
 	}
 
 
@@ -168,15 +169,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	protected function getCatalogMock( array $methods )
 	{
-		$name = 'ClientJsonAdmStandard';
-		$this->context->config()->set( 'mshop/catalog/manager/name', $name );
-
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Catalog\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
 			->setMethods( $methods )
 			->getMock();
 
-		\Aimeos\MShop\Product\Manager\Factory::injectManager( '\\Aimeos\\MShop\\Catalog\\Manager\\' . $name, $stub );
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Catalog\\Manager\\Standard', $stub );
 
 		return $stub;
 	}
