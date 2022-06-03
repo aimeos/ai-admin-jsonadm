@@ -182,7 +182,6 @@ class JsonAdm
 		}
 
 		$client = self::createComponent( $context, $classname, $interface, $path );
-		$client = self::addComponentDecorators( $context, $client, $path );
 
 		return $client->setAimeos( $aimeos )->setView( $view );
 	}
@@ -331,6 +330,6 @@ class JsonAdm
 			throw new \Aimeos\Admin\JsonAdm\Exception( $msg, 400 );
 		}
 
-		return $client;
+		return self::addComponentDecorators( $context, $client, $path );
 	}
 }
