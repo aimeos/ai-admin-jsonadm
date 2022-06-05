@@ -89,7 +89,7 @@ class TestHelper
 		$ctx->setView( $view );
 
 
-		$ctx->setEditor( 'ai-admin-jsonadm:admin/jsonadm' );
+		$ctx->setEditor( 'ai-admin-jsonadm' );
 
 		return $ctx;
 	}

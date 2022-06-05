@@ -31,7 +31,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'order.editor' => 'core:lib/mshoplib' )
+				'==' => array( 'order.editor' => 'core' )
 			),
 			'aggregate' => 'order.cdate',
 		);
@@ -57,7 +57,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'order.editor' => 'core:lib/mshoplib' )
+				'==' => array( 'order.editor' => 'core' )
 			),
 			'aggregate' => 'order.statuspayment,order.cdate',
 		);
