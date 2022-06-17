@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'groups' => ['admin', 'editor', 'super'],
 	'attribute' => [
 		/** admin/jsonadm/resource/attribute/groups
 		 * List of user groups that are allowed to manage attribute items
