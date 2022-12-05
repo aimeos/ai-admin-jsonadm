@@ -52,7 +52,7 @@ $build = function( \Aimeos\Map $items ) use ( $fields )
 			)
 		);
 
-		if( $item instanceof \Aimeos\MShop\Order\Item\Base\Iface )
+		if( $item instanceof \Aimeos\MShop\Order\Item\Iface )
 		{
 			foreach( $item->getAddresses()->flat() as $addr ) {
 				$entry['relationships']['order/address']['data'][] = ['id' => $addr->getId(), 'type' => 'order/address'];
@@ -71,14 +71,14 @@ $build = function( \Aimeos\Map $items ) use ( $fields )
 			}
 		}
 
-		if( $item instanceof \Aimeos\MShop\Order\Item\Base\Service\Iface )
+		if( $item instanceof \Aimeos\MShop\Order\Item\Service\Iface )
 		{
 			foreach( $item->getAttributeItems()->flat() as $serv ) {
 				$entry['relationships']['order/service/attribute']['data'][] = ['id' => $serv->getId(), 'type' => 'order/service/attribute'];
 			}
 		}
 
-		if( $item instanceof \Aimeos\MShop\Order\Item\Base\Product\Iface )
+		if( $item instanceof \Aimeos\MShop\Order\Item\Product\Iface )
 		{
 			foreach( $item->getAttributeItems()->flat() as $serv ) {
 				$entry['relationships']['order/product/attribute']['data'][] = ['id' => $serv->getId(), 'type' => 'order/service/attribute'];
