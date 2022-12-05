@@ -334,67 +334,58 @@ return [
 		 * @since 2017.10
 		 */
 		'groups' => ['admin', 'editor', 'super'],
-		'base' => [
-			/** admin/jsonadm/resource/order/base/groups
-			 * List of user groups that are allowed to manage order base items
+		'address' => [
+			/** admin/jsonadm/resource/order/address/groups
+			 * List of user groups that are allowed to manage order address items
 			 *
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
 			'groups' => ['admin', 'editor', 'super'],
-			'address' => [
-				/** admin/jsonadm/resource/order/base/address/groups
-				 * List of user groups that are allowed to manage order address items
+		],
+		'coupon' => [
+			/** admin/jsonadm/resource/order/coupon/groups
+			 * List of user groups that are allowed to manage order coupon items
+			 *
+			 * @param array List of user group names
+			 * @since 2017.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+		],
+		'product' => [
+			/** admin/jsonadm/resource/order/product/groups
+			 * List of user groups that are allowed to manage order product items
+			 *
+			 * @param array List of user group names
+			 * @since 2017.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+			'attribute' => [
+				/** admin/jsonadm/resource/order/product/attribute/groups
+				 * List of user groups that are allowed to manage order product attribute items
 				 *
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
 				'groups' => ['admin', 'editor', 'super'],
 			],
-			'coupon' => [
-				/** admin/jsonadm/resource/order/base/coupon/groups
-				 * List of user groups that are allowed to manage order coupon items
+		],
+		'service' => [
+			/** admin/jsonadm/resource/order/service/groups
+			 * List of user groups that are allowed to manage order service items
+			 *
+			 * @param array List of user group names
+			 * @since 2017.10
+			 */
+			'groups' => ['admin', 'editor', 'super'],
+			'attribute' => [
+				/** admin/jsonadm/resource/order/service/attribute/groups
+				 * List of user groups that are allowed to manage order service attribute items
 				 *
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
 				'groups' => ['admin', 'editor', 'super'],
-			],
-			'product' => [
-				/** admin/jsonadm/resource/order/base/product/groups
-				 * List of user groups that are allowed to manage order product items
-				 *
-				 * @param array List of user group names
-				 * @since 2017.10
-				 */
-				'groups' => ['admin', 'editor', 'super'],
-				'attribute' => [
-					/** admin/jsonadm/resource/order/base/product/attribute/groups
-					 * List of user groups that are allowed to manage order product attribute items
-					 *
-					 * @param array List of user group names
-					 * @since 2017.10
-					 */
-					'groups' => ['admin', 'editor', 'super'],
-				],
-			],
-			'service' => [
-				/** admin/jsonadm/resource/order/base/service/groups
-				 * List of user groups that are allowed to manage order service items
-				 *
-				 * @param array List of user group names
-				 * @since 2017.10
-				 */
-				'groups' => ['admin', 'editor', 'super'],
-				'attribute' => [
-					/** admin/jsonadm/resource/order/base/service/attribute/groups
-					 * List of user groups that are allowed to manage order service attribute items
-					 *
-					 * @param array List of user group names
-					 * @since 2017.10
-					 */
-					'groups' => ['admin', 'editor', 'super'],
-				],
 			],
 		],
 		'status' => [

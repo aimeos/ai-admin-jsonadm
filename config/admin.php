@@ -14,9 +14,6 @@ return [
 			'order' => [
 				'template-data' => 'partials/order/data',
 				'template-included' => 'partials/order/included',
-				'base' => [
-					'template-data' => 'partials/order/base/data',
-				],
 			],
 		],
 		'domains' => [

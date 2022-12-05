@@ -24,7 +24,7 @@ class Standard
 	extends \Aimeos\Admin\JsonAdm\Standard
 	implements \Aimeos\Admin\JsonAdm\Common\Iface
 {
-	/** admin/jsonadm/order/base/decorators/excludes
+	/** admin/jsonadm/order/decorators/excludes
 	 * Excludes decorators added by the "common" option from the JSON API clients
 	 *
 	 * Decorators extend the functionality of a class by adding new aspects
@@ -46,11 +46,11 @@ class Standard
 	 * @since 2016.01
 	 * @category Developer
 	 * @see admin/jsonadm/common/decorators/default
-	 * @see admin/jsonadm/order/base/decorators/global
-	 * @see admin/jsonadm/order/base/decorators/local
+	 * @see admin/jsonadm/order/decorators/global
+	 * @see admin/jsonadm/order/decorators/local
 	 */
 
-	/** admin/jsonadm/order/base/decorators/global
+	/** admin/jsonadm/order/decorators/global
 	 * Adds a list of globally available decorators only to the Jsonadm client
 	 *
 	 * Decorators extend the functionality of a class by adding new aspects
@@ -62,21 +62,21 @@ class Standard
 	 * ("\Aimeos\Admin\Jsonadm\Common\Decorator\*") around the Jsonadm
 	 * client.
 	 *
-	 *  admin/jsonadm/order/base/decorators/global = array( 'decorator1' )
+	 *  admin/jsonadm/order/decorators/global = array( 'decorator1' )
 	 *
 	 * This would add the decorator named "decorator1" defined by
 	 * "\Aimeos\Admin\Jsonadm\Common\Decorator\Decorator1" only to the
-	 * "order/base" Jsonadm client.
+	 * "order" Jsonadm client.
 	 *
 	 * @param array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see admin/jsonadm/common/decorators/default
-	 * @see admin/jsonadm/order/base/decorators/excludes
-	 * @see admin/jsonadm/order/base/decorators/local
+	 * @see admin/jsonadm/order/decorators/excludes
+	 * @see admin/jsonadm/order/decorators/local
 	 */
 
-	/** admin/jsonadm/order/base/decorators/local
+	/** admin/jsonadm/order/decorators/local
 	 * Adds a list of local decorators only to the Jsonadm client
 	 *
 	 * Decorators extend the functionality of a class by adding new aspects
@@ -88,18 +88,18 @@ class Standard
 	 * ("\Aimeos\Admin\Jsonadm\Order\Base\Decorator\*") around the Jsonadm
 	 * client.
 	 *
-	 *  admin/jsonadm/order/base/decorators/local = array( 'decorator2' )
+	 *  admin/jsonadm/order/decorators/local = array( 'decorator2' )
 	 *
 	 * This would add the decorator named "decorator2" defined by
 	 * "\Aimeos\Admin\Jsonadm\Order\Base\Decorator\Decorator2" only to the
-	 * "order/base" Jsonadm client.
+	 * "order" Jsonadm client.
 	 *
 	 * @param array List of decorator names
 	 * @since 2016.01
 	 * @category Developer
 	 * @see admin/jsonadm/common/decorators/default
-	 * @see admin/jsonadm/order/base/decorators/excludes
-	 * @see admin/jsonadm/order/base/decorators/global
+	 * @see admin/jsonadm/order/decorators/excludes
+	 * @see admin/jsonadm/order/decorators/global
 	 */
 
 
@@ -112,7 +112,7 @@ class Standard
 	 */
 	public function get( ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		/** admin/jsonadm/partials/order/base/template-data
+		/** admin/jsonadm/partials/order/template-data
 		 * Relative path to the data partial template file for the order base client
 		 *
 		 * Partials are templates which are reused in other templates and generate
@@ -127,7 +127,7 @@ class Standard
 		 * @since 2016.01
 		 * @category Developer
 		 */
-		$this->view()->assign( array( 'partial-data' => 'admin/jsonadm/partials/order/base/template-data' ) );
+		$this->view()->assign( array( 'partial-data' => 'admin/jsonadm/partials/order/template-data' ) );
 
 		return parent::get( $request, $response );
 	}
@@ -160,7 +160,7 @@ class Standard
 		if( ( $id = $view->param( 'id' ) ) == null ) {
 			$search = $this->initCriteria( $search, $view->param() );
 		} else {
-			$search->setConditions( $search->compare( '==', 'order.base.id', $id ) );
+			$search->setConditions( $search->compare( '==', 'order.id', $id ) );
 		}
 
 		$view->data = $manager->search( $search, [], $total );
@@ -186,7 +186,7 @@ class Standard
 		$context = $this->context();
 		$ids = $items->keys()->toArray();
 
-		$domains = ['order/base/address', 'order/base/coupon', 'order/base/product', 'order/base/service'];
+		$domains = ['order/address', 'order/coupon', 'order/product', 'order/service'];
 		$include = map( $domains )->intersect( $include );
 
 		foreach( $include as $type )
@@ -195,7 +195,7 @@ class Standard
 
 			$search = $manager->filter( false, true )->slice( 0, 10000 );
 			$search->setConditions( $search->and( [
-				$search->compare( '==', str_replace( '/', '.', $type ) . '.baseid', $ids ),
+				$search->compare( '==', str_replace( '/', '.', $type ) . '.parentid', $ids ),
 				$search->getConditions(),
 			] ) );
 

@@ -24,7 +24,6 @@ foreach( (array) $fields as $resource => $list ) {
 $build = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\Map $childItems ) use ( $fields )
 {
 	$id = $item->getId();
-	$baseId = $item->getBaseId();
 	$type = $item->getResourceType();
 	$params = array( 'resource' => $item->getResourceType(), 'id' => $id );
 	$attributes = $item->toArray( true );
@@ -50,19 +49,15 @@ $build = function( \Aimeos\MShop\Order\Item\Iface $item, \Aimeos\Map $childItems
 
 	foreach( $childItems as $childItem )
 	{
-		if( $childItem instanceof \Aimeos\MShop\Order\Item\Status\Iface && $childItem->getParentId() == $id
-			|| $childItem instanceof \Aimeos\MShop\Order\Item\Base\Iface && $childItem->getId() == $baseId
-		) {
-			$type = $childItem->getResourceType();
-			$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childItem->getId() );
+		$type = $childItem->getResourceType();
+		$params = array( 'resource' => $childItem->getResourceType(), 'id' => $childItem->getId() );
 
-			$result['relationships'][$type]['data'][] = [
-				'id' => $childItem->getId(), 'type' => $type,
-				'links' => array(
-					'self' => $this->url( $target, $cntl, $action, $params, [], $config )
-				)
-			];
-		}
+		$result['relationships'][$type]['data'][] = [
+			'id' => $childItem->getId(), 'type' => $type,
+			'links' => array(
+				'self' => $this->url( $target, $cntl, $action, $params, [], $config )
+			)
+		];
 	}
 
 	return $result;

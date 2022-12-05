@@ -21,7 +21,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->context = \TestHelper::context();
 		$this->view = $this->context->view();
 
-		$this->object = new \Aimeos\Admin\JsonAdm\Order\Base\Standard( $this->context, 'order/base' );
+		$this->object = new \Aimeos\Admin\JsonAdm\Order\Base\Standard( $this->context, 'order' );
 		$this->object->setAimeos( \TestHelper::getAimeos() );
 		$this->object->setView( $this->view );
 	}
@@ -31,9 +31,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'filter' => array(
-				'==' => array( 'order.base.price' => '2400.00' )
+				'==' => array( 'order.price' => '2400.00' )
 			),
-			'include' => 'order/base/address,order/base/product'
+			'include' => 'order/address,order/product'
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -47,10 +47,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals( 1, $result['meta']['total'] );
 		$this->assertEquals( 1, count( $result['data'] ) );
-		$this->assertEquals( 'order/base', $result['data'][0]['type'] );
+		$this->assertEquals( 'order', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['relationships'] ) );
-		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/base/address'] ) );
-		$this->assertEquals( 6, count( $result['data'][0]['relationships']['order/base/product']['data'] ) );
+		$this->assertEquals( 1, count( $result['data'][0]['relationships']['order/address'] ) );
+		$this->assertEquals( 6, count( $result['data'][0]['relationships']['order/product']['data'] ) );
 		$this->assertEquals( 7, count( $result['included'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -61,11 +61,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$params = array(
 			'fields' => array(
-				'order/base' => 'order.base.languageid,order.base.currencyid',
-				'order/base/product' => 'order.base.product.name,order.base.product.price'
+				'order' => 'order.languageid,order.currencyid',
+				'order/product' => 'order.product.name,order.product.price'
 			),
-			'sort' => 'order.base.id',
-			'include' => 'order/base/product'
+			'sort' => 'order.id',
+			'include' => 'order/product'
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
 		$this->view->addHelper( 'param', $helper );
@@ -79,9 +79,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertGreaterThanOrEqual( 4, $result['meta']['total'] );
 		$this->assertGreaterThanOrEqual( 4, count( $result['data'] ) );
-		$this->assertEquals( 'order/base', $result['data'][0]['type'] );
+		$this->assertEquals( 'order', $result['data'][0]['type'] );
 		$this->assertEquals( 2, count( $result['data'][0]['attributes'] ) );
-		$this->assertGreaterThanOrEqual( 4, count( $result['data'][0]['relationships']['order/base/product']['data'] ) );
+		$this->assertGreaterThanOrEqual( 4, count( $result['data'][0]['relationships']['order/product']['data'] ) );
 		$this->assertGreaterThanOrEqual( 14, count( $result['included'] ) );
 		$this->assertGreaterThanOrEqual( 2, count( $result['included'][0]['attributes'] ) );
 

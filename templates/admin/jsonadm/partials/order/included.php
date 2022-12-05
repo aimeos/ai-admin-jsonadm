@@ -55,33 +55,33 @@ $build = function( \Aimeos\Map $items ) use ( $fields )
 		if( $item instanceof \Aimeos\MShop\Order\Item\Base\Iface )
 		{
 			foreach( $item->getAddresses()->flat() as $addr ) {
-				$entry['relationships']['order/base/address']['data'][] = ['id' => $addr->getId(), 'type' => 'order/base/address'];
+				$entry['relationships']['order/address']['data'][] = ['id' => $addr->getId(), 'type' => 'order/address'];
 			}
 
 			foreach( $item->getCoupons() as $code => $products ) {
-				$entry['relationships']['order/base/coupon']['data'][] = ['id' => $code, 'type' => 'order/base/coupon'];
+				$entry['relationships']['order/coupon']['data'][] = ['id' => $code, 'type' => 'order/coupon'];
 			}
 
 			foreach( $item->getProducts() as $prod ) {
-				$entry['relationships']['order/base/product']['data'][] = ['id' => $prod->getId(), 'type' => 'order/base/product'];
+				$entry['relationships']['order/product']['data'][] = ['id' => $prod->getId(), 'type' => 'order/product'];
 			}
 
 			foreach( $item->getServices()->flat() as $serv ) {
-				$entry['relationships']['order/base/service']['data'][] = ['id' => $serv->getId(), 'type' => 'order/base/service'];
+				$entry['relationships']['order/service']['data'][] = ['id' => $serv->getId(), 'type' => 'order/service'];
 			}
 		}
 
 		if( $item instanceof \Aimeos\MShop\Order\Item\Base\Service\Iface )
 		{
 			foreach( $item->getAttributeItems()->flat() as $serv ) {
-				$entry['relationships']['order/base/service/attribute']['data'][] = ['id' => $serv->getId(), 'type' => 'order/base/service/attribute'];
+				$entry['relationships']['order/service/attribute']['data'][] = ['id' => $serv->getId(), 'type' => 'order/service/attribute'];
 			}
 		}
 
 		if( $item instanceof \Aimeos\MShop\Order\Item\Base\Product\Iface )
 		{
 			foreach( $item->getAttributeItems()->flat() as $serv ) {
-				$entry['relationships']['order/base/product/attribute']['data'][] = ['id' => $serv->getId(), 'type' => 'order/base/service/attribute'];
+				$entry['relationships']['order/product/attribute']['data'][] = ['id' => $serv->getId(), 'type' => 'order/service/attribute'];
 			}
 		}
 
