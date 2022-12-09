@@ -67,7 +67,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			'fields' => array(
 				'product' => 'product.id,product.code,product.label'
 			),
-			'sort' => 'product.label',
+			'sort' => 'product.code',
 			'include' => 'product,product/property'
 		);
 		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
