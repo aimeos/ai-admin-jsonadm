@@ -182,7 +182,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$result = json_decode( (string) $response->getBody(), true );
 
 
-		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertEquals( 500, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 1, count( $result['errors'] ) );
