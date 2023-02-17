@@ -171,7 +171,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Catalog\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
-			->setMethods( $methods )
+			->onlyMethods( $methods )
 			->getMock();
 
 		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Catalog\\Manager\\Standard', $stub );

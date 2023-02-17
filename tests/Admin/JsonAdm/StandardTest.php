@@ -780,7 +780,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
-			->setMethods( $methods )
+			->onlyMethods( $methods )
 			->getMock();
 
 		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Product\\Manager\\Standard', $stub );
@@ -793,7 +793,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
-			->setMethods( $methods )
+			->onlyMethods( $methods )
 			->getMock();
 
 		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Product\\Manager\\Lists\\Standard', $stub );
