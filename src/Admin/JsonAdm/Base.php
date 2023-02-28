@@ -23,10 +23,10 @@ abstract class Base
 	use \Aimeos\Macro\Macroable;
 
 
-	private $context;
-	private $aimeos;
-	private $view;
-	private $path;
+	private \Aimeos\MShop\ContextIface $context;
+	private ?\Aimeos\Base\View\Iface $view = null;
+	private ?\Aimeos\Bootstrap $aimeos = null;
+	private string $path;
 
 
 	/**

@@ -24,7 +24,7 @@ abstract class Base
 	extends \Aimeos\Admin\JsonAdm\Base
 	implements \Aimeos\Admin\JsonAdm\Common\Decorator\Iface
 {
-	private $client;
+	private \Aimeos\Admin\JsonAdm\Iface $client;
 
 
 	/**
