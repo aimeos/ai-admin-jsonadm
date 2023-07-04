@@ -41,10 +41,12 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 200, $response->getStatusCode() );
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
-		$this->assertEquals( 2, $result['meta']['total'] );
+		$this->assertEquals( 4, $result['meta']['total'] );
 		$this->assertIsArray( $result['data'] );
-		$this->assertEquals( 'basket.total-value-min', $result['data'][0]['id'] );
-		$this->assertEquals( 'basket.total-value-max', $result['data'][1]['id'] );
+		$this->assertEquals( 'required.productcode', $result['data'][0]['id'] );
+		$this->assertEquals( 'required.only', $result['data'][1]['id'] );
+		$this->assertEquals( 'basket.total-value-min', $result['data'][2]['id'] );
+		$this->assertEquals( 'basket.total-value-max', $result['data'][3]['id'] );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
 	}
