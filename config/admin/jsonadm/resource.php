@@ -111,25 +111,9 @@ return [
 		],
 	],
 	'customer' => [
-		/** admin/jsonadm/resource/customer/groups
-		 * List of user groups that are allowed to manage customer items
-		 *
-		 * @param array List of user group names
-		 * @since 2017.10
-		 */
-		'groups' => ['admin', 'editor', 'super'],
 		'address' => [
 			/** admin/jsonadm/resource/customer/address/groups
 			 * List of user groups that are allowed to manage customer address items
-			 *
-			 * @param array List of user group names
-			 * @since 2017.10
-			 */
-			'groups' => ['admin', 'editor', 'super'],
-		],
-		'group' => [
-			/** admin/jsonadm/resource/customer/group/groups
-			 * List of user groups that are allowed to manage customer group items
 			 *
 			 * @param array List of user group names
 			 * @since 2017.10
@@ -172,6 +156,15 @@ return [
 				'groups' => ['admin', 'editor', 'super'],
 			],
 		],
+	],
+	'group' => [
+		/** admin/jsonadm/resource/groups
+		 * List of user groups that are allowed to manage group items
+		 *
+		 * @param array List of user group names
+		 * @since 2017.10
+		 */
+		'groups' => ['admin', 'editor', 'super'],
 	],
 	'index' => [
 		/** admin/jsonadm/resource/index/groups
