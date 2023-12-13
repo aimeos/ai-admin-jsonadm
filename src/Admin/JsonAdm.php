@@ -297,10 +297,10 @@ class JsonAdm
 	 * @param string $classname Name of the client class
 	 * @param string $interface Name of the client interface
 	 * @param string $path Name of the client separated by slashes, e.g "product/property"
-	 * @return \Aimeos\Admin\JsonAdm\Common\Iface Client object
+	 * @return \Aimeos\Admin\JsonAdm\Iface Client object
 	 */
 	protected static function createComponent( \Aimeos\MShop\ContextIface $context,
-		string $classname, string $interface, string $path ) : \Aimeos\Admin\JsonAdm\Common\Iface
+		string $classname, string $interface, string $path ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		if( isset( self::$objects[$classname] ) ) {
 			return self::$objects[$classname];
