@@ -187,30 +187,27 @@ class Standard
 	{
 		$list = map();
 
-		if( in_array( 'order', $include ) )
-		{
-			$ids = map( $items )->getId()->toArray();
-			$manager = \Aimeos\MShop::create( $this->context(), 'order' );
+		$ids = map( $items )->getId()->toArray();
+		$manager = \Aimeos\MShop::create( $this->context(), 'order' );
 
-			$search = $manager->filter( false, true );
-			$search->setConditions( $search->and( [
-				$search->compare( '==', 'order.id', $ids ),
-				$search->getConditions()
-			] ) );
+		$search = $manager->filter( false, true );
+		$search->setConditions( $search->and( [
+			$search->compare( '==', 'order.id', $ids ),
+			$search->getConditions()
+		] ) );
 
-			$orders = $manager->search( $search, $include );
+		$orders = $manager->search( $search, $include );
 
-			$list = $list->merge( $orders )
-				->merge( $orders->getAddresses()->flat() )->merge( $orders->getCoupons()->flat() )
-				->merge( $orders->getProducts()->flat() )->merge( $orders->getServices()->flat() );
+		$list = $list->merge( $orders )
+			->merge( $orders->getAddresses()->flat() )->merge( $orders->getCoupons()->flat() )
+			->merge( $orders->getProducts()->flat() )->merge( $orders->getServices()->flat() );
 
-			foreach( $orders->getProducts()->flat() as $row ) {
-				$list->merge( $row->getAttributeItems() );
-			}
+		foreach( $orders->getProducts()->flat() as $row ) {
+			$list->merge( $row->getAttributeItems() );
+		}
 
-			foreach( $orders->getServices()->flat() as $row ) {
-				$list->merge( $row->getAttributeItems() );
-			}
+		foreach( $orders->getServices()->flat() as $row ) {
+			$list->merge( $row->getAttributeItems() );
 		}
 
 		if( in_array( 'order/status', $include ) )
