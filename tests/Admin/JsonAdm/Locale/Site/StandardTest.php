@@ -91,9 +91,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $stub->create()->setId( '-1' );
 
 		$stub->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$stub->expects( $this->exactly( 2 ) )->method( 'get' ) // 2x due to decorator
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 
 		$params = array( 'id' => '-1' );
@@ -125,9 +125,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $stub->create();
 
 		$stub->expects( $this->any() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$stub->expects( $this->once() )->method( 'insert' )
-			->will( $this->returnValue( $item->setId( '-1' ) ) );
+			->willReturn( $item->setId( '-1' ) );
 
 
 		$body = '{"data": {"type": "locale/site", "attributes": {"locale.site.code": "unittest", "locale.site.label": "Unit test"}}}';

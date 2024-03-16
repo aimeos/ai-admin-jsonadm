@@ -374,9 +374,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$productManagerStub->expects( $this->atLeastOnce() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 
 		$params = array( 'id' => '-1' );
@@ -413,9 +413,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$productManagerStub->expects( $this->atLeastOnce() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 
 		$body = '{"data": [{"id": "-1", "type": "product", "attributes": {"product.label": "test"}}, {"id": "-1", "type": "product", "attributes": {"product.label": "test"}}]}';
@@ -520,11 +520,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->once() )->method( 'create' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$productManagerStub->expects( $this->any() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$productManagerStub->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 
 		$body = '{"data": {"type": "product", "attributes": {"product.type": "default", "product.label": "test"}}}';
@@ -557,9 +557,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$productManagerStub->expects( $this->exactly( 2 ) )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 
 		$body = '{"data": [{"type": "product", "attributes": {"product.label": "test"}}, {"type": "product", "attributes": {"product.label": "test"}}]}';
@@ -594,13 +594,13 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->once() )->method( 'create' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$productManagerStub->expects( $this->any() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )
-			->will( $this->returnValue( $productManagerListsStub ) );
+			->willReturn( $productManagerListsStub );
 		$productManagerStub->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 		$productManagerListsStub->expects( $this->exactly( 2 ) )->method( 'save' );
 

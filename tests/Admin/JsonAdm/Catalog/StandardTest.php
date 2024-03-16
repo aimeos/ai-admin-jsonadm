@@ -95,9 +95,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$stub->expects( $this->once() )->method( 'move' );
 		$stub->expects( $this->once() )->method( 'save' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$stub->expects( $this->exactly( 2 ) )->method( 'get' ) // 2x due to decorator
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 
 		$params = array( 'id' => '-1' );
@@ -129,9 +129,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$item = $stub->create()->setId( '-1' );
 
 		$stub->expects( $this->any() )->method( 'get' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 		$stub->expects( $this->once() )->method( 'insert' )
-			->will( $this->returnValue( $item ) );
+			->willReturn( $item );
 
 
 		$body = '{"data": {"type": "catalog", "attributes": {"catalog.code": "test", "catalog.label": "Test catalog"}}}';
