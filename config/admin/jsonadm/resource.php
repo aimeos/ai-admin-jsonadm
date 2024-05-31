@@ -164,7 +164,7 @@ return [
 		 * @param array List of user group names
 		 * @since 2017.10
 		 */
-		'groups' => ['admin', 'editor', 'super'],
+		'groups' => ['admin', 'super'],
 	],
 	'index' => [
 		/** admin/jsonadm/resource/index/groups
