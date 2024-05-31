@@ -125,7 +125,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 		'group' => [
 			/** admin/jsonadm/resource/customer/group/groups
@@ -143,7 +143,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 			'type' => [
 				/** admin/jsonadm/resource/customer/lists/type/groups
 				 * List of user groups that are allowed to manage customer lists type items
@@ -151,7 +151,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'property' => [
@@ -161,7 +161,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2018.07
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 			'type' => [
 				/** admin/jsonadm/resource/customer/property/type/groups
 				 * List of user groups that are allowed to manage customer property type items
@@ -169,7 +169,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2018.07
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 	],
