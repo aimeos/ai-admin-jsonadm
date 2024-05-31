@@ -244,7 +244,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['super'],
 		],
 		'language' => [
 			/** admin/jsonadm/resource/locale/language/groups
@@ -253,7 +253,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['super'],
 		],
 		'currency' => [
 			/** admin/jsonadm/resource/locale/currency/groups
@@ -262,7 +262,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'super'],
+			'groups' => ['super'],
 		],
 	],
 	'media' => [
