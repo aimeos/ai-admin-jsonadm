@@ -25,7 +25,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'property' => [
@@ -43,7 +43,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2018.07
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'type' => [
@@ -53,7 +53,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 	'catalog' => [
@@ -79,7 +79,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 	],
@@ -288,7 +288,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'type' => [
@@ -298,7 +298,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 		'property' => [
 			/** admin/jsonadm/resource/media/property/groups
@@ -315,7 +315,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2018.07
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 	],
@@ -441,7 +441,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'property' => [
@@ -459,7 +459,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2019.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'type' => [
@@ -469,7 +469,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 	'product' => [
@@ -495,7 +495,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'property' => [
@@ -513,7 +513,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'type' => [
@@ -523,7 +523,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 	'rule' => [
@@ -550,7 +550,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2021.04
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 	'service' => [
@@ -613,7 +613,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 	'supplier' => [
@@ -648,7 +648,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'type' => [
@@ -658,7 +658,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 	'tag' => [
@@ -676,7 +676,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 	'text' => [
@@ -702,7 +702,7 @@ return [
 				 * @param array List of user group names
 				 * @since 2017.10
 				 */
-				'groups' => ['admin', 'editor', 'super'],
+				'groups' => ['admin', 'super'],
 			],
 		],
 		'type' => [
@@ -712,7 +712,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['admin', 'editor', 'super'],
+			'groups' => ['admin', 'super'],
 		],
 	],
 ];
