@@ -516,7 +516,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$productManagerStub = $this->getProductMock( array( 'create', 'get', 'save' ) );
 
-		$item = new \Aimeos\MShop\Product\Item\Standard();
+		$item = new \Aimeos\MShop\Product\Item\Standard( 'product.' );
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->once() )->method( 'create' )
@@ -590,7 +590,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$productManagerListsStub = $this->getProductListsMock( array( 'save' ) );
 
 		$product = $productManagerStub->find( 'CNE' );
-		$item = new \Aimeos\MShop\Product\Item\Standard();
+		$item = new \Aimeos\MShop\Product\Item\Standard( 'product.' );
 		$item->setId( '-1' );
 
 		$productManagerStub->expects( $this->once() )->method( 'create' )
@@ -780,8 +780,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
-			->onlyMethods( $methods )
+			->onlyMethods( array_merge( $methods, ['getDomain'] ) )
 			->getMock();
+
+		$stub->method( 'getDomain' )->willReturn( 'product' );
 
 		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Product\\Manager\\Standard', $stub );
 
