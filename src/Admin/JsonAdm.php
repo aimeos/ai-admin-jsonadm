@@ -213,8 +213,16 @@ class JsonAdm
 	protected static function addComponentDecorators( \Aimeos\MShop\ContextIface $context,
 		\Aimeos\Admin\JsonAdm\Iface $client, string $path ) : \Aimeos\Admin\JsonAdm\Iface
 	{
-		$localClass = str_replace( '/', '\\', ucwords( $path, '/' ) );
 		$config = $context->config();
+		$localClass = str_replace( '/', '\\', ucwords( $path, '/' ) );
+
+		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\' . ucfirst( $localClass ) . 'Decorator\\';
+		$decorators = array_reverse( $config->get( 'admin/jsonadm/' . $path . 'decorators/local', [] ) );
+		$client = self::addDecorators( $context, $client, $path, $decorators, $classprefix );
+
+		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
+		$decorators = array_reverse( $config->get( 'admin/jsonadm/' . $path . 'decorators/global', [] ) );
+		$client = self::addDecorators( $context, $client, $path, $decorators, $classprefix );
 
 		/** admin/jsonadm/common/decorators/default
 		 * Configures the list of decorators applied to all JSON API clients
@@ -238,7 +246,7 @@ class JsonAdm
 		 * @since 2015.12
 		 * @category Developer
 		 */
-		$decorators = $config->get( 'admin/jsonadm/common/decorators/default', [] );
+		$decorators = array_reverse( $config->get( 'admin/jsonadm/common/decorators/default', [] ) );
 		$excludes = $config->get( 'admin/jsonadm/' . $path . 'decorators/excludes', [] );
 
 		foreach( $decorators as $key => $name )
@@ -251,13 +259,7 @@ class JsonAdm
 		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
 		$client = self::addDecorators( $context, $client, $path, $decorators, $classprefix );
 
-		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\Common\\Decorator\\';
-		$decorators = $config->get( 'admin/jsonadm/' . $path . 'decorators/global', [] );
-		$client = self::addDecorators( $context, $client, $path, $decorators, $classprefix );
-
-		$classprefix = '\\Aimeos\\Admin\\JsonAdm\\' . ucfirst( $localClass ) . 'Decorator\\';
-		$decorators = $config->get( 'admin/jsonadm/' . $path . 'decorators/local', [] );
-		return self::addDecorators( $context, $client, $path, $decorators, $classprefix );
+		return $client;
 	}
 
 
