@@ -780,10 +780,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Product\\Manager\\Standard' )
 			->setConstructorArgs( array( $this->context ) )
-			->onlyMethods( array_merge( $methods, ['domain'] ) )
+			->onlyMethods( array_merge( $methods, ['type'] ) )
 			->getMock();
 
-		$stub->method( 'domain' )->willReturn( 'product' );
+		$stub->method( 'type' )->willReturn( ['product'] );
 
 		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Product\\Manager\\Standard', $stub );
 
