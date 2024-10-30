@@ -201,6 +201,10 @@ class Standard
 	 */
 	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
+		if( !$this->view()->access( ['super', 'admin'] ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed' );
+		}
+
 		if( isset( $entry->id ) )
 		{
 			$item = $manager->get( $entry->id );
@@ -213,6 +217,10 @@ class Standard
 		}
 		else
 		{
+			if( !$this->view()->access( ['super'] ) ) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed' );
+			}
+
 			$item = $manager->create();
 
 			if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) ) {
