@@ -244,7 +244,7 @@ return [
 			 * @param array List of user group names
 			 * @since 2017.10
 			 */
-			'groups' => ['super'],
+			'groups' => ['super', 'admin'],
 		],
 		'language' => [
 			/** admin/jsonadm/resource/locale/language/groups
