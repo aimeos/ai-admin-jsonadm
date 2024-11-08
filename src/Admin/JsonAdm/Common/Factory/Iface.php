@@ -29,5 +29,5 @@ interface Iface
 	 * @return \Aimeos\Admin\JsonAdm\Iface Client Interface
 	 */
 	public static function create( \Aimeos\MShop\ContextIface $context, \Aimeos\Bootstrap $aimeos,
-		string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface;
+		string $path, ?string $name = null ) : \Aimeos\Admin\JsonAdm\Iface;
 }

@@ -134,7 +134,7 @@ abstract class Base
 	 * @return \Psr\Http\Message\ResponseInterface Modified response object
 	 */
 	public function options( ServerRequestInterface $request, ResponseInterface $response,
-		string $prefix = null ) : \Psr\Http\Message\ResponseInterface
+		?string $prefix = null ) : \Psr\Http\Message\ResponseInterface
 	{
 		return $this->client->options( $request, $response, $prefix );
 	}
