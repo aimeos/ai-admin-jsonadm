@@ -151,7 +151,7 @@ class JsonAdm
 	 * @throws \Aimeos\Admin\JsonAdm\Exception If the given path is invalid
 	 */
 	public static function create( \Aimeos\MShop\ContextIface $context, \Aimeos\Bootstrap $aimeos,
-		string $path, string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
+		string $path, ?string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		if( preg_match( '/^[a-z0-9\/]*$/', $path ) !== 1 ) {
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid component path "%1$s"', $path, 400 ) );
@@ -196,7 +196,7 @@ class JsonAdm
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Admin\JsonAdm\Iface|null $client JSON API client object
 	 */
-	public static function inject( string $classname, \Aimeos\Admin\JsonAdm\Iface $client = null )
+	public static function inject( string $classname, ?\Aimeos\Admin\JsonAdm\Iface $client = null )
 	{
 		self::$objects['\\' . ltrim( $classname, '\\' )] = $client;
 	}

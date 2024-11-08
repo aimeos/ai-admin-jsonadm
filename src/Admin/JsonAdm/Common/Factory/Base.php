@@ -31,7 +31,7 @@ class Base
 	 * @param string $classname Full name of the class for which the object should be returned
 	 * @param \Aimeos\Admin\JsonAdm\Iface|null $client JSON API client object
 	 */
-	public static function injectClient( string $classname, \Aimeos\Admin\JsonAdm\Iface $client = null )
+	public static function injectClient( string $classname, ?\Aimeos\Admin\JsonAdm\Iface $client = null )
 	{
 		self::$objects[$classname] = $client;
 	}
