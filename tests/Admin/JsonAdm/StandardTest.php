@@ -724,7 +724,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertNull( $result['meta']['prefix'] );
-		$this->assertGreaterThan( 65, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThan( 42, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -743,7 +743,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals( 1, count( $response->getHeader( 'Content-Type' ) ) );
 
 		$this->assertEquals( 'prefix', $result['meta']['prefix'] );
-		$this->assertGreaterThan( 65, count( $result['meta']['resources'] ) );
+		$this->assertGreaterThan( 42, count( $result['meta']['resources'] ) );
 		$this->assertGreaterThan( 0, count( $result['meta']['attributes'] ) );
 
 		$this->assertArrayNotHasKey( 'errors', $result );
@@ -752,7 +752,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testOptionsException()
 	{
-		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
+		$this->getProductMock( array( 'getSearchAttributes' ) )->expects( $this->once() )->method( 'getSearchAttributes' )
 			->will( $this->throwException( new \RuntimeException( 'test exception' ) ) );
 
 		$response = $this->object->options( $this->view->request(), $this->view->response() );
@@ -765,7 +765,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testOptionsMShopException()
 	{
-		$this->getProductMock( array( 'getResourceType' ) )->expects( $this->once() )->method( 'getResourceType' )
+		$this->getProductMock( array( 'getSearchAttributes' ) )->expects( $this->once() )->method( 'getSearchAttributes' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception( 'test exception' ) ) );
 
 		$response = $this->object->options( $this->view->request(), $this->view->response() );

@@ -428,8 +428,8 @@ class Standard
 			foreach( $this->getDomains( $view ) as $domain )
 			{
 				$manager = \Aimeos\MShop::create( $context, $domain );
-				$resources = array_merge( $resources, $manager->getResourceType( true ) );
 				$attributes = array_merge( $attributes, $manager->getSearchAttributes( true ) );
+				$resources[] = join( '/', $manager->type() );
 			}
 
 			foreach( $this->getResources( $view ) as $resource ) {
