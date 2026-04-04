@@ -103,7 +103,6 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	{
 		$class = new \ReflectionClass( \Aimeos\Admin\JsonAdm\Common\Decorator\Base::class );
 		$method = $class->getMethod( $name );
-		$method->setAccessible( true );
 
 		return $method;
 	}
