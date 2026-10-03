@@ -516,15 +516,23 @@ class Standard
 				throw new \Aimeos\Admin\JsonAdm\Exception( 'Invalid JSON in body', 400 );
 			}
 
-			$ids = map( $payload->data )->col( 'id' );
-			$manager->delete( $ids->toArray() );
-			$view->total = count( $ids );
+			$ids = map( $payload->data )->col( 'id' )->toArray();
 		}
 		else
 		{
-			$manager->delete( $id );
-			$view->total = 1;
+			$ids = [$id];
 		}
+
+		$filter = $manager->filter()->add( str_replace( '/', '.', $this->getPath() ) . '.id', '==', $ids );
+		$items = $manager->search( $filter->slice( 0, count( $ids ) ) );
+
+		foreach( $items as $item ) {
+			$this->permit( $item );
+		}
+
+		// Only the checked items are deleted
+		$manager->delete( $items->keys()->toArray() );
+		$view->total = count( $ids );
 
 		return $response;
 	}
