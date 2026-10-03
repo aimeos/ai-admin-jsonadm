@@ -43,6 +43,50 @@ abstract class Base
 
 
 	/**
+	 * Updates the item while enforcing the permissions of the domain owning the item
+	 *
+	 * Items shared between domains (e.g. prices, texts and media) are owned by the
+	 * domain stored in their "<type>.domain" field. Changing them requires the same
+	 * permission as managing the owning domain, so they can't be modified via their
+	 * own resource if the user isn't allowed to manage the owning domain. The
+	 * permission is checked before and after the update, so items also can't be
+	 * moved to domains the user isn't allowed to manage.
+	 *
+	 * @param \Aimeos\MShop\Common\Item\Iface $item Item to update
+	 * @param array $attr Associative list of item key/value pairs
+	 * @return \Aimeos\MShop\Common\Item\Iface Updated item
+	 */
+	protected function apply( \Aimeos\MShop\Common\Item\Iface $item, array $attr ) : \Aimeos\MShop\Common\Item\Iface
+	{
+		// In private mode, the ID re-points the item to another row which bypasses all checks
+		// for the stored item, so the row to write is always the one passed to this method
+		unset( $attr[str_replace( '/', '.', $item->getResourceType() ) . '.id'] );
+
+		$this->permit( $item );
+		$item = $item->fromArray( $attr, true );
+		$this->permit( $item );
+
+		return $item;
+	}
+
+
+	/**
+	 * Checks if the user is allowed to manage the domain the item belongs to
+	 *
+	 * @param \Aimeos\MShop\Common\Item\Iface $item Item to check
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't allowed to manage the owning domain
+	 */
+	protected function permit( \Aimeos\MShop\Common\Item\Iface $item ) : void
+	{
+		$domain = (string) $item->get( str_replace( '/', '.', $item->getResourceType() ) . '.domain' );
+
+		if( $domain !== '' && empty( $this->getAllowedResources( $this->view(), [$domain] ) ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $domain ), 403 );
+		}
+	}
+
+
+	/**
 	 * Returns the Aimeos bootstrap object
 	 *
 	 * @return \Aimeos\Bootstrap The Aimeos bootstrap object
@@ -306,18 +350,15 @@ abstract class Base
 			$item = $manager->create();
 		}
 
-		if( isset( $entry->attributes ) && ( $attr = (array) $entry->attributes ) )
-		{
-			if( $item instanceof \Aimeos\MShop\Common\Item\Config\Iface )
-			{
-				$key = str_replace( '/', '.', $this->path ) . '.config';
-				$attr[$key] = (array) ( $attr[$key] ?? [] );
-			}
+		$attr = (array) ( $entry->attributes ?? [] );
 
-			$item = $item->fromArray( $attr, true );
+		if( !empty( $attr ) && $item instanceof \Aimeos\MShop\Common\Item\Config\Iface )
+		{
+			$key = str_replace( '/', '.', $this->path ) . '.config';
+			$attr[$key] = (array) ( $attr[$key] ?? [] );
 		}
 
-		$item = $manager->save( $item );
+		$item = $manager->save( $this->apply( $item, $attr ) );
 
 		if( isset( $entry->relationships ) ) {
 			$this->saveRelationships( $manager, $item, $entry->relationships );
@@ -342,6 +383,10 @@ abstract class Base
 
 		foreach( (array) $relationships as $domain => $list )
 		{
+			if( empty( $this->getAllowedResources( $this->view(), [(string) $domain] ) ) ) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $domain ), 403 );
+			}
+
 			if( isset( $list->data ) )
 			{
 				foreach( (array) $list->data as $data )
