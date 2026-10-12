@@ -1,5 +1,5 @@
 <a href="https://aimeos.org/">
-    <img src="https://aimeos.org/fileadmin/template/icons/logo.png" alt="Aimeos logo" title="Aimeos" align="right" height="60" />
+    <img src="https://aimeos.org/images/logo.png" alt="Aimeos logo" title="Aimeos" align="right" height="60" />
 </a>
 
 # Aimeos JSON API admin interface
@@ -11,4 +11,4 @@
 
 JSON API based admin interface for Aimeos e-commerce projects
 
-[![Aimeos demo](https://aimeos.org/fileadmin/user_upload/demo.jpg)](http://demo.aimeos.org/)
+[![Aimeos demo](https://aimeos.org/images/demo.jpg)](http://demo.aimeos.org/)
