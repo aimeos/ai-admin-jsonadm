@@ -51,6 +51,8 @@ class TestHelper
 	private static function createContext( $site )
 	{
 		$ctx = new \Aimeos\MShop\Context();
+		// tests create most clients directly, so the policy is not set by the interface
+		$ctx->setPolicy( \Aimeos\Admin\JsonAdm::policy() );
 		$aimeos = self::getAimeos();
 
 

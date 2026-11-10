@@ -208,10 +208,7 @@ class Standard
 		if( isset( $entry->id ) )
 		{
 			$item = $manager->get( $entry->id );
-
-			$item = $this->apply( $item, (array) ( $entry->attributes ?? [] ) );
-
-			$item = $manager->save( $item );
+			$item = $manager->save( $this->fromEntry( $item, $entry ) );
 		}
 		else
 		{
@@ -220,10 +217,7 @@ class Standard
 			}
 
 			$item = $manager->create();
-
-			$item = $this->apply( $item, (array) ( $entry->attributes ?? [] ) );
-
-			$item = $manager->insert( $item );
+			$item = $manager->insert( $this->fromEntry( $item, $entry ) );
 		}
 
 		if( isset( $entry->relationships ) ) {

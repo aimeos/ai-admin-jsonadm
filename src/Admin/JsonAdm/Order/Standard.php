@@ -158,7 +158,7 @@ class Standard
 		}
 
 		$total = 1;
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
+		$include = $this->included( $view->param( 'include' ) );
 
 		if( ( $id = $view->param( 'id' ) ) == null ) {
 			$search = $this->initCriteria( $search, $view->param() );

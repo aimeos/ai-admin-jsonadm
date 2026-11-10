@@ -121,7 +121,7 @@ class Standard
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
-			$status = 404;
+			$status = $this->getErrorStatus( $e );
 			$view->errors = array( array(
 				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),

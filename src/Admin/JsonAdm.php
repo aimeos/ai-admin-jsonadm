@@ -19,6 +19,8 @@ namespace Aimeos\Admin;
  */
 class JsonAdm
 {
+	use \Aimeos\MShop\PolicyTrait;
+
 	/** admin/jsonadm/name
 	 * Class name of the used JSON API client implementation
 	 *
@@ -157,18 +159,16 @@ class JsonAdm
 			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid component path "%1$s"', $path ), 400 );
 		}
 
-		empty( $path = trim( $path, '/' ) ) ?: $path .= '/';
+		$path = trim( $path, '/' );
 
-		$view = $context->view();
-		$config = $context->config();
+		$context = static::withPolicy( $context );
 
-		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . 'groups', [] ) ) !== true ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $path ), 403 );
-		}
+		static::check( $context, $path, 'get' );
 
-		$cname = $name ?: $context->config()->get( 'admin/jsonadm/' . $path . 'name', 'Standard' );
+		$prefix = $path !== '' ? $path . '/' : '';
+		$cname = $name ?: $context->config()->get( 'admin/jsonadm/' . $prefix . 'name', 'Standard' );
 
-		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . str_replace( '/', '\\', ucwords( $path, '/' ) ) . $cname;
+		$classname = '\\Aimeos\\Admin\\JsonAdm\\' . str_replace( '/', '\\', ucwords( $prefix, '/' ) ) . $cname;
 		$interface = '\\Aimeos\\Admin\\JsonAdm\\Iface';
 
 		if( class_exists( $classname ) === false )
@@ -181,9 +181,9 @@ class JsonAdm
 			}
 		}
 
-		$client = self::createComponent( $context, $classname, $interface, $path );
+		$client = self::createComponent( $context, $classname, $interface, $prefix );
 
-		return $client->setAimeos( $aimeos )->setView( $view );
+		return $client->setAimeos( $aimeos )->setView( $context->view() );
 	}
 
 
@@ -199,6 +199,46 @@ class JsonAdm
 	public static function inject( string $classname, ?\Aimeos\Admin\JsonAdm\Iface $client = null )
 	{
 		self::$objects['\\' . ltrim( $classname, '\\' )] = $client;
+	}
+
+
+	/**
+	 * Returns the default authorization policy of the JSON admin interface
+	 *
+	 * The interface uses it if the passed context contains no policy, so it also protects
+	 * shared items like prices of domains the user isn't allowed to access. Host applications
+	 * can use their own policy by setting it in the context with $context->setPolicy().
+	 *
+	 * @return \Aimeos\MShop\PolicyIface Authorization policy
+	 */
+	public static function policy() : \Aimeos\MShop\PolicyIface
+	{
+		return new \Aimeos\MShop\Policy\Groups( static::prefix() );
+	}
+
+
+	/**
+	 * Creates the exception of the interface
+	 *
+	 * @param string $msg Translated error message
+	 * @param int $code Error code, e.g. 403 for actions which aren't allowed
+	 * @param \Throwable|null $previous Previous exception
+	 * @return \Exception Exception with the passed code
+	 */
+	protected static function exception( string $msg, int $code, ?\Throwable $previous = null ) : \Exception
+	{
+		return new \Aimeos\Admin\JsonAdm\Exception( $msg, $code, $previous );
+	}
+
+
+	/**
+	 * Returns the configuration key prefix of the resources protected by the interface
+	 *
+	 * @return string Configuration key prefix
+	 */
+	protected static function prefix() : string
+	{
+		return 'admin/jsonadm/resource';
 	}
 
 

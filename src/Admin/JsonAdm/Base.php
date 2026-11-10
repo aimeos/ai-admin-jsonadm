@@ -43,46 +43,39 @@ abstract class Base
 
 
 	/**
-	 * Updates the item while enforcing the permissions of the domain owning the item
+	 * Returns the resource types of the related items the user is allowed to retrieve
 	 *
-	 * Items shared between domains (e.g. prices, texts and media) are owned by the
-	 * domain stored in their "<type>.domain" field. Changing them requires the same
-	 * permission as managing the owning domain, so they can't be modified via their
-	 * own resource if the user isn't allowed to manage the owning domain. The
-	 * permission is checked before and after the update, so items also can't be
-	 * moved to domains the user isn't allowed to manage.
-	 *
-	 * @param \Aimeos\MShop\Common\Item\Iface $item Item to update
-	 * @param array $attr Associative list of item key/value pairs
-	 * @return \Aimeos\MShop\Common\Item\Iface Updated item
+	 * @param string|null $include Comma separated list of resource types from the "include" parameter, e.g. "text,product/property"
+	 * @return array List of resource types the user is allowed to access
 	 */
-	protected function apply( \Aimeos\MShop\Common\Item\Iface $item, array $attr ) : \Aimeos\MShop\Common\Item\Iface
+	protected function included( ?string $include ) : array
 	{
-		// In private mode, the ID re-points the item to another row which bypasses all checks
-		// for the stored item, so the row to write is always the one passed to this method
-		unset( $attr[str_replace( '/', '.', $item->getResourceType() ) . '.id'] );
+		$include = array_values( array_filter( explode( ',', (string) $include ), 'strlen' ) );
 
-		$this->permit( $item );
-		$item = $item->fromArray( $attr, true );
-		$this->permit( $item );
-
-		return $item;
+		// sub-resources without own permissions (e.g. "order/address") use the ones of their parent resource
+		return \Aimeos\Admin\JsonAdm::permitted( $this->context(), $include, 'get', inherit: true );
 	}
 
 
 	/**
-	 * Checks if the user is allowed to manage the domain the item belongs to
+	 * Updates the item with the attributes of the JSON API entry
 	 *
-	 * @param \Aimeos\MShop\Common\Item\Iface $item Item to check
-	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't allowed to manage the owning domain
+	 * @param \Aimeos\MShop\Common\Item\Iface $item Item to update
+	 * @param \stdClass $entry Object including the "attributes" element
+	 * @return \Aimeos\MShop\Common\Item\Iface Updated item
 	 */
-	protected function permit( \Aimeos\MShop\Common\Item\Iface $item ) : void
+	protected function fromEntry( \Aimeos\MShop\Common\Item\Iface $item, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
-		$domain = (string) $item->get( str_replace( '/', '.', $item->getResourceType() ) . '.domain' );
+		$attr = (array) ( $entry->attributes ?? [] );
 
-		if( $domain !== '' && empty( $this->getAllowedResources( $this->view(), [$domain] ) ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $domain ), 403 );
+		// the config is decoded as object and must be an array, a missing config keeps the existing one
+		$key = str_replace( '/', '.', $item->getResourceType() ) . '.config';
+
+		if( $item instanceof \Aimeos\MShop\Common\Item\Config\Iface && isset( $attr[$key] ) ) {
+			$attr[$key] = (array) $attr[$key];
 		}
+
+		return $item->fromArray( $attr, true );
 	}
 
 
@@ -248,25 +241,18 @@ abstract class Base
 
 
 	/**
-	 * Returns the list of allowed resources
+	 * Returns the HTTP status code for the exception thrown by the managers
 	 *
-	 * @param \Aimeos\Base\View\Iface $view View object with "access" helper
-	 * @param array $resources List of all available resources
-	 * @return array List of allowed resources
+	 * Exceptions with client error codes (e.g. 403 if not allowed or 404 if not found)
+	 * use their codes, all others return 404 like before for backward compatibility.
+	 *
+	 * @param \Aimeos\MShop\Exception $e Exception thrown by the managers
+	 * @return int HTTP status code
 	 */
-	protected function getAllowedResources( \Aimeos\Base\View\Iface $view, array $resources ) : array
+	protected function getErrorStatus( \Aimeos\MShop\Exception $e ) : int
 	{
-		$config = $this->context()->config();
-		$allowed = [];
-
-		foreach( $resources as $resource )
-		{
-			if( $view->access( $config->get( 'admin/jsonadm/resource/' . $resource . '/groups', [] ) ) === true ) {
-				$allowed[] = $resource;
-			}
-		}
-
-		return $allowed;
+		$code = (int) $e->getCode();
+		return $code >= 400 && $code < 500 ? $code : 404;
 	}
 
 
@@ -350,15 +336,8 @@ abstract class Base
 			$item = $manager->create();
 		}
 
-		$attr = (array) ( $entry->attributes ?? [] );
-
-		if( !empty( $attr ) && $item instanceof \Aimeos\MShop\Common\Item\Config\Iface )
-		{
-			$key = str_replace( '/', '.', $this->path ) . '.config';
-			$attr[$key] = (array) ( $attr[$key] ?? [] );
-		}
-
-		$item = $manager->save( $this->apply( $item, $attr ) );
+		$item = $this->fromEntry( $item, $entry );
+		$item = $manager->save( $item );
 
 		if( isset( $entry->relationships ) ) {
 			$this->saveRelationships( $manager, $item, $entry->relationships );
@@ -383,21 +362,13 @@ abstract class Base
 
 		foreach( (array) $relationships as $domain => $list )
 		{
-			if( empty( $this->getAllowedResources( $this->view(), [(string) $domain] ) ) ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $domain ), 403 );
-			}
+			\Aimeos\Admin\JsonAdm::check( $this->context(), (string) $domain, 'save' );
 
 			if( isset( $list->data ) )
 			{
 				foreach( (array) $list->data as $data )
 				{
-					$listItem = $listManager->create()->setType( 'default' );
-
-					if( isset( $data->attributes ) && ( $attr = (array) $data->attributes ) ) {
-						$key = str_replace( '/', '.', $this->path ) . '.config';
-						$attr[$key] = (array) ( $attr[$key] ?? [] );
-						$listItem = $listItem->fromArray( $attr, true );
-					}
+					$listItem = $this->fromEntry( $listManager->create()->setType( 'default' ), $data );
 
 					if( isset( $data->id ) ) {
 						$listItem->setRefId( $data->id );

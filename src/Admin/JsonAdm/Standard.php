@@ -37,6 +37,7 @@ class Standard
 
 		try
 		{
+			$this->access( 'delete' );
 			$response = $this->deleteItems( $view, $request, $response );
 			$status = 200;
 		}
@@ -50,7 +51,7 @@ class Standard
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
-			$status = 404;
+			$status = $this->getErrorStatus( $e );
 			$view->errors = array( array(
 				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
@@ -119,7 +120,7 @@ class Standard
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
-			$status = 404;
+			$status = $this->getErrorStatus( $e );
 			$view->errors = array( array(
 				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
@@ -216,6 +217,7 @@ class Standard
 
 		try
 		{
+			$this->access( 'save' );
 			$response = $this->patchItems( $view, $request, $response );
 			$status = 200;
 		}
@@ -229,7 +231,7 @@ class Standard
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
-			$status = 404;
+			$status = $this->getErrorStatus( $e );
 			$view->errors = array( array(
 				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
@@ -293,6 +295,7 @@ class Standard
 
 		try
 		{
+			$this->access( 'save' );
 			$response = $this->postItems( $view, $request, $response );
 			$status = 201;
 		}
@@ -306,7 +309,7 @@ class Standard
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
-			$status = 404;
+			$status = $this->getErrorStatus( $e );
 			$view->errors = array( array(
 				'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
@@ -436,14 +439,14 @@ class Standard
 				$resources[] = $resource;
 			}
 
-			$view->resources = $this->getAllowedResources( $view, $resources );
+			$view->resources = \Aimeos\Admin\JsonAdm::permitted( $this->context(), $resources, 'get' );
 			$view->attributes = $attributes;
 
 			$status = 200;
 		}
 		catch( \Aimeos\MShop\Exception $e )
 		{
-			$status = 404;
+			$status = $this->getErrorStatus( $e );
 			$view->errors = array( array(
 				'title' => $context->translate( 'mshop', $e->getMessage() ),
 				'detail' => $e->getTraceAsString(),
@@ -516,23 +519,15 @@ class Standard
 				throw new \Aimeos\Admin\JsonAdm\Exception( 'Invalid JSON in body', 400 );
 			}
 
-			$ids = map( $payload->data )->col( 'id' )->toArray();
+			$ids = map( $payload->data )->col( 'id' );
+			$manager->delete( $ids->toArray() );
+			$view->total = count( $ids );
 		}
 		else
 		{
-			$ids = [$id];
+			$manager->delete( $id );
+			$view->total = 1;
 		}
-
-		$filter = $manager->filter()->add( str_replace( '/', '.', $this->getPath() ) . '.id', '==', $ids );
-		$items = $manager->search( $filter->slice( 0, count( $ids ) ) );
-
-		foreach( $items as $item ) {
-			$this->permit( $item );
-		}
-
-		// Only the checked items are deleted
-		$manager->delete( $items->keys()->toArray() );
-		$view->total = count( $ids );
 
 		return $response;
 	}
@@ -553,23 +548,25 @@ class Standard
 		if( ( $key = $view->param( 'aggregate' ) ) !== null )
 		{
 			$search = $this->initCriteria( $manager->filter(), $view->param() );
+			\Aimeos\Admin\JsonAdm::restrict( $this->context(), $manager, $search );
 			$view->data = $manager->aggregate( $search, explode( ',', $key ), $view->param( 'value' ), $view->param( 'type' ) );
 			return $response;
 		}
 
 		$total = 1;
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
+		$include = $this->included( $view->param( 'include' ) );
 
 		if( ( $id = $view->param( 'id' ) ) == null )
 		{
 			$search = $this->initCriteria( $manager->filter(), $view->param() );
+			\Aimeos\Admin\JsonAdm::restrict( $this->context(), $manager, $search );
 			$view->data = $manager->search( $search, $include, $total );
 			$view->childItems = $this->getChildItems( $view->data, $include );
 			$view->listItems = $this->getListItems( $view->data, $include );
 		}
 		else
 		{
-			$view->data = $manager->get( $id, $include );
+			$view->data = \Aimeos\Admin\JsonAdm::readable( $this->context(), $manager->get( $id, $include ) );
 			$view->childItems = $this->getChildItems( map( [$id => $view->data] ), $include );
 			$view->listItems = $this->getListItems( map( [$id => $view->data] ), $include );
 		}
@@ -666,5 +663,17 @@ class Standard
 		}
 
 		return $response;
+	}
+
+
+	/**
+	 * Ensures that the user is allowed to perform the action for the resource of the client
+	 *
+	 * @param string $action Action name, i.e. "delete" or "save"
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the action isn't allowed
+	 */
+	protected function access( string $action ) : void
+	{
+		\Aimeos\Admin\JsonAdm::check( $this->context(), $this->getPath(), $action );
 	}
 }

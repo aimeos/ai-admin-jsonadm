@@ -99,6 +99,27 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testDeleteNotAllowed()
+	{
+		$this->getProductMock( array( 'delete' ) )->expects( $this->never() )->method( 'delete' );
+		$this->context->setPolicy( new class implements \Aimeos\MShop\PolicyIface {
+			public function allowed( \Aimeos\MShop\ContextIface $context, string $resource, string $action ) : ?bool {
+				return $action !== 'delete';
+			}
+		} );
+
+		$params = array( 'id' => '-1' );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testDeleteException()
 	{
 		$this->getProductMock( array( 'delete' ) )->expects( $this->once() )->method( 'delete' )

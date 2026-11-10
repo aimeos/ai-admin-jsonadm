@@ -173,7 +173,7 @@ class Standard
 			return $response;
 		}
 
-		$include = ( ( $include = $view->param( 'include' ) ) !== null ? explode( ',', $include ) : [] );
+		$include = $this->included( $view->param( 'include' ) );
 		$search = $this->initCriteria( $manager->filter(), $view->param() );
 		$total = 1;
 
@@ -230,10 +230,7 @@ class Standard
 		if( isset( $entry->id ) )
 		{
 			$item = $manager->get( $entry->id );
-
-			$item = $this->apply( $item, (array) ( $entry->attributes ?? [] ) );
-
-			$item = $manager->save( $item );
+			$item = $manager->save( $this->fromEntry( $item, $entry ) );
 
 			if( isset( $entry->parentid ) && $targetId !== null ) {
 				$manager->move( $item->getId(), $entry->parentid, $targetId, $refId );
@@ -242,10 +239,7 @@ class Standard
 		else
 		{
 			$item = $manager->create();
-
-			$item = $this->apply( $item, (array) ( $entry->attributes ?? [] ) );
-
-			$item = $manager->insert( $item, $targetId, $refId );
+			$item = $manager->insert( $this->fromEntry( $item, $entry ), $targetId, $refId );
 		}
 
 		if( isset( $entry->relationships ) ) {

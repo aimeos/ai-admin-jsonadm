@@ -116,6 +116,7 @@ class Standard
 
 		 try
 		 {
+			$this->access( 'delete' );
 			$manager = \Aimeos\MShop::create( $this->context(), 'index' );
 
 			if( ( $id = $view->param( 'id' ) ) == null )
@@ -149,7 +150,7 @@ class Standard
 		 }
 		 catch( \Aimeos\MShop\Exception $e )
 		 {
-			 $status = 404;
+			 $status = $this->getErrorStatus( $e );
 			 $view->errors = array( array(
 				 'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
@@ -213,6 +214,7 @@ class Standard
 
 		 try
 		 {
+			$this->access( 'save' );
 			$body = (string) $request->getBody();
 
 			if( ( $payload = json_decode( $body ) ) === null || !isset( $payload->data ) ) {
@@ -250,7 +252,7 @@ class Standard
 		 }
 		 catch( \Aimeos\MShop\Exception $e )
 		 {
-			 $status = 404;
+			 $status = $this->getErrorStatus( $e );
 			 $view->errors = array( array(
 				 'title' => $this->context()->translate( 'mshop', $e->getMessage() ),
 				 'detail' => $e->getTraceAsString(),
