@@ -61,6 +61,7 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 		$aimeos = \TestHelper::getAimeos();
 
 		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->expectExceptionCode( 400 );
 		\Aimeos\Admin\JsonAdm::create( $context, $aimeos, '%^' );
 	}
 
@@ -72,5 +73,16 @@ class JsonAdmTest extends \PHPUnit\Framework\TestCase
 
 		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
 		\Aimeos\Admin\JsonAdm::create( $context, $aimeos, '', '%^' );
+	}
+
+
+	public function testCreateClientUnknownName()
+	{
+		$context = \TestHelper::context();
+		$aimeos = \TestHelper::getAimeos();
+
+		$this->expectException( '\\Aimeos\\Admin\\JsonAdm\\Exception' );
+		$this->expectExceptionCode( 404 );
+		\Aimeos\Admin\JsonAdm::create( $context, $aimeos, 'order', 'Unknown' );
 	}
 }

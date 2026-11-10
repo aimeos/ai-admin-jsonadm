@@ -154,7 +154,7 @@ class JsonAdm
 		string $path, ?string $name = null ) : \Aimeos\Admin\JsonAdm\Iface
 	{
 		if( preg_match( '/^[a-z0-9\/]*$/', $path ) !== 1 ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid component path "%1$s"', $path, 400 ) );
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Invalid component path "%1$s"', $path ), 400 );
 		}
 
 		empty( $path = trim( $path, '/' ) ) ?: $path .= '/';
@@ -163,7 +163,7 @@ class JsonAdm
 		$config = $context->config();
 
 		if( $view->access( $config->get( 'admin/jsonadm/resource/' . $path . 'groups', [] ) ) !== true ) {
-			throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $path ), 403 );
+			throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Not allowed to access JsonAdm "%1$s" client', $path ), 403 );
 		}
 
 		$cname = $name ?: $context->config()->get( 'admin/jsonadm/' . $path . 'name', 'Standard' );
@@ -177,7 +177,7 @@ class JsonAdm
 			$classname = '\\Aimeos\\Admin\\JsonAdm\\' . $cname;
 
 			if( class_exists( $classname ) === false ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Class "%1$s" not found', $classname, 404 ) );
+				throw new \Aimeos\Admin\JsonAdm\Exception( sprintf( 'Class "%1$s" not found', $classname ), 404 );
 			}
 		}
 
