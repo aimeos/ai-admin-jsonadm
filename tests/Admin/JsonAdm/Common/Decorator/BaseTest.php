@@ -8,6 +8,8 @@
 
 namespace Aimeos\Admin\JsonAdm\Common\Decorator;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+
 
 class Example extends Base
 {
@@ -92,6 +94,7 @@ class BaseTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	#[AllowMockObjectsWithoutExpectations]
 	public function testGetClient()
 	{
 		$result = $this->access( 'getClient' )->invokeArgs( $this->object, [] );
