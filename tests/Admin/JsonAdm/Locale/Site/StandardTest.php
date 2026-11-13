@@ -119,6 +119,91 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPatchOwnSite()
+	{
+		$stub = $this->getSiteMock( array( 'get', 'save' ) );
+		$item = $stub->create()->setId( '-1' )->setSiteId( '1.2.' );
+
+		$stub->expects( $this->once() )->method( 'save' )->willReturn( $item );
+		$stub->expects( $this->any() )->method( 'get' )->willReturn( $item );
+
+		$this->setAdmin( '1.' );
+
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => '-1'] );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "locale/site", "attributes": {"locale.site.label": "test"}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchOtherSite()
+	{
+		$stub = $this->getSiteMock( array( 'get', 'save' ) );
+		$item = $stub->create()->setId( '-1' )->setSiteId( '2.' );
+
+		$stub->expects( $this->never() )->method( 'save' );
+		$stub->expects( $this->any() )->method( 'get' )->willReturn( $item );
+
+		$this->setAdmin( '1.' );
+
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => '-1'] );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "locale/site", "attributes": {"locale.site.label": "test"}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testDelete()
+	{
+		$stub = $this->getSiteMock( array( 'delete', 'search' ) );
+		$item = $stub->create()->setId( '-1' );
+
+		$stub->expects( $this->once() )->method( 'search' )->willReturn( map( ['-1' => $item] ) );
+		$stub->expects( $this->once() )->method( 'delete' );
+
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => '-1'] );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testDeleteNotSuper()
+	{
+		$stub = $this->getSiteMock( array( 'delete' ) );
+		$stub->expects( $this->never() )->method( 'delete' );
+
+		$this->setAdmin( '1.' );
+
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => '-1'] );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
 	public function testPost()
 	{
 		$stub = $this->getSiteMock( array( 'get', 'insert' ) );
@@ -160,6 +245,16 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		}
 
 		return $item;
+	}
+
+
+	protected function setAdmin( string $siteid )
+	{
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->create()->set( 'customer.siteid', $siteid );
+		$this->context->setUser( $user );
+
+		$helper = new \Aimeos\Base\View\Helper\Access\Standard( $this->view, ['admin'] );
+		$this->view->addHelper( 'access', $helper );
 	}
 
 

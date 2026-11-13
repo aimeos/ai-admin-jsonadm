@@ -151,6 +151,26 @@ class Standard
 
 
 	/**
+	 * Deletes one or more items
+	 *
+	 * @param \Aimeos\Base\View\Iface $view View instance with "param" view helper
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't a super user
+	 */
+	protected function deleteItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	{
+		// deleting sites removes all data of the sites, so only super users are allowed to do that
+		if( !$view->access( ['super'] ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed', 403 );
+		}
+
+		return parent::deleteItems( $view, $request, $response );
+	}
+
+
+	/**
 	 * Retrieves the item or items and adds the data to the view
 	 *
 	 * @param \Aimeos\Base\View\Iface $view View instance
@@ -208,6 +228,14 @@ class Standard
 		if( isset( $entry->id ) )
 		{
 			$item = $manager->get( $entry->id );
+			$siteid = (string) $this->context()->user()?->getSiteId();
+
+			// non-super users can only change their own site and its sub-sites
+			if( !$this->view()->access( ['super'] )
+				&& ( $siteid === '' || !$item->getSiteId() || strncmp( $item->getSiteId(), $siteid, strlen( $siteid ) ) )
+			) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed', 403 );
+			}
 
 			$item = $this->apply( $item, (array) ( $entry->attributes ?? [] ) );
 
