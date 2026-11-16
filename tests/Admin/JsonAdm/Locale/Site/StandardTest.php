@@ -89,14 +89,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId() );
 
+		// the "default" site is outside the site tree of the user
+		$params = ['filter' => ['==' => ['locale.site.code' => ['default', 'unittest']]]];
+		$this->view->addHelper( 'param', new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params ) );
+
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$codes = array_column( array_column( $result['data'], 'attributes' ), 'locale.site.code' );
-		sort( $codes );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertEquals( ['unittest', 'unittest-child'], $codes );
+		$this->assertEquals( ['unittest'], $codes );
 	}
 
 
@@ -105,14 +108,17 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		// editors see the same sites as admins, their actions are limited by the resource config
 		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId(), ['editor'] );
 
+		// the "default" site is outside the site tree of the user
+		$params = ['filter' => ['==' => ['locale.site.code' => ['default', 'unittest']]]];
+		$this->view->addHelper( 'param', new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params ) );
+
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
 		$codes = array_column( array_column( $result['data'], 'attributes' ), 'locale.site.code' );
-		sort( $codes );
 
 		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertEquals( ['unittest', 'unittest-child'], $codes );
+		$this->assertEquals( ['unittest'], $codes );
 	}
 
 
