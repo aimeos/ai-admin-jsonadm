@@ -89,8 +89,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId() );
 
-		// the "default" site is outside the site tree of the user
-		$params = ['filter' => ['==' => ['locale.site.code' => ['default', 'unittest']]]];
+		$params = ['filter' => ['==' => ['locale.site.code' => 'unittest']]];
 		$this->view->addHelper( 'param', new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params ) );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
@@ -103,13 +102,28 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGetSearchOutside()
+	{
+		// the parent site of the user's site is outside the site tree of the user
+		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId() . '99.' );
+
+		$params = ['filter' => ['==' => ['locale.site.code' => 'unittest']]];
+		$this->view->addHelper( 'param', new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params ) );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( [], $result['data'] );
+	}
+
+
 	public function testGetSearchEditor()
 	{
 		// editors see the same sites as admins, their actions are limited by the resource config
 		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId(), ['editor'] );
 
-		// the "default" site is outside the site tree of the user
-		$params = ['filter' => ['==' => ['locale.site.code' => ['default', 'unittest']]]];
+		$params = ['filter' => ['==' => ['locale.site.code' => 'unittest']]];
 		$this->view->addHelper( 'param', new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params ) );
 
 		$response = $this->object->get( $this->view->request(), $this->view->response() );
