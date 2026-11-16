@@ -87,12 +87,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testPatch()
 	{
-		$stub = $this->getSiteMock( array( 'get', 'move', 'save' ) );
+		$stub = $this->getSiteMock( array( 'get', 'move', 'save', 'search' ) );
 		$item = $stub->create()->setId( '-1' );
 
+		$stub->expects( $this->once() )->method( 'search' )
+			->willReturn( map( [$item] ) );
 		$stub->expects( $this->once() )->method( 'save' )
 			->willReturn( $item );
-		$stub->expects( $this->exactly( 2 ) )->method( 'get' ) // 2x due to decorator
+		$stub->expects( $this->any() )->method( 'get' )
 			->willReturn( $item );
 
 
@@ -116,6 +118,86 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchOtherSite()
+	{
+		$site = $this->getSiteItem( 'unittest' );
+		$this->admin( '-1.' );
+
+		$params = array( 'id' => $site->getId() );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "locale/site", "id": "' . $site->getId() . '", "attributes": {"locale.site.label": "test", "locale.site.status": 0}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+
+		$item = $this->getSiteItem( 'unittest' );
+		$this->assertEquals( $site->getLabel(), $item->getLabel() );
+		$this->assertEquals( $site->getStatus(), $item->getStatus() );
+	}
+
+
+	public function testPatchNoUserSite()
+	{
+		$site = $this->getSiteItem( 'unittest' );
+		$this->admin( '' );
+
+		$params = array( 'id' => $site->getId() );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "locale/site", "id": "' . $site->getId() . '", "attributes": {"locale.site.label": "test"}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertEquals( $site->getLabel(), $this->getSiteItem( 'unittest' )->getLabel() );
+	}
+
+
+	public function testDelete()
+	{
+		$stub = $this->getSiteMock( array( 'delete' ) );
+		$stub->expects( $this->once() )->method( 'delete' );
+
+		$params = array( 'id' => '-1' );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( 1, $result['meta']['total'] );
+		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	public function testDeleteAdmin()
+	{
+		$stub = $this->getSiteMock( array( 'delete' ) );
+		$stub->expects( $this->never() )->method( 'delete' );
+
+		$this->admin( '1.' );
+
+		$params = array( 'id' => '-1' );
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
 	}
 
 
@@ -146,6 +228,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertArrayNotHasKey( 'included', $result );
 		$this->assertArrayNotHasKey( 'errors', $result );
+	}
+
+
+	protected function admin( string $siteid ) : void
+	{
+		$user = \Aimeos\MShop::create( $this->context, 'customer' )->create( ['customer.siteid' => $siteid] );
+
+		$this->view->addHelper( 'access', new \Aimeos\Base\View\Helper\Access\Standard( $this->view, ['admin'] ) );
+		$this->context->setView( $this->view )->setUser( $user );
 	}
 
 

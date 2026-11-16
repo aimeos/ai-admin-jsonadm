@@ -151,6 +151,55 @@ class Standard
 
 
 	/**
+	 * Deletes one or more items
+	 *
+	 * @param \Aimeos\Base\View\Iface $view View instance with "param" view helper
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't a super user
+	 */
+	protected function deleteItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	{
+		// deleting sites removes all data of the sites, so only super users are allowed to do that
+		if( !$view->access( ['super'] ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed', 403 );
+		}
+
+		return parent::deleteItems( $view, $request, $response );
+	}
+
+
+	/**
+	 * Returns the filter limited to the sites the user is allowed to manage
+	 *
+	 * Super users can manage all sites, admins their own site and its sub-sites
+	 * and all other users only their own site.
+	 *
+	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Locale site manager
+	 * @return \Aimeos\Base\Criteria\Iface Filter object
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't assigned to a site
+	 */
+	protected function filter( \Aimeos\MShop\Common\Manager\Iface $manager ) : \Aimeos\Base\Criteria\Iface
+	{
+		$view = $this->view();
+		$filter = $manager->filter();
+
+		if( !$view->access( ['super'] ) )
+		{
+			// an empty site ID would match all sites
+			if( ( $siteid = (string) $this->context()->user()?->getSiteId() ) === '' ) {
+				throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed', 403 );
+			}
+
+			$filter->add( $filter->is( 'locale.site.siteid', $view->access( ['admin'] ) ? '=~' : '==', $siteid ) );
+		}
+
+		return $filter;
+	}
+
+
+	/**
 	 * Retrieves the item or items and adds the data to the view
 	 *
 	 * @param \Aimeos\Base\View\Iface $view View instance
@@ -160,17 +209,9 @@ class Standard
 	 */
 	protected function getItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
 	{
-		$context = $this->context();
-		$manager = \Aimeos\MShop::create( $context, 'locale/site' );
-		$search = $this->initCriteria( $manager->filter(), $view->param() );
+		$manager = \Aimeos\MShop::create( $this->context(), 'locale/site' );
+		$search = $this->initCriteria( $this->filter( $manager ), $view->param() );
 		$total = 1;
-
-		if( !$view->access( ['super'] ) )
-		{
-			$customerManager = \Aimeos\MShop::create( $context, 'customer' );
-			$siteid = $customerManager->get( $context->user() )->getSiteId();
-			$search->add( $search->is( 'locale.site.siteid', $view->access( ['admin'] ) ? '=~' : '==', $siteid ) );
-		}
 
 		if( $id = $view->param( 'id' ) )
 		{
@@ -207,7 +248,8 @@ class Standard
 
 		if( isset( $entry->id ) )
 		{
-			$item = $manager->get( $entry->id );
+			$filter = $this->filter( $manager )->add( ['locale.site.id' => $entry->id] )->slice( 0, 1 );
+			$item = $manager->search( $filter )->first( new \Aimeos\Admin\JsonAdm\Exception( 'Item not available', 404 ) );
 			$item = $manager->save( $this->fromEntry( $item, $entry ) );
 		}
 		else
