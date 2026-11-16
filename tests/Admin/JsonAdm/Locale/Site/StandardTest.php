@@ -85,13 +85,66 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testGetSearchAdmin()
+	{
+		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId() );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$codes = array_column( array_column( $result['data'], 'attributes' ), 'locale.site.code' );
+		sort( $codes );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( ['unittest', 'unittest-child'], $codes );
+	}
+
+
+	public function testGetSearchEditor()
+	{
+		// editors see the same sites as admins, their actions are limited by the resource config
+		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId(), ['editor'] );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$codes = array_column( array_column( $result['data'], 'attributes' ), 'locale.site.code' );
+		sort( $codes );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( ['unittest', 'unittest-child'], $codes );
+	}
+
+
+	public function testGetOtherSite()
+	{
+		$this->admin( '-1.' );
+
+		$params = ['id' => $this->getSiteItem( 'unittest' )->getId()];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+
+		$this->assertEquals( 404, $response->getStatusCode() );
+	}
+
+
+	public function testGetNoUserSite()
+	{
+		$this->admin( '' );
+
+		$response = $this->object->get( $this->view->request(), $this->view->response() );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+	}
+
+
 	public function testPatch()
 	{
-		$stub = $this->getSiteMock( array( 'get', 'move', 'save', 'search' ) );
+		$stub = $this->getSiteMock( array( 'get', 'move', 'save' ) );
 		$item = $stub->create()->setId( '-1' );
 
-		$stub->expects( $this->once() )->method( 'search' )
-			->willReturn( map( [$item] ) );
 		$stub->expects( $this->once() )->method( 'save' )
 			->willReturn( $item );
 		$stub->expects( $this->any() )->method( 'get' )
@@ -136,7 +189,7 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertEquals( 403, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 
 		$item = $this->getSiteItem( 'unittest' );
@@ -231,11 +284,30 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
-	protected function admin( string $siteid ) : void
+	public function testPostAdmin()
+	{
+		$this->admin( $this->getSiteItem( 'unittest' )->getSiteId() );
+
+		$stub = $this->getSiteMock( array( 'insert' ) );
+		$stub->expects( $this->never() )->method( 'insert' );
+
+		$body = '{"data": {"type": "locale/site", "attributes": {"locale.site.code": "jsonadm-admin", "locale.site.label": "Unit test"}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->post( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		// only super users are allowed to add new sites
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	protected function admin( string $siteid, array $groups = ['admin'] ) : void
 	{
 		$user = \Aimeos\MShop::create( $this->context, 'customer' )->create( ['customer.siteid' => $siteid] );
 
-		$this->view->addHelper( 'access', new \Aimeos\Base\View\Helper\Access\Standard( $this->view, ['admin'] ) );
+		$this->view->addHelper( 'access', new \Aimeos\Base\View\Helper\Access\Standard( $this->view, $groups ) );
 		$this->context->setView( $this->view )->setUser( $user );
 	}
 

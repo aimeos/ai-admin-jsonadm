@@ -151,89 +151,6 @@ class Standard
 
 
 	/**
-	 * Deletes one or more items
-	 *
-	 * @param \Aimeos\Base\View\Iface $view View instance with "param" view helper
-	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
-	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @return \Psr\Http\Message\ResponseInterface Modified response object
-	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't a super user
-	 */
-	protected function deleteItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
-	{
-		// deleting sites removes all data of the sites, so only super users are allowed to do that
-		if( !$view->access( ['super'] ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed', 403 );
-		}
-
-		return parent::deleteItems( $view, $request, $response );
-	}
-
-
-	/**
-	 * Returns the filter limited to the sites the user is allowed to manage
-	 *
-	 * Super users can manage all sites, admins their own site and its sub-sites
-	 * and all other users only their own site.
-	 *
-	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Locale site manager
-	 * @return \Aimeos\Base\Criteria\Iface Filter object
-	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't assigned to a site
-	 */
-	protected function filter( \Aimeos\MShop\Common\Manager\Iface $manager ) : \Aimeos\Base\Criteria\Iface
-	{
-		$view = $this->view();
-		$filter = $manager->filter();
-
-		if( !$view->access( ['super'] ) )
-		{
-			// an empty site ID would match all sites
-			if( ( $siteid = (string) $this->context()->user()?->getSiteId() ) === '' ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed', 403 );
-			}
-
-			$filter->add( $filter->is( 'locale.site.siteid', $view->access( ['admin'] ) ? '=~' : '==', $siteid ) );
-		}
-
-		return $filter;
-	}
-
-
-	/**
-	 * Retrieves the item or items and adds the data to the view
-	 *
-	 * @param \Aimeos\Base\View\Iface $view View instance
-	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
-	 * @param \Psr\Http\Message\ResponseInterface $response Response object
-	 * @return \Psr\Http\Message\ResponseInterface Modified response object
-	 */
-	protected function getItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
-	{
-		$manager = \Aimeos\MShop::create( $this->context(), 'locale/site' );
-		$search = $this->initCriteria( $this->filter( $manager ), $view->param() );
-		$total = 1;
-
-		if( $id = $view->param( 'id' ) )
-		{
-			$search->add( $search->is( 'locale.site.id', '==', $id ) )->slice( 0, 1 );
-			$view->data = $manager->search( $search, [], $total )
-				->first( new \Aimeos\MShop\Exception( $view->translate( 'admin', 'Item not available' ) ) );
-		}
-		else
-		{
-			$view->data = $manager->search( $search, [], $total );
-		}
-
-		$view->childItems = map();
-		$view->listItems = map();
-		$view->refItems = map();
-		$view->total = $total;
-
-		return $response;
-	}
-
-
-	/**
 	 * Saves and returns the new or updated item
 	 *
 	 * @param \Aimeos\MShop\Common\Manager\Iface $manager Manager responsible for the items
@@ -242,25 +159,14 @@ class Standard
 	 */
 	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
-		if( !$this->view()->access( ['super', 'admin'] ) ) {
-			throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed' );
+		if( isset( $entry->id ) ) {
+			// the site manager only saves sites within the site tree of non-super users
+			return parent::saveEntry( $manager, $entry );
 		}
 
-		if( isset( $entry->id ) )
-		{
-			$filter = $this->filter( $manager )->add( ['locale.site.id' => $entry->id] )->slice( 0, 1 );
-			$item = $manager->search( $filter )->first( new \Aimeos\Admin\JsonAdm\Exception( 'Item not available', 404 ) );
-			$item = $manager->save( $this->fromEntry( $item, $entry ) );
-		}
-		else
-		{
-			if( !$this->view()->access( ['super'] ) ) {
-				throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed' );
-			}
-
-			$item = $manager->create();
-			$item = $manager->insert( $this->fromEntry( $item, $entry ) );
-		}
+		// the "save" action is checked before, adding sites is a separate action
+		$this->access( 'insert' );
+		$item = $manager->insert( $this->fromEntry( $manager->create(), $entry ) );
 
 		if( isset( $entry->relationships ) ) {
 			$this->saveRelationships( $manager, $item, $entry->relationships );
