@@ -395,6 +395,21 @@ return [
 			 * @since 2017.10
 			 */
 			'groups' => ['admin', 'editor', 'super'],
+
+			/** admin/jsonadm/resource/order/product/delete
+			 * List of user groups that are allowed to delete ordered products
+			 *
+			 * What was purchased for which price is part of the order and the invoice,
+			 * so ordered products can't be removed. Existing ordered products can be
+			 * updated but only their delivery/payment states, open quantity, time frame
+			 * and notes can be changed.
+			 *
+			 * @param array List of user group names
+			 * @since 2026.10
+			 * @see admin/jsonadm/resource/order/product/groups
+			 */
+			'delete' => [],
+
 			'attribute' => [
 				/** admin/jsonadm/resource/order/product/attribute/groups
 				 * List of user groups that are allowed to manage order product attribute items
@@ -403,6 +418,32 @@ return [
 				 * @since 2017.10
 				 */
 				'groups' => ['admin', 'editor', 'super'],
+
+				/** admin/jsonadm/resource/order/product/attribute/delete
+				 * List of user groups that are allowed to delete attributes of ordered products
+				 *
+				 * Attributes of ordered products are part of what was purchased, e.g.
+				 * selected options or download files, so they can't be removed.
+				 *
+				 * @param array List of user group names
+				 * @since 2026.10
+				 * @see admin/jsonadm/resource/order/product/attribute/groups
+				 * @see admin/jsonadm/resource/order/product/attribute/save
+				 */
+				'delete' => [],
+
+				/** admin/jsonadm/resource/order/product/attribute/save
+				 * List of user groups that are allowed to add or update attributes of ordered products
+				 *
+				 * Attributes of ordered products are part of what was purchased, e.g.
+				 * selected options or download files, so they can't be changed.
+				 *
+				 * @param array List of user group names
+				 * @since 2026.10
+				 * @see admin/jsonadm/resource/order/product/attribute/groups
+				 * @see admin/jsonadm/resource/order/product/attribute/delete
+				 */
+				'save' => [],
 			],
 		],
 		'service' => [
@@ -413,6 +454,34 @@ return [
 			 * @since 2017.10
 			 */
 			'groups' => ['admin', 'editor', 'super'],
+
+			/** admin/jsonadm/resource/order/service/delete
+			 * List of user groups that are allowed to delete order services
+			 *
+			 * The delivery and payment services including their costs are part of the
+			 * order and the invoice, so they can't be removed.
+			 *
+			 * @param array List of user group names
+			 * @since 2026.10
+			 * @see admin/jsonadm/resource/order/service/groups
+			 * @see admin/jsonadm/resource/order/service/save
+			 */
+			'delete' => [],
+
+			/** admin/jsonadm/resource/order/service/save
+			 * List of user groups that are allowed to add or update order services
+			 *
+			 * The delivery and payment services including their costs are part of the
+			 * order and the invoice, so they can't be changed. Their attributes, e.g.
+			 * tracking IDs, can be still added, changed and removed.
+			 *
+			 * @param array List of user group names
+			 * @since 2026.10
+			 * @see admin/jsonadm/resource/order/service/groups
+			 * @see admin/jsonadm/resource/order/service/delete
+			 */
+			'save' => [],
+
 			'attribute' => [
 				/** admin/jsonadm/resource/order/service/attribute/groups
 				 * List of user groups that are allowed to manage order service attribute items
