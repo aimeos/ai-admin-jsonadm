@@ -1,0 +1,136 @@
+<?php
+
+/**
+ * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
+ * @copyright Aimeos (aimeos.org), 2026
+ */
+
+
+namespace Aimeos\Admin\JsonAdm\Order\Product\Attribute;
+
+
+class StandardTest extends \PHPUnit\Framework\TestCase
+{
+	private $context;
+	private $object;
+	private $view;
+
+
+	protected function setUp() : void
+	{
+		\Aimeos\MShop::cache( true );
+
+		$this->context = \TestHelper::context();
+		$this->view = $this->context->view();
+
+		$this->object = new \Aimeos\Admin\JsonAdm\Order\Product\Attribute\Standard( $this->context, 'order/product/attribute' );
+		$this->object->setAimeos( \TestHelper::getAimeos() );
+		$this->object->setView( $this->view );
+	}
+
+
+	protected function tearDown() : void
+	{
+		\Aimeos\MShop::cache( false );
+		unset( $this->object, $this->view, $this->context );
+	}
+
+
+	public function testDelete()
+	{
+		$stub = $this->getManagerMock( ['delete'] );
+		$stub->expects( $this->once() )->method( 'delete' );
+
+		$params = ['id' => '-1'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+
+		$this->assertEquals( 200, $response->getStatusCode() );
+	}
+
+
+	public function testDeleteEditor()
+	{
+		$stub = $this->getManagerMock( ['delete'] );
+		$stub->expects( $this->never() )->method( 'delete' );
+
+		$this->setAccess( ['admin', 'editor'] );
+
+		$params = ['id' => '-1'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPatchEditor()
+	{
+		$stub = $this->getManagerMock( ['save'] );
+		$stub->expects( $this->never() )->method( 'save' );
+
+		$this->setAccess( ['admin', 'editor'] );
+
+		$params = ['id' => '-1'];
+		$helper = new \Aimeos\Base\View\Helper\Param\Standard( $this->view, $params );
+		$this->view->addHelper( 'param', $helper );
+
+		$body = '{"data": {"type": "order/product/attribute", "attributes": {"order.product.attribute.value": "test"}}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->patch( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	public function testPostEditor()
+	{
+		$stub = $this->getManagerMock( ['save'] );
+		$stub->expects( $this->never() )->method( 'save' );
+
+		$this->setAccess( ['admin', 'editor'] );
+
+		$body = '{"data": [{"type": "order/product/attribute", "attributes": {"order.product.attribute.value": "test"}}]}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->post( $request, $this->view->response() );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		$this->assertEquals( 403, $response->getStatusCode() );
+		$this->assertArrayHasKey( 'errors', $result );
+	}
+
+
+	protected function getManagerMock( array $methods )
+	{
+		$this->context->config()->set( 'mshop/order/manager/product/attribute/name', 'Standard' );
+
+		$stub = $this->getMockBuilder( '\\Aimeos\\MShop\\Order\\Manager\\Product\\Attribute\\Standard' )
+			->setConstructorArgs( [$this->context] )
+			->onlyMethods( array_merge( $methods, ['type'] ) )
+			->getMock();
+
+		// the manager type is derived from the class name which is different for mocks
+		$stub->method( 'type' )->willReturn( ['order', 'product', 'attribute'] );
+
+		\Aimeos\MShop::inject( '\\Aimeos\\MShop\\Order\\Manager\\Product\\Attribute\\Standard', $stub );
+
+		return $stub;
+	}
+
+
+	protected function setAccess( array $groups )
+	{
+		$this->view->addHelper( 'access', new \Aimeos\Base\View\Helper\Access\Standard( $this->view, $groups ) );
+		$this->context->setView( $this->view );
+	}
+}
