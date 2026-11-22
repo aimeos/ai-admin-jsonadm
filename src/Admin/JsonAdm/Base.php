@@ -394,6 +394,9 @@ abstract class Base
 					$listItem = $listManager->create()->setType( 'default' );
 
 					if( isset( $data->attributes ) && ( $attr = (array) $data->attributes ) ) {
+						// in private mode, the ID re-points the item to another row which bypasses all checks
+						unset( $attr[str_replace( '/', '.', $listItem->getResourceType() ) . '.id'] );
+
 						$key = str_replace( '/', '.', $this->path ) . '.config';
 						$attr[$key] = (array) ( $attr[$key] ?? [] );
 						$listItem = $listItem->fromArray( $attr, true );
