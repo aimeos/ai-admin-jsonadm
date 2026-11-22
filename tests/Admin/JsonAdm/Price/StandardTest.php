@@ -119,8 +119,41 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 		$response = $this->patch( $item->getId(), ['price.value' => '13.37'] );
 
-		$this->assertEquals( 403, $response->getStatusCode() );
+		// shared items the user isn't allowed to retrieve are reported like missing items
+		$this->assertEquals( 404, $response->getStatusCode() );
 		$this->assertEquals( '10.00', $this->get( $item->getId() )->getValue() );
+	}
+
+
+	public function testPatchEditorServiceOwnedId()
+	{
+		$service = $this->price( 'service' );
+		$product = $this->price( 'product' );
+		$this->editor();
+
+		$response = $this->patch( $service->getId(), ['price.id' => $product->getId(), 'price.domain' => 'product', 'price.label' => 'copy'] );
+
+		// hidden items can't be loaded and copied into readable ones by passing another ID
+		$this->assertEquals( 404, $response->getStatusCode() );
+		$this->assertNotEquals( 'copy', $this->get( $product->getId() )->getLabel() );
+		$this->assertEquals( 'service', $this->get( $service->getId() )->getDomain() );
+	}
+
+
+	public function testPatchEditorId()
+	{
+		$item = $this->price( 'product' );
+		$other = $this->price( 'product' );
+		$this->editor();
+
+		$response = $this->patch( $item->getId(), ['price.id' => $other->getId(), 'price.value' => '13.37'] );
+		$result = json_decode( (string) $response->getBody(), true );
+
+		// the ID in the attributes is ignored, so the item passed in the request is updated
+		$this->assertEquals( 200, $response->getStatusCode() );
+		$this->assertEquals( $item->getId(), $result['data']['id'] ?? null );
+		$this->assertEquals( '13.37', $this->get( $item->getId() )->getValue() );
+		$this->assertEquals( '10.00', $this->get( $other->getId() )->getValue() );
 	}
 
 

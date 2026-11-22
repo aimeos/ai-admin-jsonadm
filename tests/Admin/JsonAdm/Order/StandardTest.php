@@ -27,6 +27,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testDeleteEditor()
+	{
+		$this->view->addHelper( 'access', new \Aimeos\Base\View\Helper\Access\Standard( $this->view, ['editor'] ) );
+		$this->view->addHelper( 'param', new \Aimeos\Base\View\Helper\Param\Standard( $this->view, ['id' => '-1'] ) );
+		$this->context->setView( $this->view );
+
+		$response = $this->object->delete( $this->view->request(), $this->view->response() );
+
+		// orders are required for invoices and accounting, so editors can't remove them
+		$this->assertEquals( 403, $response->getStatusCode() );
+	}
+
+
 	public function testGetAggregate()
 	{
 		$params = array(

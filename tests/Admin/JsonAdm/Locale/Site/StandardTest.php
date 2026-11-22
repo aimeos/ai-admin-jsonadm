@@ -209,7 +209,8 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$response = $this->object->patch( $request, $this->view->response() );
 		$result = json_decode( (string) $response->getBody(), true );
 
-		$this->assertEquals( 403, $response->getStatusCode() );
+		// sites outside the site tree of the user are reported like missing items
+		$this->assertEquals( 404, $response->getStatusCode() );
 		$this->assertArrayHasKey( 'errors', $result );
 
 		$item = $this->getSiteItem( 'unittest' );

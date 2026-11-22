@@ -67,12 +67,15 @@ abstract class Base
 	protected function fromEntry( \Aimeos\MShop\Common\Item\Iface $item, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
 		$attr = (array) ( $entry->attributes ?? [] );
+		$prefix = str_replace( '/', '.', $item->getResourceType() );
+
+		// in private mode, the ID re-points the item to another row which bypasses all checks
+		// for the stored item, so the row to write is always the one passed to this method
+		unset( $attr[$prefix . '.id'] );
 
 		// the config is decoded as object and must be an array, a missing config keeps the existing one
-		$key = str_replace( '/', '.', $item->getResourceType() ) . '.config';
-
-		if( $item instanceof \Aimeos\MShop\Common\Item\Config\Iface && isset( $attr[$key] ) ) {
-			$attr[$key] = (array) $attr[$key];
+		if( $item instanceof \Aimeos\MShop\Common\Item\Config\Iface && isset( $attr[$prefix . '.config'] ) ) {
+			$attr[$prefix . '.config'] = (array) $attr[$prefix . '.config'];
 		}
 
 		return $item->fromArray( $attr, true );
@@ -331,7 +334,8 @@ abstract class Base
 	protected function saveEntry( \Aimeos\MShop\Common\Manager\Iface $manager, \stdClass $entry ) : \Aimeos\MShop\Common\Item\Iface
 	{
 		if( isset( $entry->id ) ) {
-			$item = $manager->get( $entry->id );
+			// items the user isn't allowed to retrieve are reported like missing items
+			$item = \Aimeos\Admin\JsonAdm::readable( $this->context(), $manager->get( $entry->id ) );
 		} else {
 			$item = $manager->create();
 		}

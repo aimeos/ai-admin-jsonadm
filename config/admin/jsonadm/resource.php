@@ -369,6 +369,20 @@ return [
 		 * @since 2017.10
 		 */
 		'groups' => ['admin', 'editor', 'super'],
+
+		/** admin/jsonadm/resource/order/delete
+		 * List of user groups that are allowed to delete orders
+		 *
+		 * Orders are required for invoices and accounting, so they can't be removed
+		 * by default. Deleting an order also removes its addresses, products, services,
+		 * coupons and status entries.
+		 *
+		 * @param array List of user group names
+		 * @since 2026.10
+		 * @see admin/jsonadm/resource/order/groups
+		 */
+		'delete' => [],
+
 		'address' => [
 			/** admin/jsonadm/resource/order/address/groups
 			 * List of user groups that are allowed to manage order address items
