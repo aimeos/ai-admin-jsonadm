@@ -630,6 +630,39 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	}
 
 
+	public function testPostRelationshipsId()
+	{
+		$productManagerStub = $this->getProductMock( array( 'getSubManager', 'create', 'get', 'save' ) );
+		$productManagerListsStub = $this->getProductListsMock( array( 'save' ) );
+
+		$item = new \Aimeos\MShop\Product\Item\Standard();
+		$item->setId( '-1' );
+		$saved = [];
+
+		$productManagerStub->expects( $this->once() )->method( 'create' )->willReturn( $item );
+		$productManagerStub->expects( $this->any() )->method( 'get' )->willReturn( $item );
+		$productManagerStub->expects( $this->once() )->method( 'getSubManager' )->willReturn( $productManagerListsStub );
+		$productManagerStub->expects( $this->once() )->method( 'save' )->willReturn( $item );
+
+		$productManagerListsStub->expects( $this->once() )->method( 'save' )
+			->willReturnCallback( function( $listItem ) use ( &$saved ) { return $saved[] = $listItem; } );
+
+		$body = '{"data": {"type": "product",
+			"attributes": {"product.label": "test"},
+			"relationships": {"text": {"data": [
+				{"type": "text", "id": "-2", "attributes": {"product.lists.id": "-3", "product.lists.type": "default"}}
+			]}}
+		}}';
+		$request = $this->view->request()->withBody( $this->view->response()->createStreamFromString( $body ) );
+
+		$response = $this->object->post( $request, $this->view->response() );
+
+		// the list item ID in the attributes would re-point the new list item to another row
+		$this->assertEquals( 201, $response->getStatusCode() );
+		$this->assertNull( $saved[0]->getId() );
+	}
+
+
 	public function testPostInvalid()
 	{
 		$body = '{"data":null}';

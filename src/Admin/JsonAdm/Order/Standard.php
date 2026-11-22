@@ -137,6 +137,26 @@ class Standard
 
 
 	/**
+	 * Deletes one or more items
+	 *
+	 * @param \Aimeos\Base\View\Iface $view View instance with "param" view helper
+	 * @param \Psr\Http\Message\ServerRequestInterface $request Request object
+	 * @param \Psr\Http\Message\ResponseInterface $response Response object
+	 * @return \Psr\Http\Message\ResponseInterface Modified response object
+	 * @throws \Aimeos\Admin\JsonAdm\Exception If the user isn't a super user
+	 */
+	protected function deleteItems( \Aimeos\Base\View\Iface $view, ServerRequestInterface $request, ResponseInterface $response ) : \Psr\Http\Message\ResponseInterface
+	{
+		// orders are required for invoices and accounting
+		if( !$view->access( ['super'] ) ) {
+			throw new \Aimeos\Admin\JsonAdm\Exception( 'Not allowed', 403 );
+		}
+
+		return parent::deleteItems( $view, $request, $response );
+	}
+
+
+	/**
 	 * Retrieves the item or items and adds the data to the view
 	 *
 	 * @param \Aimeos\Base\View\Iface $view View instance
